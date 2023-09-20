@@ -2,7 +2,7 @@ package com.api.resistancesocialnetwork.model;
 
 import jakarta.persistence.*;
 
-@Entity
+@Entity(name = "item")
 public class Item {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -19,6 +19,22 @@ public class Item {
     }
 
     public Item() {}
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
 
     public String getName() {
         return name;

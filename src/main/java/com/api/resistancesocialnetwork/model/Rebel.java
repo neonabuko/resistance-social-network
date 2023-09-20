@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Entity(name = "rebel")
 public class Rebel {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -14,27 +14,35 @@ public class Rebel {
     private String gender;
     private Integer reportCounter;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "rebel")
     @JoinColumn(name = "location_id")
     private Location location;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "rebel")
     @JoinColumn(name = "inventory_id")
     private Inventory inventory;
+
     private final List<Integer> reportedRebels = new ArrayList<>();
 
     public Rebel(String name, Integer age, String gender) {
         this.name = name;
         this.age = age;
         this.gender = gender;
-        this.reportCounter = 0;
     }
 
     public Rebel() {
     }
+
+    public Location getLocation() {
+        return location;
+    }
     public Inventory getInventory() { return inventory; }
-    public void setId(Integer id) {
-        this.id = id;
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
     }
 
     public void setReportCounter(Integer reportCounter) {

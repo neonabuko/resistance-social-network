@@ -1,30 +1,36 @@
 package com.api.resistancesocialnetwork.controller;
 
-import com.api.resistancesocialnetwork.repositories.InventoryRepository;
 import com.api.resistancesocialnetwork.repositories.LocationRepository;
 import com.api.resistancesocialnetwork.repositories.RebelRepository;
+import com.api.resistancesocialnetwork.usecase.ShowAlliesUseCase;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class MainPageController {
-    private final RebelRepository rebelRepo;
+    private final ShowAlliesUseCase showAlliesUseCase;
+    private final RebelRepository rebelRepository;
     private final LocationRepository locationRepo;
-    private final InventoryRepository inventoryRepo;
 
-    public MainPageController(RebelRepository rebelRepo, LocationRepository locationRepo, InventoryRepository inventoryRepo) {
-        this.rebelRepo = rebelRepo;
+    @Autowired
+    public MainPageController(ShowAlliesUseCase showAlliesUseCase, RebelRepository rebelRepository, LocationRepository locationRepo) {
+        this.showAlliesUseCase = showAlliesUseCase;
+        this.rebelRepository = rebelRepository;
         this.locationRepo = locationRepo;
-        this.inventoryRepo = inventoryRepo;
     }
+
     @GetMapping("/")
     public ResponseEntity<String> displayMainPage() {
         return ResponseEntity.ok("Welcome to the Star Wars Resistance Social Network!");
     }
 
-    @GetMapping("/rebels")
+    @GetMapping("/show-allies")
     public ResponseEntity<String> getAllRebels() {
-        return ResponseEntity.ok(rebelRepo.findAll() + "\n" +  locationRepo.findAll() + "\n" + inventoryRepo.findAll());
+        List<String> allies = showAlliesUseCase.handle();
+        return ResponseEntity.ok(String.join("\n", allies));
     }
 }

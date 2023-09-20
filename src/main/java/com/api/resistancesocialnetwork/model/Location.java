@@ -1,17 +1,18 @@
 package com.api.resistancesocialnetwork.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
-@Entity
+@Entity(name = "location")
 public class Location {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Double latitude;
     private Double longitude;
     private String base;
+
+    @OneToOne
+    @JoinColumn(name = "rebel_id")
+    private Rebel rebel;
 
     public Location(Double latitude, Double longitude, String base) {
         this.latitude = latitude;
@@ -26,6 +27,14 @@ public class Location {
         this.latitude = newLatitude;
         this.longitude = newLongitude;
         this.base = newBase;
+    }
+
+    public Rebel getRebel() {
+        return rebel;
+    }
+
+    public void setRebel(Rebel rebel) {
+        this.rebel = rebel;
     }
 
     public Double getLatitude() {
@@ -48,10 +57,6 @@ public class Location {
     }
     public void setBase(String newBase) {
         base = newBase;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Integer getId() {
