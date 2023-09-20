@@ -29,7 +29,8 @@ public class DataFormatRules {
 
     public Rebel handle(Rebel rebel) {
         Optional<Rebel> optionalRebel = Optional.ofNullable(rebel);
-        if (optionalRebel.isEmpty()) return optionalRebel.orElse(new Rebel("undefined", 18, "undefined"));
+        if (optionalRebel.isEmpty())
+            return optionalRebel.orElse(new Rebel("undefined", 18, "undefined"));
 
         rebel.setStats(
                 handle(rebel.getName()),
