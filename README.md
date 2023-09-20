@@ -1,6 +1,5 @@
+![Resistance_Emblem_Star_Wars svg](https://github.com/neonabuko/resistance-social-network/assets/83613676/72382598-dbd3-4624-8dc7-3f2c645f3af5)
 # Star Wars Resistance Social Network 
-
-![Resistance_Emblem_Star_Wars svg](https://github.com/neonabuko/new-rebels-network/assets/83613676/b79875f4-1506-4eaa-9e89-bfaaa842f569)
 
 _A REST API challenge._
 
