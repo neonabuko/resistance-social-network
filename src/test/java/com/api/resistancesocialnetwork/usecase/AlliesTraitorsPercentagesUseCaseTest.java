@@ -6,16 +6,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class AlliesTraitorsPercentagesUseCaseTest {
-
     @Autowired
     private RebelRepository rebelRepo;
     @Autowired
@@ -23,15 +19,19 @@ class AlliesTraitorsPercentagesUseCaseTest {
 
     @Test
     void should_return_percentages_string() {
-        rebelRepo.save(new Rebel("luke", 28, "male"));
+        Rebel luke = new Rebel("luke", 28, "male");
+        luke.setReportCounter(0);
+        rebelRepo.save(luke);
 
-        List<String> actualPercentages = alliesTraitorsPercentagesUseCase.handle();
+        List<Double> actualDecimals = alliesTraitorsPercentagesUseCase.handle();
 
-        NumberFormat percentagesFormat = NumberFormat.getPercentInstance();
-        String alliesPercentage = percentagesFormat.format(1);
-        String traitorsPercentage = percentagesFormat.format(0);
-        List<String> expectedPercentages = new ArrayList<>(Arrays.asList(alliesPercentage, traitorsPercentage));
-        assertEquals(expectedPercentages, actualPercentages);
+        Double actualAlliesDecimal = actualDecimals.get(0);
+        Double actualTraitorsDecimal = actualDecimals.get(1);
+
+        Double expectedAlliesDecimal = 1.0;
+        Double expectedTraitorsDecimal = 0.0;
+
+        assertEquals(expectedAlliesDecimal, actualAlliesDecimal);
+        assertEquals(expectedTraitorsDecimal, actualTraitorsDecimal);
     }
-
 }

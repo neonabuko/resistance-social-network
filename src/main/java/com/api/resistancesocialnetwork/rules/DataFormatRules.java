@@ -18,7 +18,7 @@ public class DataFormatRules {
                 .map( d -> Math.min(d, bound) )
                 .map( d -> Math.max(d, -bound) )
                 .orElseThrow(
-                        () -> new IllegalStateException("all parameters required for location")
+                        () -> new IllegalStateException("all parameters required")
                 );
     }
 

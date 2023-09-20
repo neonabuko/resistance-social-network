@@ -48,7 +48,7 @@ public class RebelController {
 
         try {
             locationUpdateUseCase.handle(requestLocationUpdate.locationId(), newLatitude, newLongitude, newBase);
-        } catch (NoSuchElementException | IllegalStateException | IllegalArgumentException e) {
+        } catch (NoSuchElementException | IllegalStateException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
 

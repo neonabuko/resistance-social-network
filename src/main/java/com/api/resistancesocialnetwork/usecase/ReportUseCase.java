@@ -9,14 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReportUseCase {
     private final RebelRepository rebelRepository;
+    private final ReportRules reportRules;
 
     @Autowired
-    public ReportUseCase(RebelRepository rebelRepository) {
+    public ReportUseCase(RebelRepository rebelRepository, ReportRules reportRules) {
         this.rebelRepository = rebelRepository;
+        this.reportRules = reportRules;
     }
 
     public void handle(Integer sourceId, Integer targetId) throws Exception {
-        new ReportRules(rebelRepository).handle(sourceId, targetId);
+        reportRules.handle(sourceId, targetId);
 
         Rebel sourceRebel = rebelRepository.findById(sourceId).get();
         Rebel targetRebel = rebelRepository.findById(targetId).get();

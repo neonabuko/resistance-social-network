@@ -30,48 +30,15 @@ public class Rebel {
         this.gender = gender;
     }
 
-    public Rebel() {
-    }
+    public Rebel() {}
 
     public void setStats(String name, Integer age, String gender) {
         this.name = name;
         this.age = age;
         this.gender = gender;
     }
-    public Location getLocation() {
-        return location;
-    }
-    public Inventory getInventory() { return inventory; }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-    public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
-    }
-
-    public void setReportCounter(Integer reportCounter) {
-        this.reportCounter = reportCounter;
-    }
-
-    public boolean isTraitor() {
-        return (reportCounter > 2);
-    }
-
-    public boolean isNotTraitor() {
-        return !isTraitor();
-    }
-
-    public Integer getReportCounter() {
-        return reportCounter;
-    }
-
-    public List<Integer> getReportedRebels() {
-        return reportedRebels;
-    }
-
-    public void setReportCounterUp() {
-        this.reportCounter++;
+    public Integer getId() {
+        return id;
     }
 
     public String getName() {
@@ -85,9 +52,41 @@ public class Rebel {
     public String getGender() {
         return gender;
     }
+    public Location getLocation() {
+        return location;
+    }
 
-    public Integer getId() {
-        return id;
+    public Inventory getInventory() { return inventory; }
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
+
+    public Integer getReportCounter() {
+        return reportCounter;
+    }
+
+    public void setReportCounter(Integer reportCounter) {
+        this.reportCounter = reportCounter;
+    }
+
+    public void setReportCounterUp() {
+        this.reportCounter++;
+    }
+
+    public List<Integer> getReportedRebels() {
+        return reportedRebels;
+    }
+
+    public boolean isTraitor() {
+        return (reportCounter > 2);
+    }
+
+    public boolean isNotTraitor() {
+        return !isTraitor();
     }
 
     @Override

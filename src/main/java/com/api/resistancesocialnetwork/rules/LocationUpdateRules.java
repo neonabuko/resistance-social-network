@@ -4,12 +4,12 @@ package com.api.resistancesocialnetwork.rules;
 import com.api.resistancesocialnetwork.model.Location;
 import com.api.resistancesocialnetwork.repositories.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-@Service
+@Component
 public class LocationUpdateRules {
     private final LocationRepository locationRepo;
     private final DataFormatRules dataFormatRules = new DataFormatRules();
@@ -23,7 +23,7 @@ public class LocationUpdateRules {
         Optional<Integer> optionalLocationId = Optional.ofNullable(locationId);
 
         Location location = locationRepo.findById(optionalLocationId.orElseThrow(
-                () -> new IllegalArgumentException("must provide location id")
+                () -> new NoSuchElementException("must provide location id")
         )).orElseThrow(
                 () -> new NoSuchElementException("location not found")
         );

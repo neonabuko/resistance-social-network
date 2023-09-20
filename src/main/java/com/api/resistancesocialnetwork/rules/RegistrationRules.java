@@ -4,13 +4,13 @@ import com.api.resistancesocialnetwork.model.Inventory;
 import com.api.resistancesocialnetwork.model.Item;
 import com.api.resistancesocialnetwork.model.Location;
 import com.api.resistancesocialnetwork.model.Rebel;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Service
+@Component
 public class RegistrationRules {
 
     public List<?> format(Rebel rebel, Location location, Inventory inventory) {
