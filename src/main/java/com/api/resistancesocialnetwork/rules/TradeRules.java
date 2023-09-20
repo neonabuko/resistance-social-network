@@ -20,7 +20,7 @@ public class TradeRules {
         this.inventoryRepo = inventoryRepo;
         this.rebelRepo = rebelRepo;
     }
-    public void check(Integer sourceInventoryId, Item sourceTrade, Integer targetInventoryId, Item targetTrade) throws TradeFailureException {
+    public void check(Integer sourceInventoryId, Item sourceTradeItem, Integer targetInventoryId, Item targetTradeItem) throws TradeFailureException {
         Inventory sourceInventory = inventoryRepo.findById(sourceInventoryId).orElseThrow(
                 () -> new TradeFailureException("source inventory not found")
         );
@@ -35,10 +35,12 @@ public class TradeRules {
                 () -> new TradeFailureException("target rebel is either a traitor or could not be found")
         );
 
-        Item sourceItem = inventoryRepo.findItemByName(sourceInventoryId, sourceTrade.getName()).orElseThrow(
+        Item sourceItem = sourceInventory.getItems().stream()
+                .filter(item -> item.getName().equals(sourceTradeItem.getName())).findFirst().orElseThrow(
                 () -> new TradeFailureException("no such item source")
         );
-        Item targetItem = inventoryRepo.findItemByName(targetInventoryId, targetTrade.getName()).orElseThrow(
+        Item targetItem = targetInventory.getItems().stream()
+                .filter(item -> item.getName().equals(targetTradeItem.getName())).findFirst().orElseThrow(
                 () -> new TradeFailureException("no such item target")
         );
 

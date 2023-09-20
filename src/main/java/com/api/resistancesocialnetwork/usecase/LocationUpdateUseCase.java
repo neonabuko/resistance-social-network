@@ -6,8 +6,6 @@ import com.api.resistancesocialnetwork.rules.LocationUpdateRules;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.NoSuchElementException;
-
 @Service
 public class LocationUpdateUseCase {
     private final LocationRepository locationRepository;
@@ -19,13 +17,9 @@ public class LocationUpdateUseCase {
         this.locationUpdateRules = locationUpdateRules;
     }
 
-    public void handle(Integer locationId, Double latitude, Double longitude, String base) throws NoSuchElementException {
-        Location currentLocation = locationRepository.findById(locationId).get();
-
+    public void handle(Integer locationId, Double latitude, Double longitude, String base) {
         Location formattedLocation = locationUpdateRules.handle(locationId, latitude, longitude, base);
 
-        currentLocation.setNewLocation(formattedLocation.getLatitude(), formattedLocation.getLongitude(), formattedLocation.getBase());
-
-        locationRepository.save(currentLocation);
+        locationRepository.save(formattedLocation);
     }
 }

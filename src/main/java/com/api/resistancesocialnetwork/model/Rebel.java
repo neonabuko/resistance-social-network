@@ -33,6 +33,11 @@ public class Rebel {
     public Rebel() {
     }
 
+    public void setStats(String name, Integer age, String gender) {
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+    }
     public Location getLocation() {
         return location;
     }
@@ -49,15 +54,6 @@ public class Rebel {
         this.reportCounter = reportCounter;
     }
 
-    public void setName(String newName) {
-        name = newName;
-    }
-    public void setAge(Integer newAge) {
-        age = newAge;
-    }
-    public void setGender(String newGender) {
-        gender = newGender;
-    }
     public boolean isTraitor() {
         return (reportCounter > 2);
     }
@@ -96,6 +92,6 @@ public class Rebel {
 
     @Override
     public String toString() {
-        return "Rebel { " + "name='" + name + '\'' + ", age=" + age + ", gender='" + gender + '\'' + ", reportCounter=" + reportCounter +  ", ID=" + id + " }";
+        return "Rebel { " + "ID=" + id + ", name='" + name + '\'' + ", age=" + age + ", gender='" + gender + '\'' + ", reportCounter=" + reportCounter + " }";
     }
 }

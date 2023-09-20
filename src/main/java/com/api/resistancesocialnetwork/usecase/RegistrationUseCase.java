@@ -13,6 +13,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RegistrationUseCase {
     private final RebelRepository rebelRepo;
@@ -21,10 +23,8 @@ public class RegistrationUseCase {
     private final ItemRepository itemRepository;
 
     @Autowired
-    public RegistrationUseCase(RebelRepository rebelRepo,
-                               LocationRepository locationRepo,
-                               InventoryRepository inventoryRepo,
-                               ItemRepository itemRepository) {
+    public RegistrationUseCase(RebelRepository rebelRepo, LocationRepository locationRepo,
+                               InventoryRepository inventoryRepo, ItemRepository itemRepository) {
         this.rebelRepo = rebelRepo;
         this.locationRepo = locationRepo;
         this.inventoryRepo = inventoryRepo;
@@ -32,15 +32,14 @@ public class RegistrationUseCase {
     }
     @Transactional
     public void handle(Rebel rebel, Location location, Inventory inventory) {
-        RegistrationRules registrationRules = new RegistrationRules();
-        registrationRules.format(rebel, location, inventory);
+        List<?> formattedStats = new RegistrationRules().format(rebel, location, inventory);
 
         for (Item item : inventory.getItems()) {
             itemRepository.save(item);
         }
 
-        rebelRepo.save(rebel);
-        locationRepo.save(location);
-        inventoryRepo.save(inventory);
+        rebelRepo.save((Rebel) formattedStats.get(0));
+        locationRepo.save((Location) formattedStats.get(1));
+        inventoryRepo.save((Inventory) formattedStats.get(2));
     }
 }

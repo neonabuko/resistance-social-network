@@ -49,22 +49,12 @@ public class Location {
         return base;
     }
 
-    public void setLatitude(Double newLatitude) {
-        latitude = newLatitude;
-    }
-    public void setLongitude(Double newLongitude){
-        longitude = newLongitude;
-    }
-    public void setBase(String newBase) {
-        base = newBase;
-    }
-
     public Integer getId() {
         return id;
     }
 
     @Override
     public String toString() {
-        return "Location { " + "latitude=" + latitude + ", longitude=" + longitude + ", base='" + base + '\'' + ", ID=" + id + " }";
+        return "Location { " + "ID=" + id + ", latitude=" + latitude + ", longitude=" + longitude + ", base='" + base + '\'' + " }";
     }
 }

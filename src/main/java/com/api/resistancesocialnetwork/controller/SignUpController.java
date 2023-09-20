@@ -20,7 +20,11 @@ public class SignUpController {
 
     @PostMapping("/signup")
     public ResponseEntity<String> handleSignUp(@RequestBody RequestSignUp signUpData) {
-        registrationUseCase.handle(signUpData.rebel(), signUpData.location(), signUpData.inventory());
+        try {
+            registrationUseCase.handle(signUpData.rebel(), signUpData.location(), signUpData.inventory());
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
         return ResponseEntity.ok("Registration successful");
     }
 }

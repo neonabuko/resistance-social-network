@@ -1,7 +1,5 @@
 package com.api.resistancesocialnetwork.controller;
 
-import com.api.resistancesocialnetwork.repositories.LocationRepository;
-import com.api.resistancesocialnetwork.repositories.RebelRepository;
 import com.api.resistancesocialnetwork.usecase.ShowAlliesUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,26 +9,26 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class MainPageController {
+public class SocialNetworkStatsController {
     private final ShowAlliesUseCase showAlliesUseCase;
-    private final RebelRepository rebelRepository;
-    private final LocationRepository locationRepo;
 
     @Autowired
-    public MainPageController(ShowAlliesUseCase showAlliesUseCase, RebelRepository rebelRepository, LocationRepository locationRepo) {
+    public SocialNetworkStatsController(ShowAlliesUseCase showAlliesUseCase) {
         this.showAlliesUseCase = showAlliesUseCase;
-        this.rebelRepository = rebelRepository;
-        this.locationRepo = locationRepo;
     }
 
     @GetMapping("/")
     public ResponseEntity<String> displayMainPage() {
-        return ResponseEntity.ok("Welcome to the Star Wars Resistance Social Network!");
+        return ResponseEntity.ok("Welcome to the Star Wars Resistance Social Network.");
     }
 
     @GetMapping("/show-allies")
-    public ResponseEntity<String> getAllRebels() {
+    public ResponseEntity<String> showAllAllies() {
         List<String> allies = showAlliesUseCase.handle();
+        for (String s : allies) {
+            if (s.startsWith("Location")) allies.set(allies.indexOf(s), "\t" + s);
+            else if (s.startsWith("Inventory")) allies.set(allies.indexOf(s), "\t" + s + "\n");
+        }
         return ResponseEntity.ok(String.join("\n", allies));
     }
 }

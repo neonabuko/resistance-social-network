@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 public class LocationUpdateRules {
     private final LocationRepository locationRepo;
-    private final GenericRules genericRules = new GenericRules();
+    private final DataFormatRules dataFormatRules = new DataFormatRules();
 
     @Autowired
     public LocationUpdateRules(LocationRepository locationRepo) {
@@ -20,17 +20,19 @@ public class LocationUpdateRules {
     }
 
     public Location handle(Integer locationId, Double latitude, Double longitude, String base) throws NoSuchElementException {
-        Optional<Location> oldLocation = locationRepo.findById(locationId);
+        Optional<Integer> optionalLocationId = Optional.ofNullable(locationId);
 
-        if (oldLocation.isEmpty()) throw new NoSuchElementException("location not found");
-
-        Location newLocation = oldLocation.get();
-
-        newLocation.setNewLocation(
-                genericRules.handle(latitude, 90),
-                genericRules.handle(longitude, 180),
-                genericRules.handle(base)
+        Location location = locationRepo.findById(optionalLocationId.orElseThrow(
+                () -> new IllegalArgumentException("must provide location id")
+        )).orElseThrow(
+                () -> new NoSuchElementException("location not found")
         );
-        return newLocation;
+
+        location.setNewLocation(
+                dataFormatRules.handle(latitude, 90),
+                dataFormatRules.handle(longitude, 180),
+                dataFormatRules.handle(base)
+        );
+        return location;
     }
 }

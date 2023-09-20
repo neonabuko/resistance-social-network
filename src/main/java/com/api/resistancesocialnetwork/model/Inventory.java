@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Entity(name = "inventory")
 public class Inventory {
@@ -22,6 +23,9 @@ public class Inventory {
     }
     public Inventory() {}
 
+    public Optional<Item> findItemByName(String itemName) {
+        return items.stream().filter(item -> item.getName().equals(itemName)).findFirst();
+    }
     public Rebel getRebel() {
         return rebel;
     }
@@ -44,6 +48,6 @@ public class Inventory {
 
     @Override
     public String toString() {
-        return "Inventory { " + "itemList=" + items + ", ID=" + id + '}';
+        return "Inventory { " + "ID=" + id + ", items=" + items + " }";
     }
 }

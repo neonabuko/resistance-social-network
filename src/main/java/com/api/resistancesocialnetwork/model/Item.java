@@ -20,6 +20,10 @@ public class Item {
 
     public Item() {}
 
+    public Integer getId() {
+        return id;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -46,6 +50,6 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Item { " + "name=" + name + ", price=" + price + "}";
+        return "Item { " + "id=" + id + ", name=" + name + ", price=" + price + " }";
     }
 }

@@ -48,7 +48,7 @@ public class RebelController {
 
         try {
             locationUpdateUseCase.handle(requestLocationUpdate.locationId(), newLatitude, newLongitude, newBase);
-        } catch (NoSuchElementException | IllegalStateException e) {
+        } catch (NoSuchElementException | IllegalStateException | IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
 
@@ -64,7 +64,7 @@ public class RebelController {
 
         try {
             tradeUseCase.handle(sourceInventoryId, sourceTradeItem, targetInventoryId, targetTradeItem);
-        } catch (TradeFailureException e) {
+        } catch (TradeFailureException | NoSuchElementException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
 

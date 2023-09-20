@@ -4,34 +4,27 @@ import com.api.resistancesocialnetwork.model.Inventory;
 import com.api.resistancesocialnetwork.model.Item;
 import com.api.resistancesocialnetwork.model.Location;
 import com.api.resistancesocialnetwork.model.Rebel;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class RegistrationRules {
-    @Transactional
-    public void format(Rebel rebel, Location location, Inventory inventory) {
-        GenericRules genericRules = new GenericRules();
 
-        rebel.setName(genericRules.handle(rebel.getName()));
-        rebel.setGender(genericRules.handle(rebel.getGender()));
-        rebel.setAge(genericRules.handle(rebel.getAge()));
-        rebel.setReportCounter(0);
+    public List<?> format(Rebel rebel, Location location, Inventory inventory) {
+        DataFormatRules dataFormatRules = new DataFormatRules();
 
-        location.setLatitude(genericRules.handle(location.getLatitude(), 90));
-        location.setLongitude(genericRules.handle(location.getLongitude(), 180));
-        location.setBase(genericRules.handle(location.getBase()));
+        Rebel formattedRebel = dataFormatRules.handle(rebel);
+        formattedRebel.setReportCounter(0);
 
-        location.setRebel(rebel);
+        Location formattedLocation = dataFormatRules.handle(location);
 
         List<Item> fInventoryList = new ArrayList<>();
-
         for (Item newItem: inventory.getItems()) {
-            newItem.setName(genericRules.handle(newItem.getName()));
-            newItem.setPrice(genericRules.handle(newItem.getPrice()));
+            newItem.setName(dataFormatRules.handle(newItem.getName()));
+            newItem.setPrice(dataFormatRules.handle(newItem.getPrice()));
 
             fInventoryList.add(newItem);
             newItem.setInventory(inventory);
@@ -39,6 +32,9 @@ public class RegistrationRules {
 
         inventory.setItems(fInventoryList);
 
-        inventory.setRebel(rebel);
+        location.setRebel(formattedRebel);
+        inventory.setRebel(formattedRebel);
+
+        return new ArrayList<>(Arrays.asList(formattedRebel, formattedLocation, inventory));
     }
 }
