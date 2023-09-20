@@ -17,7 +17,6 @@ public class RegistrationRules {
         DataFormatRules dataFormatRules = new DataFormatRules();
 
         Rebel formattedRebel = dataFormatRules.handle(rebel);
-        formattedRebel.setReportCounter(0);
 
         Location formattedLocation = dataFormatRules.handle(location);
 

@@ -12,7 +12,7 @@ public class Rebel {
     private String name;
     private Integer age;
     private String gender;
-    private Integer reportCounter;
+    private Integer reportCounter = 0;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "rebel")
     @JoinColumn(name = "location_id")
