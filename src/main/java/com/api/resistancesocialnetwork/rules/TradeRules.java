@@ -5,6 +5,7 @@ import com.api.resistancesocialnetwork.model.Item;
 import com.api.resistancesocialnetwork.model.Rebel;
 import com.api.resistancesocialnetwork.repositories.InventoryRepository;
 import com.api.resistancesocialnetwork.repositories.RebelRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,7 @@ public class TradeRules {
         this.inventoryRepo = inventoryRepo;
         this.rebelRepo = rebelRepo;
     }
+    @Transactional
     public void check(Integer sourceInventoryId, Item sourceTradeItem, Integer targetInventoryId, Item targetTradeItem) throws TradeFailureException {
         Optional<Integer> optionalSourceInventoryId = Optional.ofNullable(sourceInventoryId);
 

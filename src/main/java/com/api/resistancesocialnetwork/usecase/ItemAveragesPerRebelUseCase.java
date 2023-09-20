@@ -2,6 +2,7 @@ package com.api.resistancesocialnetwork.usecase;
 
 import com.api.resistancesocialnetwork.model.Item;
 import com.api.resistancesocialnetwork.repositories.InventoryRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ public class ItemAveragesPerRebelUseCase {
     public ItemAveragesPerRebelUseCase(InventoryRepository inventoryRepository) {
         this.inventoryRepository = inventoryRepository;
     }
+    @Transactional
     public Map<String, Integer> handle() {
         List<Item> allItemsInInventoryRepo = inventoryRepository.findAll().stream()
                 .flatMap(inv -> inv.getItems().stream()).toList();

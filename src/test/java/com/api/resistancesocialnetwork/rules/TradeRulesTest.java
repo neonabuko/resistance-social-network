@@ -4,6 +4,7 @@ import com.api.resistancesocialnetwork.model.Inventory;
 import com.api.resistancesocialnetwork.model.Item;
 import com.api.resistancesocialnetwork.model.Rebel;
 import com.api.resistancesocialnetwork.repositories.InventoryRepository;
+import com.api.resistancesocialnetwork.repositories.ItemRepository;
 import com.api.resistancesocialnetwork.repositories.RebelRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,40 +22,52 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class TradeRulesTest {
     @Autowired
-    private RebelRepository rebelRepository;
+    private RebelRepository rebelRepo;
     @Autowired
-    private InventoryRepository inventoryRepository;
+    private InventoryRepository inventoryRepo;
+    @Autowired
+    private ItemRepository itemRepo;
     private final Rebel luke = new Rebel("luke", 18, "male");
     private final Rebel leia = new Rebel("leia", 30, "female");
-    private final Inventory lukeInv = new Inventory(new ArrayList<>( List.of( new Item("doritos", 1)) ));
-    private final Inventory leiaInv = new Inventory(new ArrayList<>( List.of( new Item("water", 2)) ));
+    private final Item doritos = new Item("doritos", 1);
+    private final Item water = new Item("water", 2);
+    private final Inventory lukeInv = new Inventory(new ArrayList<>( List.of( doritos ) ));
+    private final Inventory leiaInv = new Inventory(new ArrayList<>( List.of( water ) ));
     @Autowired
     private TradeRules tradeRules;
 
     @BeforeEach
     void setUp() {
-        rebelRepository.save(luke);
-        rebelRepository.save(leia);
-        inventoryRepository.save(lukeInv);
-        inventoryRepository.save(leiaInv);
+        rebelRepo.save(luke);
+        rebelRepo.save(leia);
+
+        lukeInv.setRebel(luke);
+        leiaInv.setRebel(leia);
+
+        doritos.setInventory(lukeInv);
+        water.setInventory(leiaInv);
+
+        inventoryRepo.save(lukeInv);
+        inventoryRepo.save(leiaInv);
+
+        itemRepo.save(doritos);
+        itemRepo.save(water);
     }
 
     @Test
     void should_throw_TradeFailureException_when_source_inventory_not_found() {
-        inventoryRepository.deleteById(lukeInv.getId());
         Exception e = assertThrows(TradeFailureException.class, () ->
-                tradeRules.check(lukeInv.getId(), new Item("food", 1),
-                        leiaInv.getId(), new Item("water", 2))
+                tradeRules.check(0, doritos, 2, water)
         );
+        System.out.println(e.getMessage());
         assertTrue(e.getMessage().contains("source inventory not found"));
     }
 
     @Test
     void should_throw_TradeFailureException_when_target_inventory_not_found() {
-        inventoryRepository.deleteById(leiaInv.getId());
+        inventoryRepo.save(lukeInv);
         Exception e = assertThrows(TradeFailureException.class, () ->
-                tradeRules.check(lukeInv.getId(), new Item("food", 1),
-                        leiaInv.getId(), new Item("water", 2))
+                tradeRules.check(lukeInv.getId(), doritos, 0, water)
         );
         assertTrue(e.getMessage().contains("target inventory not found"));
     }
@@ -62,8 +75,7 @@ class TradeRulesTest {
     @Test
     void should_throw_NoSuchElementException_when_no_such_item_source() {
         Exception e = assertThrows(TradeFailureException.class, () ->
-                tradeRules.check(lukeInv.getId(), new Item("food", 1),
-                        leiaInv.getId(), new Item("water", 2))
+                tradeRules.check(lukeInv.getId(), new Item(), leiaInv.getId(), water)
         );
         assertTrue(e.getMessage().contains("no such item source"));
     }
@@ -71,9 +83,9 @@ class TradeRulesTest {
     @Test
     void should_throw_NoSuchElementException_when_no_such_item_target() {
         Exception e = assertThrows(TradeFailureException.class, () ->
-                tradeRules.check(lukeInv.getId(), new Item("doritos", 1),
-                        leiaInv.getId(), new Item("cheetos", 2))
+                tradeRules.check(lukeInv.getId(), doritos, leiaInv.getId(), new Item())
         );
+        System.out.println(e.getMessage());
         assertTrue(e.getMessage().contains("no such item target"));
     }
 
@@ -82,12 +94,15 @@ class TradeRulesTest {
         luke.setReportCounterUp();
         luke.setReportCounterUp();
         luke.setReportCounterUp();
-        rebelRepository.save(luke);
+        rebelRepo.save(luke);
+        rebelRepo.save(leia);
+        inventoryRepo.save(lukeInv);
+        inventoryRepo.save(leiaInv);
+
         Exception e = assertThrows(TradeFailureException.class, () ->
-                tradeRules.check(1, new Item("doritos", 1),
-                        2, new Item("cheetos", 2))
+                tradeRules.check(1, doritos, 2, water)
         );
-        assertTrue(e.getMessage().contains("source rebel is either a traitor or could not be found"));
+        assertTrue(e.getMessage().contains("source rebel is a traitor"));
     }
 
     @Test
@@ -95,12 +110,11 @@ class TradeRulesTest {
         leia.setReportCounterUp();
         leia.setReportCounterUp();
         leia.setReportCounterUp();
-        rebelRepository.save(leia);
+        rebelRepo.save(leia);
         Exception e = assertThrows(TradeFailureException.class, () ->
-                tradeRules.check(lukeInv.getId(), new Item("doritos", 1),
-                        leiaInv.getId(), new Item("cheetos", 2))
+                tradeRules.check(lukeInv.getId(), doritos, leiaInv.getId(), water)
         );
-        assertTrue(e.getMessage().contains("target rebel is either a traitor or could not be found"));
+        assertTrue(e.getMessage().contains("target rebel is a traitor"));
     }
 
     @Test

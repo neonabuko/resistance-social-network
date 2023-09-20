@@ -35,7 +35,7 @@ public class RebelController {
         try {
             reportUseCase.handle(requestReport.sourceId(), requestReport.targetId());
         } catch (Exception e) {
-            return  ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity.ok("Reported rebel " + ". reportedId= " + requestReport.targetId());
     }
@@ -64,7 +64,7 @@ public class RebelController {
 
         try {
             tradeUseCase.handle(sourceInventoryId, sourceTradeItem, targetInventoryId, targetTradeItem);
-        } catch (TradeFailureException | NoSuchElementException e) {
+        } catch (TradeFailureException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
 
