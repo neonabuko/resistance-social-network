@@ -8,11 +8,13 @@ import com.api.resistancesocialnetwork.repositories.RebelRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 import java.util.Optional;
 
-@Component
+@Service
+@Transactional
 public class TradeRules {
     private final InventoryRepository inventoryRepo;
     private final RebelRepository rebelRepo;
@@ -22,7 +24,7 @@ public class TradeRules {
         this.inventoryRepo = inventoryRepo;
         this.rebelRepo = rebelRepo;
     }
-    @Transactional
+
     public void check(Integer sourceInventoryId, Item sourceTradeItem, Integer targetInventoryId, Item targetTradeItem) throws TradeFailureException {
         Optional<Integer> optionalSourceInventoryId = Optional.ofNullable(sourceInventoryId);
 

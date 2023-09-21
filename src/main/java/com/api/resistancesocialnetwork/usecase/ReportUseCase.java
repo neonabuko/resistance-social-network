@@ -4,6 +4,7 @@ import com.api.resistancesocialnetwork.model.Rebel;
 import com.api.resistancesocialnetwork.repositories.RebelRepository;
 import com.api.resistancesocialnetwork.rules.ReportRules;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,7 +12,6 @@ public class ReportUseCase {
     private final RebelRepository rebelRepository;
     private final ReportRules reportRules;
 
-    @Autowired
     public ReportUseCase(RebelRepository rebelRepository, ReportRules reportRules) {
         this.rebelRepository = rebelRepository;
         this.reportRules = reportRules;

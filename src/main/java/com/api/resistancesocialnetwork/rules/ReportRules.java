@@ -3,15 +3,15 @@ package com.api.resistancesocialnetwork.rules;
 
 import com.api.resistancesocialnetwork.repositories.RebelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Component
+@Service
 public class ReportRules {
     private final RebelRepository rebelRepo;
 
-    @Autowired
     public ReportRules(RebelRepository rebelRepo) {
         this.rebelRepo = rebelRepo;
     }

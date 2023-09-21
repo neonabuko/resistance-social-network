@@ -1,9 +1,18 @@
 package com.api.resistancesocialnetwork.repositories;
 
 import com.api.resistancesocialnetwork.model.Rebel;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface RebelRepository extends JpaRepository<Rebel, Integer> {
+import java.util.List;
+import java.util.Optional;
+
+public interface RebelRepository {
+    void save(Rebel entity);
+
+    Optional<Rebel> findById(Integer sourceId);
+
+    boolean existsById(Integer mustProvideSourceRebelId);
+
+    List<Rebel> findAll();
 }

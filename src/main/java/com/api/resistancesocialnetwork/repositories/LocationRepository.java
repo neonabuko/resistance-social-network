@@ -1,9 +1,13 @@
 package com.api.resistancesocialnetwork.repositories;
 
 import com.api.resistancesocialnetwork.model.Location;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface LocationRepository extends JpaRepository<Location, Integer> {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+public interface LocationRepository {
+    void save(Location location);
+
+    Optional<Location> findById(Integer mustProvideLocationId);
 }

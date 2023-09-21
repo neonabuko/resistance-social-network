@@ -1,6 +1,7 @@
 package com.api.resistancesocialnetwork.model;
 
 import jakarta.persistence.*;
+import org.springframework.lang.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +29,20 @@ public class Rebel {
         this.name = name;
         this.age = age;
         this.gender = gender;
+        id = 0;
     }
 
-    public Rebel() {}
+    public Rebel() {
+        id = 0;
+    }
 
     public void setStats(String name, Integer age, String gender) {
         this.name = name;
         this.age = age;
         this.gender = gender;
+    }
+    public void setId(Integer id) {
+        this.id = id;
     }
     public Integer getId() {
         return id;

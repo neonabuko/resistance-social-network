@@ -26,17 +26,18 @@ public class TradeUseCase {
     @Transactional
     public void handle(Integer sourceInventoryId, Item sourceTradeItem,
                        Integer targetInventoryId, Item targetTradeItem) throws TradeFailureException {
+
         tradeRules.check(sourceInventoryId, sourceTradeItem, targetInventoryId, targetTradeItem);
 
-        Inventory sourceInv = inventoryRepo.findById(sourceInventoryId).get();
-        Inventory targetInv = inventoryRepo.findById(targetInventoryId).get();
+        Inventory sourceInv = inventoryRepo.findById(sourceInventoryId).orElseThrow(() -> new TradeFailureException("source inventory not found"));
+        Inventory targetInv = inventoryRepo.findById(targetInventoryId).orElseThrow(() -> new TradeFailureException("target inventory not found"));
 
         sourceInv.findItemByName(sourceTradeItem.getName()).get().setInventory(targetInv);
         targetInv.findItemByName(targetTradeItem.getName()).get().setInventory(sourceInv);
 
         itemRepo.save(sourceTradeItem);
         itemRepo.save(targetTradeItem);
-
+        System.out.println(itemRepo);
         inventoryRepo.save(sourceInv);
         inventoryRepo.save(targetInv);
     }

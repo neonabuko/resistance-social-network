@@ -13,7 +13,7 @@ import java.util.List;
 public class AlliesTraitorsPercentagesUseCase {
 
     private final RebelRepository rebelRepository;
-    @Autowired
+
     public AlliesTraitorsPercentagesUseCase(RebelRepository rebelRepository) {
         this.rebelRepository = rebelRepository;
     }
