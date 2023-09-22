@@ -34,7 +34,7 @@ class LocationUpdateRulesTest {
     void should_throw_IllegalStateException_when_latitude_not_filled() {
         locationRepo.save(oldLocation);
         Exception e = assertThrows(IllegalStateException.class, () ->
-                locationUpdateRules.handle(1, null, 32.1, "base")
+                locationUpdateRules.handle(oldLocation.getId(), null, 32.1, "base")
         );
         assertTrue(e.getMessage().contains("all parameters required"));
     }
@@ -51,7 +51,7 @@ class LocationUpdateRulesTest {
     @Test
     void should_set_latitude_to_minus_90_when_less_than_minus_90() {
         locationRepo.save(oldLocation);
-        Location newLocation = locationUpdateRules.handle(1, -9121.2, 11.1, "base");
+        Location newLocation = locationUpdateRules.handle(oldLocation.getId(), -9121.2, 11.1, "base");
         locationRepo.save(newLocation);
         assertEquals(-90, locationRepo.findById(newLocation.getId()).get().getLatitude());
     }
@@ -67,7 +67,7 @@ class LocationUpdateRulesTest {
     @Test
     void should_set_longitude_to_minus_180_when_less_than_minus_180() {
         locationRepo.save(oldLocation);
-        Location newLocation = locationUpdateRules.handle(1, 18.2, -124331.23, "base");
+        Location newLocation = locationUpdateRules.handle(oldLocation.getId(), 18.2, -124331.23, "base");
         locationRepo.save(newLocation);
         assertEquals(-180, locationRepo.findById(newLocation.getId()).get().getLongitude());
     }

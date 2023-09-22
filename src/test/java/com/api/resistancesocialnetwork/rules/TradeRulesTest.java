@@ -121,8 +121,8 @@ class TradeRulesTest {
     @Test
     void should_throw_TradeFailureException_when_points_do_not_match() {
         Exception e = assertThrows(TradeFailureException.class, () ->
-                tradeRules.check(lukeInv.getId(), new Item("doritos", 2),
-                        leiaInv.getId(), new Item("water", 2))
+                tradeRules.check(lukeInv.getId(), doritos,
+                        leiaInv.getId(), water)
         );
         assertTrue(e.getMessage().contains("points do not match"));
     }

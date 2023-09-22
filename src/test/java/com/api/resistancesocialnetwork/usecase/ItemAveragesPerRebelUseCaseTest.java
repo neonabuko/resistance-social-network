@@ -31,8 +31,8 @@ class ItemAveragesPerRebelUseCaseTest {
 
     @Test
     void should_return_averages_hashMap() {
-        rebelRepo.save(luke);
-        rebelRepo.save(leia);
+        rebelRepo.saveInMem(luke);
+        rebelRepo.saveInMem(leia);
 
         lukeInv.setRebel(luke);
         leiaInv.setRebel(leia);
@@ -41,12 +41,12 @@ class ItemAveragesPerRebelUseCaseTest {
         water.setInventory(leiaInv);
         fandango.setInventory(lukeInv);
 
-        inventoryRepo.save(lukeInv);
-        inventoryRepo.save(leiaInv);
+        inventoryRepo.saveInMem(lukeInv);
+        inventoryRepo.saveInMem(leiaInv);
 
-        itemRepo.save(doritos);
-        itemRepo.save(water);
-        itemRepo.save(fandango);
+        itemRepo.saveInMem(doritos);
+        itemRepo.saveInMem(water);
+        itemRepo.saveInMem(fandango);
 
         Map<String, Integer> expectedAverages = new HashMap<>();
         expectedAverages.put("doritos", 1);
