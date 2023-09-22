@@ -1,9 +1,8 @@
 package com.api.resistancesocialnetwork.usecase;
 
 import com.api.resistancesocialnetwork.model.Item;
-import com.api.resistancesocialnetwork.repositories.InventoryRepository;
+import com.api.resistancesocialnetwork.repositories.interfacerepositories.InventoryRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -14,7 +13,6 @@ import java.util.Map;
 public class ItemAveragesPerRebelUseCase {
     private final InventoryRepository inventoryRepository;
 
-    @Autowired
     public ItemAveragesPerRebelUseCase(InventoryRepository inventoryRepository) {
         this.inventoryRepository = inventoryRepository;
     }

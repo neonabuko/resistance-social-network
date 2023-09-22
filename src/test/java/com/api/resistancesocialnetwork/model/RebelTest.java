@@ -1,30 +1,14 @@
 package com.api.resistancesocialnetwork.model;
 
-import com.api.resistancesocialnetwork.repositories.LocationRepository;
-import com.api.resistancesocialnetwork.repositories.RebelRepository;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 class RebelTest {
 
-    @Autowired
-    private RebelRepository rebelRepo;
-    @Autowired
-    private LocationRepository locationRepo;
-
     @Test
-    @Transactional
-    void should() {
+    void rebel_id_should_not_be_null_upon_creation() {
         Rebel rebel = new Rebel("matheus", 28, "male");
-        Location location = new Location(32.1, 32.1, "base");
-        rebel.setLocation(location);
-        rebelRepo.save(rebel);
-        locationRepo.save(location);
-
-        System.out.println(rebelRepo.findById(rebel.getId()).get().getLocation() + "\naaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        assertNotNull(rebel.getId());
     }
-
 }

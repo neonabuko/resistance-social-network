@@ -16,9 +16,16 @@ public class Item {
     public Item(String name, Integer price) {
         this.name = name;
         this.price = price;
+        id = 0;
     }
 
-    public Item() {}
+    public Item() {
+        id = 0;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer getId() {
         return id;

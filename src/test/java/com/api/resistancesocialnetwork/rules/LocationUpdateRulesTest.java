@@ -1,23 +1,18 @@
 package com.api.resistancesocialnetwork.rules;
 
 import com.api.resistancesocialnetwork.model.Location;
-import com.api.resistancesocialnetwork.repositories.LocationRepository;
+import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.LocationRepositoryInMemory;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class LocationUpdateRulesTest {
-    @Autowired
-    private LocationRepository locationRepo;
-    @Autowired
-    private LocationUpdateRules locationUpdateRules;
+
+    private final LocationRepositoryInMemory locationRepo = new LocationRepositoryInMemory();
+
+    private final LocationUpdateRules locationUpdateRules = new LocationUpdateRules(locationRepo);
     private final Location oldLocation = new Location(42.1, 22.5, "base");
 
     @Test
@@ -48,7 +43,7 @@ class LocationUpdateRulesTest {
     void should_throw_IllegalStateException_when_longitude_not_filled() {
         locationRepo.save(oldLocation);
         Exception e = assertThrows(IllegalStateException.class, () ->
-                locationUpdateRules.handle(1, 23.1, null, "base")
+                locationUpdateRules.handle(oldLocation.getId(), 23.1, null, "base")
         );
         assertTrue(e.getMessage().contains("all parameters required"));
     }
@@ -64,7 +59,7 @@ class LocationUpdateRulesTest {
     @Test
     void should_set_latitude_to_90_when_over_90() {
         locationRepo.save(oldLocation);
-        Location newLocation = locationUpdateRules.handle(1, 293402349.213, 11.1, "base");
+        Location newLocation = locationUpdateRules.handle(oldLocation.getId(), 293402349.213, 11.1, "base");
         locationRepo.save(newLocation);
         assertEquals(90, locationRepo.findById(newLocation.getId()).get().getLatitude());
     }
@@ -80,7 +75,7 @@ class LocationUpdateRulesTest {
     @Test
     void should_set_longitude_to_180_when_over_180() {
         locationRepo.save(oldLocation);
-        Location newLocation = locationUpdateRules.handle(1, 24.2, 12378.23, "base");
+        Location newLocation = locationUpdateRules.handle(oldLocation.getId(), 24.2, 12378.23, "base");
         locationRepo.save(newLocation);
         assertEquals(180, locationRepo.findById(newLocation.getId()).get().getLongitude());
     }
@@ -88,7 +83,7 @@ class LocationUpdateRulesTest {
     @Test
     void should_return_base_as_undefined_if_not_provided() {
         locationRepo.save(oldLocation);
-        Location newLocation = locationUpdateRules.handle(1, 24.2, 3.2, null);
+        Location newLocation = locationUpdateRules.handle(oldLocation.getId(), 24.2, 3.2, null);
         locationRepo.save(newLocation);
         assertEquals("undefined", locationRepo.findById(newLocation.getId()).get().getBase());
     }
@@ -96,7 +91,7 @@ class LocationUpdateRulesTest {
     @Test
     void should_return_30char_base_when_over_30char() {
         locationRepo.save(oldLocation);
-        Location newLocation = locationUpdateRules.handle(1, 24.2, 3.2, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        Location newLocation = locationUpdateRules.handle(oldLocation.getId(), 24.2, 3.2, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         locationRepo.save(newLocation);
         assertEquals(30, locationRepo.findById(newLocation.getId()).get().getBase().length());
     }

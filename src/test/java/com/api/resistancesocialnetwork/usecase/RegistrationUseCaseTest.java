@@ -4,31 +4,27 @@ import com.api.resistancesocialnetwork.model.Inventory;
 import com.api.resistancesocialnetwork.model.Item;
 import com.api.resistancesocialnetwork.model.Location;
 import com.api.resistancesocialnetwork.model.Rebel;
-import com.api.resistancesocialnetwork.repositories.InventoryRepository;
-import com.api.resistancesocialnetwork.repositories.LocationRepository;
-import com.api.resistancesocialnetwork.repositories.RebelRepository;
+import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.InventoryRepositoryInMemory;
+import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.ItemRepositoryInMemory;
+import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.LocationRepositoryInMemory;
+import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-@SpringBootTest
 class RegistrationUseCaseTest {
-    @Autowired
-    private RebelRepository rebelRepo;
-    @Autowired
-    private InventoryRepository inventoryRepo;
-    @Autowired
-    private LocationRepository locationRepo;
-    @Autowired
-    private RegistrationUseCase registrationUseCase;
+    private final RebelRepositoryInMemory rebelRepo = new RebelRepositoryInMemory();
+    private final InventoryRepositoryInMemory inventoryRepo = new InventoryRepositoryInMemory();
+    private final LocationRepositoryInMemory locationRepo = new LocationRepositoryInMemory();
+    private final ItemRepositoryInMemory itemRepo = new ItemRepositoryInMemory();
+    private final RegistrationUseCase registrationUseCase = new RegistrationUseCase(rebelRepo, locationRepo, inventoryRepo, itemRepo);
     private final Rebel luke = new Rebel("luke", 18, "male");
     private final Rebel leia = new Rebel("leia", 30, "female");
     private final Rebel hanSolo = new Rebel("han solo", 18, "male");
@@ -60,5 +56,10 @@ class RegistrationUseCaseTest {
     @Test
     void should_save_inventory() {
         assertNotEquals(Optional.empty(), inventoryRepo.findById(lukeInv.getId()));
+    }
+
+    @Test
+    void should_save_items() {
+        assertFalse(itemRepo.findAll().isEmpty());
     }
 }

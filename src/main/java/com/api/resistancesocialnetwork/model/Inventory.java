@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Entity(name = "inventory")
 public class Inventory {
@@ -20,12 +19,16 @@ public class Inventory {
 
     public Inventory(List<Item> itemList) {
         this.items = itemList;
+        id = 0;
     }
-    public Inventory() {}
+    public Inventory() {
+        id = 0;
+    }
 
-    public Optional<Item> findItemByName(String itemName) {
-        return items.stream().filter(item -> item.getName().equals(itemName)).findFirst();
+    public void setId(Integer id) {
+        this.id = id;
     }
+
     public Rebel getRebel() {
         return rebel;
     }

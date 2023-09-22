@@ -18,9 +18,11 @@ public class Location {
         this.latitude = latitude;
         this.longitude = longitude;
         this.base = base;
+        id = 0;
     }
 
     public Location() {
+        id = 0;
     }
 
     public void setNewLocation(Double newLatitude, Double newLongitude, String newBase) {
@@ -31,6 +33,10 @@ public class Location {
 
     public Rebel getRebel() {
         return rebel;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setRebel(Rebel rebel) {

@@ -1,9 +1,7 @@
 package com.api.resistancesocialnetwork.rules;
 
 
-import com.api.resistancesocialnetwork.repositories.RebelRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.api.resistancesocialnetwork.repositories.interfacerepositories.RebelRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

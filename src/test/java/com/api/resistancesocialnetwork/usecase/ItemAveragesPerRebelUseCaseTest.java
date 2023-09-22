@@ -3,13 +3,10 @@ package com.api.resistancesocialnetwork.usecase;
 import com.api.resistancesocialnetwork.model.Inventory;
 import com.api.resistancesocialnetwork.model.Item;
 import com.api.resistancesocialnetwork.model.Rebel;
-import com.api.resistancesocialnetwork.repositories.InventoryRepository;
-import com.api.resistancesocialnetwork.repositories.ItemRepository;
-import com.api.resistancesocialnetwork.repositories.RebelRepository;
+import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.InventoryRepositoryInMemory;
+import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.ItemRepositoryInMemory;
+import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -17,24 +14,20 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class ItemAveragesPerRebelUseCaseTest {
-    @Autowired
-    private InventoryRepository inventoryRepo;
-    @Autowired
-    private RebelRepository rebelRepo;
-    @Autowired
-    private ItemAveragesPerRebelUseCase itemAveragesPerRebelUseCase;
-    @Autowired
-    private ItemRepository itemRepo;
+    private final InventoryRepositoryInMemory inventoryRepo = new InventoryRepositoryInMemory();
+    private final RebelRepositoryInMemory rebelRepo = new RebelRepositoryInMemory();
+    private final ItemRepositoryInMemory itemRepo = new ItemRepositoryInMemory();
+
+    private final ItemAveragesPerRebelUseCase itemAveragesPerRebelUseCase = new ItemAveragesPerRebelUseCase(inventoryRepo);
+
     private final Rebel luke = new Rebel("luke", 18, "male");
     private final Rebel leia = new Rebel("leia", 30, "female");
     private final Item doritos = new Item("doritos", 1);
     private final Item water = new Item("water", 2);
     private final Item fandango = new Item("fandango", 1);
-    private final Inventory lukeInv = new Inventory(Arrays.asList(fandango, doritos));
-    private final Inventory leiaInv = new Inventory(Arrays.asList(water, water));
+    private final Inventory lukeInv = new Inventory(Arrays.asList(doritos, water, fandango));
+    private final Inventory leiaInv = new Inventory(Arrays.asList(doritos, water, fandango));
 
     @Test
     void should_return_averages_hashMap() {

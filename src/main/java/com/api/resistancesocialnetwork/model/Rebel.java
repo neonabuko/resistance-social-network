@@ -1,7 +1,6 @@
 package com.api.resistancesocialnetwork.model;
 
 import jakarta.persistence.*;
-import org.springframework.lang.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,26 +1,20 @@
 package com.api.resistancesocialnetwork.usecase;
 
 import com.api.resistancesocialnetwork.model.Rebel;
-import com.api.resistancesocialnetwork.repositories.RebelRepository;
+import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
 class AlliesTraitorsPercentagesUseCaseTest {
-    @Autowired
-    private RebelRepository rebelRepo;
-    @Autowired
-    private AlliesTraitorsPercentagesUseCase alliesTraitorsPercentagesUseCase;
+    private final RebelRepositoryInMemory rebelRepo = new RebelRepositoryInMemory();
+    private final AlliesTraitorsPercentagesUseCase alliesTraitorsPercentagesUseCase = new AlliesTraitorsPercentagesUseCase(rebelRepo);
 
     @Test
     void should_return_percentages_string() {
         Rebel luke = new Rebel("luke", 28, "male");
-        luke.setReportCounter(0);
         rebelRepo.save(luke);
 
         List<Double> actualDecimals = alliesTraitorsPercentagesUseCase.handle();

@@ -3,11 +3,10 @@ package com.api.resistancesocialnetwork.rules;
 import com.api.resistancesocialnetwork.model.Inventory;
 import com.api.resistancesocialnetwork.model.Item;
 import com.api.resistancesocialnetwork.model.Rebel;
-import com.api.resistancesocialnetwork.repositories.InventoryRepository;
-import com.api.resistancesocialnetwork.repositories.RebelRepository;
+import com.api.resistancesocialnetwork.repositories.interfacerepositories.InventoryRepository;
+import com.api.resistancesocialnetwork.repositories.interfacerepositories.RebelRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -48,10 +47,10 @@ public class TradeRules {
                 () -> new TradeFailureException("target rebel is a traitor")
         );
 
-        Item sourceItem = sourceInventory.findItemByName(sourceTradeItem.getName()).orElseThrow(
+        Item sourceItem = inventoryRepo.findItemByName(sourceInventoryId, sourceTradeItem.getName()).orElseThrow(
                 () -> new TradeFailureException("no such item source")
         );
-        Item targetItem = targetInventory.findItemByName(targetTradeItem.getName()).orElseThrow(
+        Item targetItem = inventoryRepo.findItemByName(targetInventoryId, targetTradeItem.getName()).orElseThrow(
                 () -> new TradeFailureException("no such item target")
         );
 

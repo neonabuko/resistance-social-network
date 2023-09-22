@@ -1,8 +1,7 @@
 package com.api.resistancesocialnetwork.usecase;
 
 import com.api.resistancesocialnetwork.model.Rebel;
-import com.api.resistancesocialnetwork.repositories.RebelRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.api.resistancesocialnetwork.repositories.interfacerepositories.RebelRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

@@ -1,20 +1,16 @@
 package com.api.resistancesocialnetwork.usecase;
 
 import com.api.resistancesocialnetwork.model.Location;
-import com.api.resistancesocialnetwork.repositories.LocationRepository;
+import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.LocationRepositoryInMemory;
+import com.api.resistancesocialnetwork.rules.LocationUpdateRules;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
 public class LocationUpdateUseCaseTest {
-
-    @Autowired
-    private LocationRepository locationRepository;
-    @Autowired
-    private LocationUpdateUseCase locationUpdateUseCase;
+    private final LocationRepositoryInMemory locationRepository = new LocationRepositoryInMemory();
+    private final LocationUpdateRules locationUpdateRules = new LocationUpdateRules(locationRepository);
+    private final LocationUpdateUseCase locationUpdateUseCase = new LocationUpdateUseCase(locationRepository, locationUpdateRules);
 
     @Test
     void should_save_new_location(){
