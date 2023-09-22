@@ -2,7 +2,7 @@ package com.api.resistancesocialnetwork.rules;
 
 
 import com.api.resistancesocialnetwork.model.Location;
-import com.api.resistancesocialnetwork.repositories.LocationRepository;
+import com.api.resistancesocialnetwork.repositories.interfacerepositories.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

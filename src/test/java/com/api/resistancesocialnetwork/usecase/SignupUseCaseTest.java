@@ -19,12 +19,12 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-class RegistrationUseCaseTest {
+class SignupUseCaseTest {
     private final RebelRepositoryInMemory rebelRepo = new RebelRepositoryInMemory();
     private final InventoryRepositoryInMemory inventoryRepo = new InventoryRepositoryInMemory();
     private final LocationRepositoryInMemory locationRepo = new LocationRepositoryInMemory();
     private final ItemRepositoryInMemory itemRepo = new ItemRepositoryInMemory();
-    private final RegistrationUseCase registrationUseCase = new RegistrationUseCase(rebelRepo, locationRepo, inventoryRepo, itemRepo);
+    private final SignupUseCase signupUseCase = new SignupUseCase(rebelRepo, locationRepo, inventoryRepo, itemRepo);
     private final Rebel luke = new Rebel("luke", 18, "male");
     private final Rebel leia = new Rebel("leia", 30, "female");
     private final Rebel hanSolo = new Rebel("han solo", 18, "male");
@@ -39,8 +39,8 @@ class RegistrationUseCaseTest {
 
     @BeforeEach
     public void setUp() {
-        registrationUseCase.handle(luke, lukeLocation, lukeInv);
-        registrationUseCase.handle(leia, leiaLocation, leiaInv);
+        signupUseCase.handle(luke, lukeLocation, lukeInv);
+        signupUseCase.handle(leia, leiaLocation, leiaInv);
     }
 
     @Test

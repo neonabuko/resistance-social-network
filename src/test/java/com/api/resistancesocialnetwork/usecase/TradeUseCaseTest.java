@@ -25,13 +25,11 @@ class TradeUseCaseTest {
     private Item fandango;
     private Inventory lukeInv;
     private Inventory leiaInv;
-    private Rebel luke;
-    private Rebel leia;
 
     @BeforeEach
     void setUp() {
-        luke = new Rebel("luke", 18, "male");
-        leia = new Rebel("leia", 30, "female");
+        Rebel luke = new Rebel("luke", 18, "male");
+        Rebel leia = new Rebel("leia", 30, "female");
         doritos = new Item("doritos", 1);
         fandango = new Item("fandango", 1);
         lukeInv = new Inventory(Arrays.asList(doritos));

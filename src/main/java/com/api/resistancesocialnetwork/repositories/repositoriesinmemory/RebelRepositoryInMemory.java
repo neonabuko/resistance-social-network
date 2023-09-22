@@ -1,23 +1,23 @@
-package com.api.resistancesocialnetwork.repositories;
+package com.api.resistancesocialnetwork.repositories.repositoriesinmemory;
 
 import com.api.resistancesocialnetwork.model.Rebel;
-import org.springframework.stereotype.Repository;
+import com.api.resistancesocialnetwork.repositories.interfacerepositories.RebelRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class RebelRepositoryInMem implements RebelRepository {
+public class RebelRepositoryInMemory implements RebelRepository {
     private final List<Rebel> rebelList = new ArrayList<>();
-    private static Integer id = 0;
 
-
-    @Override
-    public void save(Rebel rebel) {
-        rebel.setId(id++);
+    public void saveInMem(Rebel rebel) {
         rebelList.add(rebel);
     }
 
+    @Override
+    public void save(Rebel rebel) {
+        rebelList.add(rebel);
+    }
     @Override
     public Optional<Rebel> findById(Integer id) {
         return rebelList.stream().filter(rebel -> rebel.getId().equals(id)).findFirst();

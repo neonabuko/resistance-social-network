@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
-public class RegistrationRules {
+public class SignupRules {
 
     public List<?> format(Rebel rebel, Location location, Inventory inventory) {
         DataFormatRules dataFormatRules = new DataFormatRules();
@@ -29,10 +29,7 @@ public class RegistrationRules {
             newItem.setInventory(inventory);
         }
 
-        inventory.setItems(fInventoryList);
 
-        location.setRebel(formattedRebel);
-        inventory.setRebel(formattedRebel);
 
         return new ArrayList<>(Arrays.asList(formattedRebel, formattedLocation, inventory));
     }
