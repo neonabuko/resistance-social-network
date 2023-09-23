@@ -11,8 +11,7 @@ public class LocationRepositoryInMemory implements LocationRepository {
     private final List<Location> locationList = new ArrayList<>();
 
     @Override
-    public void save(Location location) {
-    }
+    public void save(Location location) {}
 
     public void saveInMem(Location location) {
         locationList.add(location);

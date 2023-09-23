@@ -15,9 +15,7 @@ public class RebelRepositoryInMemory implements RebelRepository {
     }
 
     @Override
-    public void save(Rebel rebel) {
-
-    }
+    public void save(Rebel rebel) {}
 
     public void deleteAllInMem() {
         rebelList.clear();

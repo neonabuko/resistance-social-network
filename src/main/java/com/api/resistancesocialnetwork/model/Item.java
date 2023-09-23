@@ -20,8 +20,7 @@ public class Item {
         this.price = price;
     }
 
-    public Item() {
-    }
+    public Item() {}
 
     public Integer getId() {
         return id;

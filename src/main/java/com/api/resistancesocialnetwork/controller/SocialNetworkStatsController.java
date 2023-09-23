@@ -1,18 +1,22 @@
 package com.api.resistancesocialnetwork.controller;
 
+import com.api.resistancesocialnetwork.usecase.AlliesTraitorsPercentagesUseCase;
 import com.api.resistancesocialnetwork.usecase.ShowAlliesUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 @RestController
 public class SocialNetworkStatsController {
     private final ShowAlliesUseCase showAlliesUseCase;
+    private final AlliesTraitorsPercentagesUseCase alliesTraitorsPercentagesUseCase;
 
-    public SocialNetworkStatsController(ShowAlliesUseCase showAlliesUseCase) {
+    public SocialNetworkStatsController(ShowAlliesUseCase showAlliesUseCase, AlliesTraitorsPercentagesUseCase alliesTraitorsPercentagesUseCase) {
         this.showAlliesUseCase = showAlliesUseCase;
+        this.alliesTraitorsPercentagesUseCase = alliesTraitorsPercentagesUseCase;
     }
 
     @GetMapping("/")
@@ -28,5 +32,15 @@ public class SocialNetworkStatsController {
             else if (s.startsWith("Inventory")) allies.set(allies.indexOf(s), "\t" + s + "\n");
         }
         return ResponseEntity.ok(String.join("\n", allies));
+    }
+
+    @GetMapping("/allies-traitors-percentages")
+    public ResponseEntity<String> showAlliesTraitorsPercentages() {
+        List<Double> decimalsList = alliesTraitorsPercentagesUseCase.handle();
+        NumberFormat decimalToPercentage = NumberFormat.getPercentInstance();
+        String percentages = "Allies: " + decimalToPercentage.format(decimalsList.get(0)) + ", " +
+                             "Traitors: " + decimalToPercentage.format(decimalsList.get(1));
+
+        return ResponseEntity.ok(percentages);
     }
 }

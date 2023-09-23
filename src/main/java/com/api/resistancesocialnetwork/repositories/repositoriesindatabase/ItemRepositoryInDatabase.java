@@ -46,11 +46,4 @@ public class ItemRepositoryInDatabase implements ItemRepository {
     public void saveAll(List<Item> items) {
         adapter.saveAll(items);
     }
-
-    @Override
-    public Optional<Item> findItemByNameAndInventoryId(Integer inventoryId, String itemName) {
-        return findAll().stream().filter(item -> item.getInventory().getId().equals(inventoryId)).toList()
-                .stream().filter(itemByName -> itemByName.getName().equals(itemName)).findFirst();
-    }
-
 }

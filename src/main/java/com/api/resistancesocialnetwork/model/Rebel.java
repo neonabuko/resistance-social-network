@@ -33,8 +33,7 @@ public class Rebel {
         this.gender = gender;
     }
 
-    public Rebel() {
-    }
+    public Rebel() {}
 
     public void setStats(String name, Integer age, String gender) {
         this.name = name;

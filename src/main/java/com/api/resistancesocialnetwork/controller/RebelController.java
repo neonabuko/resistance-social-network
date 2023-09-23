@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.NoSuchElementException;
-
 @RestController
 public class RebelController {
     private final ReportUseCase reportUseCase;
@@ -28,13 +26,9 @@ public class RebelController {
     }
 
     @PatchMapping("/report")
-    public ResponseEntity<String> handleReport(@RequestBody RequestReport requestReport) {
-        try {
-            reportUseCase.handle(requestReport.sourceId(), requestReport.targetId());
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-        return ResponseEntity.ok("Reported rebel " + ". reportedId= " + requestReport.targetId());
+    public ResponseEntity<String> handleReport(@RequestBody RequestReport requestReport) throws Exception {
+        reportUseCase.handle(requestReport.sourceId(), requestReport.targetId());
+        return ResponseEntity.ok("Rebel reported.");
     }
 
     @PatchMapping("/location-update")
@@ -43,28 +37,18 @@ public class RebelController {
         Double newLongitude = requestLocationUpdate.longitude();
         String newBase = requestLocationUpdate.base();
 
-        try {
-            locationUpdateUseCase.handle(requestLocationUpdate.locationId(), newLatitude, newLongitude, newBase);
-        } catch (NoSuchElementException | IllegalStateException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-
+        locationUpdateUseCase.handle(requestLocationUpdate.locationId(), newLatitude, newLongitude, newBase);
         return ResponseEntity.ok("Location updated.");
     }
 
     @PatchMapping("/trade")
-    public ResponseEntity<String> handleTrade(@RequestBody RequestTrade requestTrade) {
+    public ResponseEntity<String> handleTrade(@RequestBody RequestTrade requestTrade) throws TradeFailureException {
         Integer sourceInventoryId = requestTrade.sourceInventoryId();
         Item sourceTradeItem = requestTrade.sourceTradeItem();
         Integer targetInventoryId = requestTrade.targetInventoryId();
         Item targetTradeItem = requestTrade.targetTradeItem();
 
-        try {
-            tradeUseCase.handle(sourceInventoryId, sourceTradeItem, targetInventoryId, targetTradeItem);
-        } catch (TradeFailureException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-
+        tradeUseCase.handle(sourceInventoryId, sourceTradeItem, targetInventoryId, targetTradeItem);
         return ResponseEntity.ok("Trade successful");
     }
 }

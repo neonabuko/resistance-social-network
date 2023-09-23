@@ -42,6 +42,5 @@ public class SignupUseCase {
 
         rebelRepo.save(rebel);
         itemRepository.saveAll(inventory.getItems());
-
     }
 }

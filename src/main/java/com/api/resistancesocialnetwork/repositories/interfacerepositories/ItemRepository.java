@@ -15,6 +15,4 @@ public interface ItemRepository {
     List<Item> findAll();
 
     void saveAll(List<Item> items);
-
-    Optional<Item> findItemByNameAndInventoryId(Integer inventoryId, String itemName);
 }

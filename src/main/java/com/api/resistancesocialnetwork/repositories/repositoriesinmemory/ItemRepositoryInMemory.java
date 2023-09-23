@@ -15,9 +15,7 @@ public class ItemRepositoryInMemory implements ItemRepository {
     }
 
     @Override
-    public void save(Item item) {
-        itemList.add(item);
-    }
+    public void save(Item item) {}
 
     public void deleteAllInMem() {
         itemList.clear();
@@ -41,10 +39,5 @@ public class ItemRepositoryInMemory implements ItemRepository {
     @Override
     public void saveAll(List<Item> items) {
         itemList.addAll(items);
-    }
-
-    @Override
-    public Optional<Item> findItemByNameAndInventoryId(Integer inventoryId, String itemName) {
-        return Optional.empty();
     }
 }

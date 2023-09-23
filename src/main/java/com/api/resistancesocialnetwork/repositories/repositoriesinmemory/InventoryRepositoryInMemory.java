@@ -16,9 +16,7 @@ public class InventoryRepositoryInMemory implements InventoryRepository {
     }
 
     @Override
-    public void save(Inventory inventory) {
-        inventoryList.add(inventory);
-    }
+    public void save(Inventory inventory) {}
 
     public void deleteAllInMem() {
         inventoryList.clear();

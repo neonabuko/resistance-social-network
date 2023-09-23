@@ -9,6 +9,7 @@ import com.api.resistancesocialnetwork.rules.TradeRules;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -30,18 +31,16 @@ public class TradeUseCase {
         Inventory sourceInv = tradersInventories.get(0);
         Inventory targetInv = tradersInventories.get(1);
 
-        Item actualSourceItem = itemRepo.findItemByNameAndInventoryId(sourceInventoryId, sourceTradeItem.getName()).get();
-        Item actualTargetItem = itemRepo.findItemByNameAndInventoryId(targetInventoryId, targetTradeItem.getName()).get();
+        Item actualSourceItem = sourceInv.findItemByName(sourceTradeItem.getName()).get();
+        Item actualTargetItem = targetInv.findItemByName(targetTradeItem.getName()).get();
 
         sourceInv.getItems().set(sourceInv.getItems().indexOf(actualSourceItem), actualTargetItem);
         targetInv.getItems().set(targetInv.getItems().indexOf(actualTargetItem), actualSourceItem);
 
         actualSourceItem.setInventory(targetInv);
-        itemRepo.save(actualSourceItem);
-
         actualTargetItem.setInventory(sourceInv);
-        itemRepo.save(actualTargetItem);
 
+        itemRepo.saveAll(Arrays.asList(actualSourceItem, actualTargetItem));
         inventoryRepo.save(sourceInv);
         inventoryRepo.save(targetInv);
     }

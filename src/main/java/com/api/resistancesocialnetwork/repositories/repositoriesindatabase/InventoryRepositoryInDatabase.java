@@ -53,5 +53,4 @@ public class InventoryRepositoryInDatabase implements InventoryRepository {
     public Optional<Item> findItemByName(Integer id, String itemName) {
         return adapter.findItemByName(id, itemName);
     }
-
 }

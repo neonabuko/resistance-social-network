@@ -20,7 +20,9 @@ public class LocationUpdateRules {
     public Location handle(Integer locationId, Double latitude, Double longitude, String base) throws NoSuchElementException {
         Optional<Integer> optionalLocationId = Optional.ofNullable(locationId);
 
-        Location location = locationRepo.findById(optionalLocationId.orElseThrow(() -> new NoSuchElementException("must provide location id"))).orElseThrow(() -> new NoSuchElementException("location not found"));
+        Location location = locationRepo.findById(optionalLocationId.orElseThrow(
+                () -> new NoSuchElementException("must provide location id"))).orElseThrow(
+                        () -> new NoSuchElementException("location not found"));
 
         location.setNewLocation(dataFormatRules.handle(latitude, 90), dataFormatRules.handle(longitude, 180), dataFormatRules.handle(base));
         return location;
