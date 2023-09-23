@@ -48,6 +48,9 @@ public class Inventory {
 
     @Override
     public String toString() {
-        return "Inventory { " + "ID=" + id + ", items=" + items + " }";
+        return "Inventory " +
+                "\n\tID=" + id +
+                "\t" + items.toString().replace("[", "").replace("]", "") + "\n";
     }
+
 }

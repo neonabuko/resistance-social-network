@@ -62,6 +62,11 @@ public class Location {
 
     @Override
     public String toString() {
-        return "Location { " + "ID=" + id + ", latitude=" + latitude + ", longitude=" + longitude + ", base='" + base + '\'' + " }";
+        return "Location " +
+                "\n\tID=" + id +
+                "\n\tlatitude=" + latitude +
+                "\n\tlongitude=" + longitude +
+                "\n\tbase='" + base + '\'' + "\n";
     }
+
 }

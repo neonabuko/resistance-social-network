@@ -13,7 +13,7 @@ public class DataFormatRules {
 
     public Double handle(Double coord, int bound) {
         return Optional.ofNullable(coord).map(d -> Math.min(d, bound)).map(d -> Math.max(d, -bound)).orElseThrow(
-                () -> new IllegalStateException("all parameters required")
+                () -> new IllegalStateException("coordinates required for location")
         );
     }
 
@@ -33,7 +33,7 @@ public class DataFormatRules {
 
     public Location handle(Location location) {
         Optional<Location> optionalLocation = Optional.ofNullable(location);
-        if (optionalLocation.isEmpty()) throw new IllegalStateException("all parameters required for location");
+        if (optionalLocation.isEmpty()) throw new IllegalStateException("coordinates required for location");
 
         location.setNewLocation(handle(location.getLatitude(), 90), handle(location.getLongitude(), 180), handle(location.getBase()));
         return location;

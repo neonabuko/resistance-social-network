@@ -93,12 +93,14 @@ public class Rebel {
         return (reportCounter > 2);
     }
 
-    public boolean isNotTraitor() {
-        return !isTraitor();
-    }
-
     @Override
     public String toString() {
-        return "Rebel{" + "id=" + id + ", name='" + name + '\'' + ", age=" + age + ", gender='" + gender + '\'' + ", isTraitor=" + isTraitor() + '}';
+        return "Rebel " +
+                "\n\tid=" + id +
+                "\n\tname='" + name + '\'' +
+                "\n\tage=" + age +
+                "\n\tgender='" + gender + '\'' +
+                "\n\tisTraitor=" + isTraitor() + "\n";
     }
+
 }

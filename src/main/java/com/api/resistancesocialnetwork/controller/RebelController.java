@@ -10,9 +10,11 @@ import com.api.resistancesocialnetwork.usecase.TradeUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/rebel")
 public class RebelController {
     private final ReportUseCase reportUseCase;
     private final LocationUpdateUseCase locationUpdateUseCase;
@@ -30,7 +32,7 @@ public class RebelController {
         return ResponseEntity.ok("Rebel reported.");
     }
 
-    @PatchMapping("/location-update")
+    @PatchMapping("/update-location")
     public ResponseEntity<String> handleLocationUpdate(@RequestBody RequestLocationUpdate requestLocationUpdate) {
         Double newLatitude = requestLocationUpdate.latitude();
         Double newLongitude = requestLocationUpdate.longitude();
