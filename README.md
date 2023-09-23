@@ -7,28 +7,22 @@ _A REST API challenge._
 > The empire continues its relentless struggle to conquer the galaxy. As a resistance soldier, I have been assigned to
 > develop a system for sharing resources among rebels.
 
-### This project currently implements:
+### Implements:
 
-- [x] Java
-- [x] Maven
-- [x] Spring Boot
-- [x] Spring Data
+- [x] Spring Web
+- [x] Spring Data JPA
 - [x] Hibernate (H2)
 
 ## Use Cases
-
-- Register rebels
-- Update a rebel's location
-- Report a Rebel as traitor
+- Sign up
+- Update location
+- Report user
 - Trade
 - Show:
-    1. All allies;
-    2. Percentages of traitors/allies;
-    3. Average of items per rebel.
+    1. Percentages of traitors & allies
+    2. Average number of items per rebel
 
 ## Main Rules
-
 1. Traitors can't trade
-2. Traitors can't show up on reports
-3. Rebels trade up to 4 item types: food, water, ammo, and weapon
-4. Both parties must offer the same amount of points
+2. Traitors can't show up on alliance reports
+3. Both parties in a trade must offer the same amount of points
