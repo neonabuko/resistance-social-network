@@ -32,10 +32,3 @@ _A REST API challenge._
 2. Traitors can't show up on reports
 3. Rebels trade up to 4 item types: food, water, ammo, and weapon
 4. Both parties must offer the same amount of points
-
-| Item   | Points |
-  |--------|:------:|
-| Food   |   1    |
-| Water  |   2    |
-| Ammo   |   3    |
-| Weapon |   4    |
