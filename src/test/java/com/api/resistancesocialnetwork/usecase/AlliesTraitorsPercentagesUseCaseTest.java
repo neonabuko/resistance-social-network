@@ -19,11 +19,11 @@ class AlliesTraitorsPercentagesUseCaseTest {
 
         List<Double> actualDecimals = alliesTraitorsPercentagesUseCase.handle();
 
-        Double actualAlliesDecimal = actualDecimals.get(0);
-        Double actualTraitorsDecimal = actualDecimals.get(1);
-
         Double expectedAlliesDecimal = 1.0;
         Double expectedTraitorsDecimal = 0.0;
+
+        Double actualAlliesDecimal = actualDecimals.get(0);
+        Double actualTraitorsDecimal = actualDecimals.get(1);
 
         assertEquals(expectedAlliesDecimal, actualAlliesDecimal);
         assertEquals(expectedTraitorsDecimal, actualTraitorsDecimal);

@@ -1,6 +1,7 @@
 package com.api.resistancesocialnetwork.controller;
 
 import com.api.resistancesocialnetwork.usecase.AlliesTraitorsPercentagesUseCase;
+import com.api.resistancesocialnetwork.usecase.ItemAveragesPerRebelUseCase;
 import com.api.resistancesocialnetwork.usecase.ShowAlliesUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,15 +9,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.text.NumberFormat;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class SocialNetworkStatsController {
     private final ShowAlliesUseCase showAlliesUseCase;
     private final AlliesTraitorsPercentagesUseCase alliesTraitorsPercentagesUseCase;
+    private final ItemAveragesPerRebelUseCase itemAveragesPerRebelUseCase;
 
-    public SocialNetworkStatsController(ShowAlliesUseCase showAlliesUseCase, AlliesTraitorsPercentagesUseCase alliesTraitorsPercentagesUseCase) {
+    public SocialNetworkStatsController(ShowAlliesUseCase showAlliesUseCase,
+                                        AlliesTraitorsPercentagesUseCase alliesTraitorsPercentagesUseCase,
+                                        ItemAveragesPerRebelUseCase itemAveragesPerRebelUseCase) {
         this.showAlliesUseCase = showAlliesUseCase;
         this.alliesTraitorsPercentagesUseCase = alliesTraitorsPercentagesUseCase;
+        this.itemAveragesPerRebelUseCase = itemAveragesPerRebelUseCase;
     }
 
     @GetMapping("/")
@@ -42,5 +48,12 @@ public class SocialNetworkStatsController {
                              "Traitors: " + decimalToPercentage.format(decimalsList.get(1));
 
         return ResponseEntity.ok(percentages);
+    }
+
+    @GetMapping("/item-averages")
+    public ResponseEntity<String> showItemAverages() {
+        Map<String, Double> averagesMap = itemAveragesPerRebelUseCase.handle();
+        String response = "Average of each item per rebel: \n" + averagesMap.toString();
+        return ResponseEntity.ok(response);
     }
 }

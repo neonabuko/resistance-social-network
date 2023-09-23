@@ -25,14 +25,17 @@ public class TradeUseCase {
         this.itemRepo = itemRepo;
     }
 
-    public void handle(Integer sourceInventoryId, Item sourceTradeItem, Integer targetInventoryId, Item targetTradeItem) throws TradeFailureException {
-        List<Inventory> tradersInventories = tradeRules.check(sourceInventoryId, sourceTradeItem, targetInventoryId, targetTradeItem);
+    public void handle(Integer sourceInventoryId,
+                       String sourceTradeItemName,
+                       Integer targetInventoryId,
+                       String targetTradeItemName) throws TradeFailureException {
+        List<Inventory> inventoriesInTrade = tradeRules.check(sourceInventoryId, sourceTradeItemName, targetInventoryId, targetTradeItemName);
 
-        Inventory sourceInv = tradersInventories.get(0);
-        Inventory targetInv = tradersInventories.get(1);
+        Inventory sourceInv = inventoriesInTrade.get(0);
+        Inventory targetInv = inventoriesInTrade.get(1);
 
-        Item actualSourceItem = sourceInv.findItemByName(sourceTradeItem.getName()).get();
-        Item actualTargetItem = targetInv.findItemByName(targetTradeItem.getName()).get();
+        Item actualSourceItem = sourceInv.findItemByName(sourceTradeItemName).get();
+        Item actualTargetItem = targetInv.findItemByName(targetTradeItemName).get();
 
         sourceInv.getItems().set(sourceInv.getItems().indexOf(actualSourceItem), actualTargetItem);
         targetInv.getItems().set(targetInv.getItems().indexOf(actualTargetItem), actualSourceItem);

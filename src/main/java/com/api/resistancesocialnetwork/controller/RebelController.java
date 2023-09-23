@@ -1,6 +1,5 @@
 package com.api.resistancesocialnetwork.controller;
 
-import com.api.resistancesocialnetwork.model.Item;
 import com.api.resistancesocialnetwork.request.RequestLocationUpdate;
 import com.api.resistancesocialnetwork.request.RequestReport;
 import com.api.resistancesocialnetwork.request.RequestTrade;
@@ -44,9 +43,9 @@ public class RebelController {
     @PatchMapping("/trade")
     public ResponseEntity<String> handleTrade(@RequestBody RequestTrade requestTrade) throws TradeFailureException {
         Integer sourceInventoryId = requestTrade.sourceInventoryId();
-        Item sourceTradeItem = requestTrade.sourceTradeItem();
+        String sourceTradeItem = requestTrade.sourceTradeItemName();
         Integer targetInventoryId = requestTrade.targetInventoryId();
-        Item targetTradeItem = requestTrade.targetTradeItem();
+        String targetTradeItem = requestTrade.targetTradeItemName();
 
         tradeUseCase.handle(sourceInventoryId, sourceTradeItem, targetInventoryId, targetTradeItem);
         return ResponseEntity.ok("Trade successful");

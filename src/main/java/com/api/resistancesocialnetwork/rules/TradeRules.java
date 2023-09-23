@@ -2,9 +2,7 @@ package com.api.resistancesocialnetwork.rules;
 
 import com.api.resistancesocialnetwork.model.Inventory;
 import com.api.resistancesocialnetwork.model.Item;
-import com.api.resistancesocialnetwork.model.Rebel;
 import com.api.resistancesocialnetwork.repositories.interfacerepositories.InventoryRepository;
-import com.api.resistancesocialnetwork.repositories.interfacerepositories.RebelRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -14,39 +12,37 @@ import java.util.*;
 @Transactional
 public class TradeRules {
     private final InventoryRepository inventoryRepo;
-    private final RebelRepository rebelRepo;
 
-    public TradeRules(InventoryRepository inventoryRepo, RebelRepository rebelRepo) {
+    public TradeRules(InventoryRepository inventoryRepo) {
         this.inventoryRepo = inventoryRepo;
-        this.rebelRepo = rebelRepo;
     }
 
-    public List<Inventory> check(Integer sourceInventoryId, Item sourceTradeItem, Integer targetInventoryId, Item targetTradeItem) throws TradeFailureException {
-        Optional<Integer> optionalSourceInventoryId = Optional.of(sourceInventoryId);
+    public List<Inventory> check(Integer sourceInventoryId,
+                                 String sourceTradeItemName,
+                                 Integer targetInventoryId,
+                                 String targetTradeItemName) throws TradeFailureException {
 
+        Optional<Integer> optionalSourceInventoryId = Optional.ofNullable(sourceInventoryId);
         Inventory sourceInventory = inventoryRepo.findById(optionalSourceInventoryId.orElseThrow(
                 () -> new TradeFailureException("must provide source inventory id"))).orElseThrow(
                         () -> new TradeFailureException("source inventory not found")
         );
 
-        Optional<Integer> optionalTargetInventoryId = Optional.of(targetInventoryId);
+        Optional<Integer> optionalTargetInventoryId = Optional.ofNullable(targetInventoryId);
         Inventory targetInventory = inventoryRepo.findById(optionalTargetInventoryId.orElseThrow(
                 () -> new TradeFailureException("must provide target inventory id"))).orElseThrow(
                         () -> new TradeFailureException("target inventory not found")
         );
 
-        rebelRepo.findById(sourceInventory.getRebel().getId()).filter(Rebel::isNotTraitor).orElseThrow(
-                () -> new TradeFailureException("source rebel is a traitor")
-        );
-        rebelRepo.findById(targetInventory.getRebel().getId()).filter(Rebel::isNotTraitor).orElseThrow(
-                () -> new TradeFailureException("target rebel is a traitor")
-        );
+        if (sourceInventory.getRebel().isTraitor()) throw new TradeFailureException("source rebel is a traitor");
 
-        Item sourceItem = inventoryRepo.findItemByName(sourceInventoryId, sourceTradeItem.getName()).orElseThrow(
-                () -> new TradeFailureException("no such item source")
+        if (targetInventory.getRebel().isTraitor()) throw new TradeFailureException("target rebel is a traitor");
+
+        Item sourceItem = sourceInventory.findItemByName(sourceTradeItemName).orElseThrow(
+                () -> new TradeFailureException("source item not found")
         );
-        Item targetItem = inventoryRepo.findItemByName(targetInventoryId, targetTradeItem.getName()).orElseThrow(
-                () -> new TradeFailureException("no such item target")
+        Item targetItem = targetInventory.findItemByName(targetTradeItemName).orElseThrow(
+                () -> new TradeFailureException("target item not found")
         );
 
         if (!Objects.equals(sourceItem.getPrice(), targetItem.getPrice())) {

@@ -4,5 +4,9 @@ import com.api.resistancesocialnetwork.model.Inventory;
 import com.api.resistancesocialnetwork.model.Location;
 import com.api.resistancesocialnetwork.model.Rebel;
 
-public record RequestSignUp(Rebel rebel, Location location, Inventory inventory) {
+public record RequestSignUp(
+        Rebel rebel,
+        Location location,
+        Inventory inventory
+) {
 }

@@ -11,9 +11,9 @@ public class ReportUseCaseTest {
     private final RebelRepositoryInMemory rebelRepoInMem = new RebelRepositoryInMemory();
 
     @Test
-    void should_report_a_rebel() throws Exception {
-        Rebel rebel1 = new Rebel("zezinho", 1, "masculino");
-        Rebel rebel2 = new Rebel("pedrinho", 1, "feminino");
+    void reportCounter_should_increase_by_one_after_report() throws Exception {
+        Rebel rebel1 = new Rebel("zezinho", 18, "masculino");
+        Rebel rebel2 = new Rebel("pedrinho", 18, "feminino");
         rebel1.setId(1);
         rebel2.setId(2);
         rebelRepoInMem.saveInMem(rebel1);
@@ -24,6 +24,6 @@ public class ReportUseCaseTest {
 
         reportUseCase.handle(rebel1.getId(), rebel2.getId());
 
-        Assertions.assertEquals(1, rebelRepoInMem.findById(rebel2.getId()).orElseThrow().getReportCounter());
+        Assertions.assertEquals(1, rebel2.getReportCounter());
     }
 }

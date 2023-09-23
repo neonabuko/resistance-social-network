@@ -7,7 +7,6 @@ import com.api.resistancesocialnetwork.model.Rebel;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,7 +16,7 @@ class SignupRulesTest {
     private final SignupRules signupRules = new SignupRules();
     private final Rebel rebel = new Rebel("dummy", 18, "male");
     private final Location location = new Location(0.0, 0.0, "base");
-    private final Inventory inventory = new Inventory(new ArrayList<>(Arrays.asList(new Item("food", 1), new Item("water", 2))));
+    private final Inventory inventory = new Inventory(Arrays.asList(new Item("food", 1), new Item("water", 2)));
 
     @Test
     void should_return_name_as_undefined_when_not_provided() {
@@ -29,7 +28,7 @@ class SignupRulesTest {
 
     @Test
     void should_return_30char_name_when_name_over_30_char() {
-        rebel.setStats("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", 18, "male");
+        rebel.setStats("a".repeat(50), 18, "male");
         signupRules.format(rebel, location, inventory);
         rebelRepositoryInMemory.saveInMem(rebel);
         assertEquals(30, rebel.getName().length());
@@ -69,7 +68,7 @@ class SignupRulesTest {
 
     @Test
     void should_return_gender_30char_when_over_30char_provided() {
-        rebel.setStats("dummy", 12, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        rebel.setStats("dummy", 12, "a".repeat(31));
         signupRules.format(rebel, location, inventory);
         rebelRepositoryInMemory.saveInMem(rebel);
         assertEquals(30, rebel.getGender().length());
