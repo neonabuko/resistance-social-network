@@ -4,8 +4,7 @@ import jakarta.persistence.*;
 
 @Entity(name = "item")
 public class Item {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id")
     private Integer id;
     @Column(name = "item_name")
