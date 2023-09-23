@@ -20,6 +20,10 @@ public class InventoryRepositoryInMemory implements InventoryRepository {
         inventoryList.add(inventory);
     }
 
+    public void deleteAllInMem() {
+        inventoryList.clear();
+    }
+
     @Override
     public Optional<Inventory> findById(Integer id) {
         return inventoryList.stream().filter(inventory -> inventory.getId().equals(id)).findFirst();
@@ -34,10 +38,6 @@ public class InventoryRepositoryInMemory implements InventoryRepository {
     public List<Inventory> findAll() {
         return inventoryList;
     }
-
-
-    public List<Inventory> findAllInMem() { return inventoryList; }
-
 
     @Override
     public Optional<Item> findItemByName(Integer id, String itemName) {

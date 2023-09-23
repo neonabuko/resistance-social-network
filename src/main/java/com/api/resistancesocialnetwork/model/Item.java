@@ -4,11 +4,14 @@ import jakarta.persistence.*;
 
 @Entity(name = "item")
 public class Item {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "item_id")
     private Integer id;
+    @Column(name = "item_name")
     private String name;
+    @Column(name = "item_price")
     private Integer price;
-
     @ManyToOne
     @JoinColumn(name = "inventory_id")
     private Inventory inventory;
@@ -16,27 +19,17 @@ public class Item {
     public Item(String name, Integer price) {
         this.name = name;
         this.price = price;
-        id = 0;
     }
 
     public Item() {
-        id = 0;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Inventory getInventory() {
@@ -51,8 +44,16 @@ public class Item {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Integer getPrice() {
         return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 
     @Override

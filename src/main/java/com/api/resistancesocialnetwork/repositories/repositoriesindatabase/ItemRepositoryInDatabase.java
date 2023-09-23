@@ -1,15 +1,16 @@
 package com.api.resistancesocialnetwork.repositories.repositoriesindatabase;
 
-import com.api.resistancesocialnetwork.model.Inventory;
 import com.api.resistancesocialnetwork.model.Item;
 import com.api.resistancesocialnetwork.repositories.interfacerepositories.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+
+interface ItemRepositoryJpa extends JpaRepository<Item, Integer> {
+}
 
 @Component
 public class ItemRepositoryInDatabase implements ItemRepository {
@@ -47,11 +48,9 @@ public class ItemRepositoryInDatabase implements ItemRepository {
     }
 
     @Override
-    public void setOwnerInventory(Item item, Inventory owner) {
-        findById(item.getId()).get().setInventory(owner);
+    public Optional<Item> findItemByNameAndInventoryId(Integer inventoryId, String itemName) {
+        return findAll().stream().filter(item -> item.getInventory().getId().equals(inventoryId)).toList()
+                .stream().filter(itemByName -> itemByName.getName().equals(itemName)).findFirst();
     }
-}
 
-@Repository
-interface ItemRepositoryJpa extends JpaRepository<Item, Integer>{
 }

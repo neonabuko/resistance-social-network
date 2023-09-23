@@ -12,6 +12,9 @@ public class LocationRepositoryInMemory implements LocationRepository {
 
     @Override
     public void save(Location location) {
+    }
+
+    public void saveInMem(Location location) {
         locationList.add(location);
     }
 

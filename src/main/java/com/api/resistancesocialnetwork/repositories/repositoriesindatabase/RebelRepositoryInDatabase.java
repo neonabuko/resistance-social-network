@@ -5,10 +5,12 @@ import com.api.resistancesocialnetwork.repositories.interfacerepositories.RebelR
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+
+interface RebelRepositoryJpa extends JpaRepository<Rebel, Integer> {
+}
 
 @Component
 public class RebelRepositoryInDatabase implements RebelRepository {
@@ -39,8 +41,5 @@ public class RebelRepositoryInDatabase implements RebelRepository {
     public List<Rebel> findAll() {
         return adapter.findAll();
     }
-}
-@Repository
-interface RebelRepositoryJpa extends JpaRepository<Rebel, Integer> {
-}
 
+}

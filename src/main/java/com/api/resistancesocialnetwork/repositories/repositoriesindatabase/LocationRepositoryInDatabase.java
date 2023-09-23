@@ -5,13 +5,16 @@ import com.api.resistancesocialnetwork.repositories.interfacerepositories.Locati
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+interface LocationRepositoryJpa extends JpaRepository<Location, Integer> {
+}
+
 @Component
 public class LocationRepositoryInDatabase implements LocationRepository {
+
     private final LocationRepositoryJpa adapter;
 
     @Autowired
@@ -38,8 +41,5 @@ public class LocationRepositoryInDatabase implements LocationRepository {
     public List<Location> findAll() {
         return adapter.findAll();
     }
-}
 
-@Repository
-interface LocationRepositoryJpa extends JpaRepository<Location, Integer> {
 }

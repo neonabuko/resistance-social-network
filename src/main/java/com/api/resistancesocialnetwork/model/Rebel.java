@@ -7,32 +7,33 @@ import java.util.List;
 
 @Entity(name = "rebel")
 public class Rebel {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private final List<Integer> reportedRebels = new ArrayList<>();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "rebel_id")
     private Integer id;
+    @Column(name = "rebel_name")
     private String name;
+    @Column(name = "rebel_age")
     private Integer age;
+    @Column(name = "rebel_gender")
     private String gender;
+    @Column(name = "rebel_report_counter")
     private Integer reportCounter = 0;
-
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "rebel")
     @JoinColumn(name = "location_id")
     private Location location;
-
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "rebel")
     @JoinColumn(name = "inventory_id")
     private Inventory inventory;
-
-    private final List<Integer> reportedRebels = new ArrayList<>();
 
     public Rebel(String name, Integer age, String gender) {
         this.name = name;
         this.age = age;
         this.gender = gender;
-        id = 0;
     }
 
     public Rebel() {
-        id = 0;
     }
 
     public void setStats(String name, Integer age, String gender) {
@@ -40,11 +41,13 @@ public class Rebel {
         this.age = age;
         this.gender = gender;
     }
-    public void setId(Integer id) {
-        this.id = id;
-    }
+
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -58,13 +61,17 @@ public class Rebel {
     public String getGender() {
         return gender;
     }
+
     public Location getLocation() {
         return location;
     }
 
-    public Inventory getInventory() { return inventory; }
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
     }
 
     public void setInventory(Inventory inventory) {
@@ -73,10 +80,6 @@ public class Rebel {
 
     public Integer getReportCounter() {
         return reportCounter;
-    }
-
-    public void setReportCounter(Integer reportCounter) {
-        this.reportCounter = reportCounter;
     }
 
     public void setReportCounterUp() {
@@ -97,6 +100,6 @@ public class Rebel {
 
     @Override
     public String toString() {
-        return "Rebel { " + "ID=" + id + ", name='" + name + '\'' + ", age=" + age + ", gender='" + gender + '\'' + ", reportCounter=" + reportCounter + " }";
+        return "Rebel{" + "id=" + id + ", name='" + name + '\'' + ", age=" + age + ", gender='" + gender + '\'' + ", isTraitor=" + isTraitor() + '}';
     }
 }

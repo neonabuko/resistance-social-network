@@ -1,6 +1,5 @@
 package com.api.resistancesocialnetwork.repositories.repositoriesinmemory;
 
-import com.api.resistancesocialnetwork.model.Inventory;
 import com.api.resistancesocialnetwork.model.Item;
 import com.api.resistancesocialnetwork.repositories.interfacerepositories.ItemRepository;
 
@@ -18,6 +17,10 @@ public class ItemRepositoryInMemory implements ItemRepository {
     @Override
     public void save(Item item) {
         itemList.add(item);
+    }
+
+    public void deleteAllInMem() {
+        itemList.clear();
     }
 
     @Override
@@ -41,8 +44,7 @@ public class ItemRepositoryInMemory implements ItemRepository {
     }
 
     @Override
-    public void setOwnerInventory(Item item, Inventory owner) {
-        item.setInventory(owner);
-        itemList.set(itemList.indexOf(item), item);
+    public Optional<Item> findItemByNameAndInventoryId(Integer inventoryId, String itemName) {
+        return Optional.empty();
     }
 }

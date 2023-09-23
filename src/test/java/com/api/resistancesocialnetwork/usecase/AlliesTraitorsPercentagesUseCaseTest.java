@@ -9,13 +9,13 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AlliesTraitorsPercentagesUseCaseTest {
-    private final RebelRepositoryInMemory rebelRepo = new RebelRepositoryInMemory();
-    private final AlliesTraitorsPercentagesUseCase alliesTraitorsPercentagesUseCase = new AlliesTraitorsPercentagesUseCase(rebelRepo);
+    private final RebelRepositoryInMemory rebelRepoInMem = new RebelRepositoryInMemory();
+    private final AlliesTraitorsPercentagesUseCase alliesTraitorsPercentagesUseCase = new AlliesTraitorsPercentagesUseCase(rebelRepoInMem);
 
     @Test
     void should_return_percentages_string() {
         Rebel luke = new Rebel("luke", 28, "male");
-        rebelRepo.save(luke);
+        rebelRepoInMem.saveInMem(luke);
 
         List<Double> actualDecimals = alliesTraitorsPercentagesUseCase.handle();
 

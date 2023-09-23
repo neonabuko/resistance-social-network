@@ -1,6 +1,5 @@
 package com.api.resistancesocialnetwork.repositories.interfacerepositories;
 
-import com.api.resistancesocialnetwork.model.Inventory;
 import com.api.resistancesocialnetwork.model.Item;
 
 import java.util.List;
@@ -17,5 +16,5 @@ public interface ItemRepository {
 
     void saveAll(List<Item> items);
 
-    void setOwnerInventory(Item item, Inventory inventory);
+    Optional<Item> findItemByNameAndInventoryId(Integer inventoryId, String itemName);
 }

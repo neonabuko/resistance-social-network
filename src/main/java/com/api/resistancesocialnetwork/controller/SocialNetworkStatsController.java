@@ -1,7 +1,6 @@
 package com.api.resistancesocialnetwork.controller;
 
 import com.api.resistancesocialnetwork.usecase.ShowAlliesUseCase;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,7 +11,6 @@ import java.util.List;
 public class SocialNetworkStatsController {
     private final ShowAlliesUseCase showAlliesUseCase;
 
-    @Autowired
     public SocialNetworkStatsController(ShowAlliesUseCase showAlliesUseCase) {
         this.showAlliesUseCase = showAlliesUseCase;
     }

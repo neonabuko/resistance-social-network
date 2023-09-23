@@ -24,9 +24,7 @@ class DataFormatRulesTest {
     @Test
     void should_throw_IllegalStateException_when_coordinates_not_filled() {
         DataFormatRules dataFormatRules = new DataFormatRules();
-        Exception e = assertThrows(IllegalStateException.class, () ->
-                dataFormatRules.handle(null, 180)
-        );
+        Exception e = assertThrows(IllegalStateException.class, () -> dataFormatRules.handle(null, 180));
         assertTrue(e.getMessage().contains("all parameters required"));
     }
 

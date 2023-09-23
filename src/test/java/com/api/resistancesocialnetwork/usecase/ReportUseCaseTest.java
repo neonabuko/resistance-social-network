@@ -12,9 +12,10 @@ public class ReportUseCaseTest {
 
     @Test
     void should_report_a_rebel() throws Exception {
-        Rebel rebel1 = new Rebel("zezinho",1,"masculino");
-        Rebel rebel2 = new Rebel("pedrinho",1,"feminino");
-
+        Rebel rebel1 = new Rebel("zezinho", 1, "masculino");
+        Rebel rebel2 = new Rebel("pedrinho", 1, "feminino");
+        rebel1.setId(1);
+        rebel2.setId(2);
         rebelRepoInMem.saveInMem(rebel1);
         rebelRepoInMem.saveInMem(rebel2);
 

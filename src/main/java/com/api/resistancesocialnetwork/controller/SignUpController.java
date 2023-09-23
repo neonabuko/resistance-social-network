@@ -1,9 +1,7 @@
 package com.api.resistancesocialnetwork.controller;
 
-
 import com.api.resistancesocialnetwork.request.RequestSignUp;
 import com.api.resistancesocialnetwork.usecase.SignupUseCase;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class SignUpController {
     private final SignupUseCase signupUseCase;
 
-    @Autowired
     public SignUpController(SignupUseCase signupUseCase) {
         this.signupUseCase = signupUseCase;
     }

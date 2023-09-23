@@ -16,8 +16,13 @@ public class RebelRepositoryInMemory implements RebelRepository {
 
     @Override
     public void save(Rebel rebel) {
-        rebelList.add(rebel);
+
     }
+
+    public void deleteAllInMem() {
+        rebelList.clear();
+    }
+
     @Override
     public Optional<Rebel> findById(Integer id) {
         return rebelList.stream().filter(rebel -> rebel.getId().equals(id)).findFirst();

@@ -4,10 +4,15 @@ import jakarta.persistence.*;
 
 @Entity(name = "location")
 public class Location {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "location_id")
     private Integer id;
+    @Column(name = "latitude")
     private Double latitude;
+    @Column(name = "longitude")
     private Double longitude;
+    @Column(name = "base")
     private String base;
 
     @OneToOne
@@ -18,11 +23,9 @@ public class Location {
         this.latitude = latitude;
         this.longitude = longitude;
         this.base = base;
-        id = 0;
     }
 
     public Location() {
-        id = 0;
     }
 
     public void setNewLocation(Double newLatitude, Double newLongitude, String newBase) {
@@ -33,10 +36,6 @@ public class Location {
 
     public Rebel getRebel() {
         return rebel;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public void setRebel(Rebel rebel) {
@@ -57,6 +56,10 @@ public class Location {
 
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @Override

@@ -7,13 +7,21 @@ import com.api.resistancesocialnetwork.repositories.interfacerepositories.Invent
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+interface InventoryRepositoryJpa extends JpaRepository<Inventory, Integer> {
+    default Optional<Item> findItemByName(Integer id, String itemName) {
+        if (findById(id).isPresent())
+            return findById(id).get().getItems().stream().filter(item -> item.getName().equals(itemName)).findFirst();
+        else return Optional.empty();
+    }
+}
+
 @Component
 public class InventoryRepositoryInDatabase implements InventoryRepository {
+
     private final InventoryRepositoryJpa adapter;
 
     @Autowired
@@ -45,15 +53,5 @@ public class InventoryRepositoryInDatabase implements InventoryRepository {
     public Optional<Item> findItemByName(Integer id, String itemName) {
         return adapter.findItemByName(id, itemName);
     }
-}
 
-@Repository
-interface InventoryRepositoryJpa extends JpaRepository<Inventory, Integer> {
-    default Optional<Item> findItemByName(Integer id, String itemName) {
-        if (findById(id).isPresent())
-            return findById(id).get().getItems().stream()
-                .filter(item -> item.getName().equals(itemName))
-                .findFirst();
-        else return Optional.empty();
-    }
 }

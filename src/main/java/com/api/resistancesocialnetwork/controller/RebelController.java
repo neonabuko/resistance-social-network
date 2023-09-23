@@ -8,7 +8,6 @@ import com.api.resistancesocialnetwork.rules.TradeFailureException;
 import com.api.resistancesocialnetwork.usecase.LocationUpdateUseCase;
 import com.api.resistancesocialnetwork.usecase.ReportUseCase;
 import com.api.resistancesocialnetwork.usecase.TradeUseCase;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,13 +21,11 @@ public class RebelController {
     private final LocationUpdateUseCase locationUpdateUseCase;
     private final TradeUseCase tradeUseCase;
 
-    @Autowired
     public RebelController(ReportUseCase reportUseCase, LocationUpdateUseCase locationUpdateUseCase, TradeUseCase tradeUseCase) {
         this.reportUseCase = reportUseCase;
         this.locationUpdateUseCase = locationUpdateUseCase;
         this.tradeUseCase = tradeUseCase;
     }
-
 
     @PatchMapping("/report")
     public ResponseEntity<String> handleReport(@RequestBody RequestReport requestReport) {

@@ -9,7 +9,10 @@ import com.api.resistancesocialnetwork.rules.TradeRules;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
+@Transactional
 public class TradeUseCase {
     private final InventoryRepository inventoryRepo;
     private final TradeRules tradeRules;
@@ -21,25 +24,22 @@ public class TradeUseCase {
         this.itemRepo = itemRepo;
     }
 
-    @Transactional
-    public void handle(Integer sourceInventoryId, Item sourceTradeItem,
-                       Integer targetInventoryId, Item targetTradeItem) throws TradeFailureException {
+    public void handle(Integer sourceInventoryId, Item sourceTradeItem, Integer targetInventoryId, Item targetTradeItem) throws TradeFailureException {
+        List<Inventory> tradersInventories = tradeRules.check(sourceInventoryId, sourceTradeItem, targetInventoryId, targetTradeItem);
 
-        tradeRules.check(sourceInventoryId, sourceTradeItem, targetInventoryId, targetTradeItem);
+        Inventory sourceInv = tradersInventories.get(0);
+        Inventory targetInv = tradersInventories.get(1);
 
-        Inventory sourceInv = inventoryRepo.findById(sourceInventoryId).orElseThrow(
-                () -> new TradeFailureException("source inventory not found"));
-        Inventory targetInv = inventoryRepo.findById(targetInventoryId).orElseThrow(
-                () -> new TradeFailureException("target inventory not found"));
+        Item actualSourceItem = itemRepo.findItemByNameAndInventoryId(sourceInventoryId, sourceTradeItem.getName()).get();
+        actualSourceItem.setInventory(targetInv);
+        itemRepo.save(actualSourceItem);
 
-        itemRepo.setOwnerInventory(targetTradeItem, sourceInv);
-        itemRepo.setOwnerInventory(sourceTradeItem, targetInv);
+        Item actualTargetItem = itemRepo.findItemByNameAndInventoryId(targetInventoryId, targetTradeItem.getName()).get();
+        actualTargetItem.setInventory(sourceInv);
+        itemRepo.save(actualTargetItem);
 
-        itemRepo.save(sourceTradeItem);
-        itemRepo.save(targetTradeItem);
-
-        sourceInv.getItems().set(sourceInv.getItems().indexOf(sourceTradeItem), targetTradeItem);
-        targetInv.getItems().set(targetInv.getItems().indexOf(targetTradeItem), sourceTradeItem);
+        sourceInv.getItems().set(sourceInv.getItems().indexOf(actualSourceItem), actualTargetItem);
+        targetInv.getItems().set(targetInv.getItems().indexOf(actualTargetItem), actualSourceItem);
 
         inventoryRepo.save(sourceInv);
         inventoryRepo.save(targetInv);

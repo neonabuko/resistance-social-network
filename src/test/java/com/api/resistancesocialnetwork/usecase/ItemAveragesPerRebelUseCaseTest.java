@@ -51,7 +51,7 @@ class ItemAveragesPerRebelUseCaseTest {
         Map<String, Integer> expectedAverages = new HashMap<>();
         expectedAverages.put("doritos", 1);
         expectedAverages.put("water", 1);
-        expectedAverages.put("fandango",1);
+        expectedAverages.put("fandango", 1);
         Map<String, Integer> actualAverages = itemAveragesPerRebelUseCase.handle();
         assertEquals(expectedAverages.toString(), actualAverages.toString());
     }

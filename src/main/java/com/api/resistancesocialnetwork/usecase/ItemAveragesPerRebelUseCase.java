@@ -10,16 +10,16 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional
 public class ItemAveragesPerRebelUseCase {
     private final InventoryRepository inventoryRepository;
 
     public ItemAveragesPerRebelUseCase(InventoryRepository inventoryRepository) {
         this.inventoryRepository = inventoryRepository;
     }
-    @Transactional
+
     public Map<String, Integer> handle() {
-        List<Item> allItemsInInventoryRepo = inventoryRepository.findAll().stream()
-                .flatMap(inv -> inv.getItems().stream()).toList();
+        List<Item> allItemsInInventoryRepo = inventoryRepository.findAll().stream().flatMap(inv -> inv.getItems().stream()).toList();
 
         Map<String, Integer> itemTotalAmountsMap = new HashMap<>();
         Map<String, Integer> itemAveragesMap = new HashMap<>();
