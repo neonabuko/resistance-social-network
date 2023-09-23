@@ -49,6 +49,6 @@ public class TradeRules {
             throw new TradeFailureException("points do not match");
         }
 
-        return new ArrayList<>(Arrays.asList(sourceInventory, targetInventory));
+        return Arrays.asList(sourceInventory, targetInventory);
     }
 }

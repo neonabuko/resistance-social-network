@@ -16,7 +16,9 @@ public class ShowAlliesUseCase {
     private final LocationRepository locationRepo;
     private final InventoryRepository inventoryRepo;
 
-    public ShowAlliesUseCase(RebelRepository rebelRepo, LocationRepository locationRepo, InventoryRepository inventoryRepo) {
+    public ShowAlliesUseCase(RebelRepository rebelRepo,
+                             LocationRepository locationRepo,
+                             InventoryRepository inventoryRepo) {
         this.rebelRepo = rebelRepo;
         this.locationRepo = locationRepo;
         this.inventoryRepo = inventoryRepo;
@@ -24,14 +26,18 @@ public class ShowAlliesUseCase {
 
     public List<String> handle() {
         List<String> allies = new ArrayList<>();
+        List<Rebel> rebelsList = rebelRepo.findAll();
 
-        for (Rebel rebel : rebelRepo.findAll()) {
+        if (rebelsList.isEmpty()) return allies;
+
+        for (Rebel rebel : rebelsList) {
             allies.addAll(Arrays.asList(
                     rebel.toString(),
                     locationRepo.findById(rebel.getId()).get().toString(),
                     inventoryRepo.findById(rebel.getId()).get().toString()
             ));
         }
+
         return allies;
     }
 }

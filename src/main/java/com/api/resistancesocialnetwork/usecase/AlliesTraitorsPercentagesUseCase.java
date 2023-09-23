@@ -4,7 +4,6 @@ import com.api.resistancesocialnetwork.model.Rebel;
 import com.api.resistancesocialnetwork.repositories.interfacerepositories.RebelRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,14 +17,18 @@ public class AlliesTraitorsPercentagesUseCase {
     }
 
     public List<Double> handle() {
-        List<Rebel> allRebels = rebelRepository.findAll();
+        List<Rebel> rebelsList = rebelRepository.findAll();
 
-        double allRebelsCount = allRebels.size();
-        double traitors = allRebels.stream().filter(Rebel::isTraitor).count();
+        if (rebelsList.isEmpty()) {
+            return List.of();
+        }
 
-        double traitorsDecimal = traitors / allRebelsCount;
-        double alliesDecimal = 1 - traitorsDecimal;
+        double total_REBELS = rebelsList.size();
+        double total_TRAITORS = rebelsList.stream().filter(Rebel::isTraitor).count();
 
-        return new ArrayList<>(Arrays.asList(alliesDecimal, traitorsDecimal));
+        double TRAITOR_portion = total_TRAITORS / total_REBELS;
+        double ALLY_portion = 1 - TRAITOR_portion;
+
+        return Arrays.asList(ALLY_portion, TRAITOR_portion);
     }
 }

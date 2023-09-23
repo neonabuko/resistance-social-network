@@ -15,7 +15,7 @@ public class ReportUseCase {
         this.reportRules = reportRules;
     }
 
-    public void handle(Integer sourceId, Integer targetId) throws Exception {
+    public void handle(Integer sourceId, Integer targetId) throws IllegalArgumentException {
         reportRules.handle(sourceId, targetId);
 
         Rebel sourceRebel = rebelRepository.findById(sourceId).get();

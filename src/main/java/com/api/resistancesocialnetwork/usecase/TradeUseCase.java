@@ -31,20 +31,20 @@ public class TradeUseCase {
                        String targetTradeItemName) throws TradeFailureException {
         List<Inventory> inventoriesInTrade = tradeRules.check(sourceInventoryId, sourceTradeItemName, targetInventoryId, targetTradeItemName);
 
-        Inventory sourceInv = inventoriesInTrade.get(0);
-        Inventory targetInv = inventoriesInTrade.get(1);
+        Inventory sourceInventory = inventoriesInTrade.get(0);
+        Inventory targetInventory = inventoriesInTrade.get(1);
 
-        Item actualSourceItem = sourceInv.findItemByName(sourceTradeItemName).get();
-        Item actualTargetItem = targetInv.findItemByName(targetTradeItemName).get();
+        Item sourceItem = sourceInventory.findItemByName(sourceTradeItemName).get();
+        Item targetItem = targetInventory.findItemByName(targetTradeItemName).get();
 
-        sourceInv.getItems().set(sourceInv.getItems().indexOf(actualSourceItem), actualTargetItem);
-        targetInv.getItems().set(targetInv.getItems().indexOf(actualTargetItem), actualSourceItem);
+        sourceInventory.getItems().set(sourceInventory.getItems().indexOf(sourceItem), targetItem);
+        targetInventory.getItems().set(targetInventory.getItems().indexOf(targetItem), sourceItem);
 
-        actualSourceItem.setInventory(targetInv);
-        actualTargetItem.setInventory(sourceInv);
+        sourceItem.setInventory(targetInventory);
+        targetItem.setInventory(sourceInventory);
 
-        itemRepo.saveAll(Arrays.asList(actualSourceItem, actualTargetItem));
-        inventoryRepo.save(sourceInv);
-        inventoryRepo.save(targetInv);
+        itemRepo.saveAll(Arrays.asList(sourceItem, targetItem));
+        inventoryRepo.save(sourceInventory);
+        inventoryRepo.save(targetInventory);
     }
 }

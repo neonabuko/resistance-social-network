@@ -26,6 +26,8 @@ public class ReportRules {
                 () -> new IllegalArgumentException("must provide target rebel id")))
         ) throw new IllegalArgumentException("target rebel not found");
 
+        if (targetId.equals(sourceId)) throw new IllegalArgumentException("can not report yourself");
+
         if (rebelRepo.findById(sourceId).get().getReportedRebels().contains(targetId))
             throw new IllegalArgumentException("rebel already reported");
     }

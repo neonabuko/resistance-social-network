@@ -56,4 +56,10 @@ class ReportRulesTest {
         Exception e = assertThrows(Exception.class, () -> reportRules.handle(rebel1.getId(), rebel2.getId()));
         assertTrue(e.getMessage().contains("rebel already reported"));
     }
+
+    @Test
+    void should_throw_IllegalArgumentException_when_source_reports_himself() throws Exception {
+        Exception e = assertThrows(Exception.class, () -> reportRules.handle(rebel1.getId(), rebel1.getId()));
+        assertTrue(e.getMessage().contains("can not report yourself"));
+    }
 }

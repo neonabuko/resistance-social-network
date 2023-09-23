@@ -17,7 +17,6 @@ public class LocationUpdateUseCase {
 
     public void handle(Integer locationId, Double latitude, Double longitude, String base) {
         Location formattedLocation = locationUpdateRules.handle(locationId, latitude, longitude, base);
-
         locationRepository.save(formattedLocation);
     }
 }

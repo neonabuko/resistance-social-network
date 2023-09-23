@@ -16,16 +16,18 @@ class DataFormatRulesTest {
     @Test
     void should_return_30char_string_when_over_char() {
         DataFormatRules dataFormatRules = new DataFormatRules();
-        String expectedString = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-        String actualString = dataFormatRules.handle("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        String expectedString = "a".repeat(30);
+        String actualString = dataFormatRules.handle("a".repeat(31));
         assertEquals(expectedString, actualString);
     }
 
     @Test
-    void should_throw_IllegalStateException_when_coordinates_not_filled() {
+    void should_throw_IllegalStateException_when_coordinate_not_provided() {
         DataFormatRules dataFormatRules = new DataFormatRules();
-        Exception e = assertThrows(IllegalStateException.class, () -> dataFormatRules.handle(null, 180));
-        assertTrue(e.getMessage().contains("all parameters required"));
+        Exception e = assertThrows(IllegalStateException.class,
+                () -> dataFormatRules.handle(null, 180)
+        );
+        assertTrue(e.getMessage().contains("coordinates required for location"));
     }
 
     @Test

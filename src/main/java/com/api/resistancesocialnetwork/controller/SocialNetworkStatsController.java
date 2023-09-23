@@ -18,6 +18,7 @@ public class SocialNetworkStatsController {
     private final ShowAlliesUseCase showAlliesUseCase;
     private final AlliesTraitorsPercentagesUseCase alliesTraitorsPercentagesUseCase;
     private final ItemAveragesPerRebelUseCase itemAveragesPerRebelUseCase;
+    private final NumberFormat decimalToPercentage = NumberFormat.getPercentInstance();
 
     public SocialNetworkStatsController(ShowAlliesUseCase showAlliesUseCase,
                                         AlliesTraitorsPercentagesUseCase alliesTraitorsPercentagesUseCase,
@@ -27,24 +28,25 @@ public class SocialNetworkStatsController {
         this.itemAveragesPerRebelUseCase = itemAveragesPerRebelUseCase;
     }
 
-    @GetMapping("/")
-    public ResponseEntity<String> displayMainPage() {
-        return ResponseEntity.ok("Welcome to the Star Wars Resistance Social Network.");
-    }
-
     @GetMapping("/show-allies")
     public ResponseEntity<String> showAllAllies() {
         List<String> allies = showAlliesUseCase.handle();
-        for (String s : allies) {
-            if (s.startsWith("Inventory")) allies.set(allies.indexOf(s), s + "\n" + "─".repeat(50) + "¬");
-        }
+
+        if (allies.isEmpty()) return ResponseEntity.status(204).body("No rebels to show");
+
+        for (String entityString : allies)
+            if (entityString.startsWith("Inventory"))
+                allies.set(allies.indexOf(entityString), entityString + "\n" + "─".repeat(50) + "¬");
+
         return ResponseEntity.ok(String.join("\n", allies));
     }
 
     @GetMapping("/show-allies-traitors-percentages")
     public ResponseEntity<String> showAlliesTraitorsPercentages() {
         List<Double> decimalsList = alliesTraitorsPercentagesUseCase.handle();
-        NumberFormat decimalToPercentage = NumberFormat.getPercentInstance();
+
+        if (decimalsList.isEmpty()) return ResponseEntity.status(204).body("No percentages to show");
+
         String percentages = "Allies: " + decimalToPercentage.format(decimalsList.get(0)) + ", " +
                              "Traitors: " + decimalToPercentage.format(decimalsList.get(1));
         return ResponseEntity.ok(percentages);
@@ -53,7 +55,8 @@ public class SocialNetworkStatsController {
     @GetMapping("/show-average-number-items")
     public ResponseEntity<String> showItemAverages() {
         Map<String, Double> averagesMap = itemAveragesPerRebelUseCase.handle();
-        String response = "Average number of items per rebel: \n" + averagesMap.toString()
+        String response = "Average number of items per rebel: \n" +
+                averagesMap.toString()
                 .replace("{", "")
                 .replace("}", "");
         return ResponseEntity.ok(response);

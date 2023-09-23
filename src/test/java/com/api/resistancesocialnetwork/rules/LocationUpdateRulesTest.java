@@ -33,19 +33,19 @@ class LocationUpdateRulesTest {
     }
 
     @Test
-    void should_throw_IllegalStateException_when_latitude_not_filled() {
+    void should_throw_IllegalStateException_when_latitude_not_provided() {
         Exception e = assertThrows(IllegalStateException.class, () -> locationUpdateRules.handle(oldLocation.getId(), null, 32.1, "base"));
-        assertTrue(e.getMessage().contains("all parameters required"));
+        assertTrue(e.getMessage().contains("coordinates required for location"));
     }
 
     @Test
-    void should_throw_IllegalStateException_when_longitude_not_filled() {
+    void should_throw_IllegalStateException_when_longitude_not_provided() {
         Exception e = assertThrows(IllegalStateException.class, () -> locationUpdateRules.handle(oldLocation.getId(), 23.1, null, "base"));
-        assertTrue(e.getMessage().contains("all parameters required"));
+        assertTrue(e.getMessage().contains("coordinates required for location"));
     }
 
     @Test
-    void should_set_latitude_to_minus_90_when_less_than_minus_90() {
+    void should_set_latitude_to_minus_90_when_under_negative_90() {
         Location newLocation = locationUpdateRules.handle(oldLocation.getId(), -9121.2, 11.1, "base");
         locationRepoInMem.saveInMem(newLocation);
         assertEquals(-90, locationRepoInMem.findById(newLocation.getId()).get().getLatitude());
@@ -59,7 +59,7 @@ class LocationUpdateRulesTest {
     }
 
     @Test
-    void should_set_longitude_to_minus_180_when_less_than_minus_180() {
+    void should_set_longitude_to_minus_180_when_under_negative_180() {
         Location newLocation = locationUpdateRules.handle(oldLocation.getId(), 18.2, -124331.23, "base");
         locationRepoInMem.saveInMem(newLocation);
         assertEquals(-180, locationRepoInMem.findById(newLocation.getId()).get().getLongitude());
@@ -80,8 +80,8 @@ class LocationUpdateRulesTest {
     }
 
     @Test
-    void should_return_30char_base_when_over_30char() {
-        Location newLocation = locationUpdateRules.handle(oldLocation.getId(), 24.2, 3.2, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+    void should_return_30char_base_when_over_30char_provided() {
+        Location newLocation = locationUpdateRules.handle(oldLocation.getId(), 24.2, 3.2, "a".repeat(31));
         locationRepoInMem.saveInMem(newLocation);
         assertEquals(30, locationRepoInMem.findById(newLocation.getId()).get().getBase().length());
     }

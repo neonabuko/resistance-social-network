@@ -27,29 +27,33 @@ public class RebelController {
     }
 
     @PatchMapping("/report")
-    public ResponseEntity<String> handleReport(@RequestBody RequestReport requestReport) throws Exception {
-        reportUseCase.handle(requestReport.sourceId(), requestReport.targetId());
+    public ResponseEntity<String> handleReport(@RequestBody RequestReport requestReport) {
+        reportUseCase.handle(
+                requestReport.sourceId(),
+                requestReport.targetId()
+        );
         return ResponseEntity.ok("Rebel reported.");
     }
 
     @PatchMapping("/update-location")
-    public ResponseEntity<String> handleLocationUpdate(@RequestBody RequestLocationUpdate requestLocationUpdate) {
-        Double newLatitude = requestLocationUpdate.latitude();
-        Double newLongitude = requestLocationUpdate.longitude();
-        String newBase = requestLocationUpdate.base();
-
-        locationUpdateUseCase.handle(requestLocationUpdate.locationId(), newLatitude, newLongitude, newBase);
+    public ResponseEntity<String> handleLocationUpdate(@RequestBody RequestLocationUpdate reqLocUpdate) {
+        locationUpdateUseCase.handle(
+                reqLocUpdate.locationId(),
+                reqLocUpdate.latitude(),
+                reqLocUpdate.longitude(),
+                reqLocUpdate.base()
+        );
         return ResponseEntity.ok("Location updated.");
     }
 
     @PatchMapping("/trade")
-    public ResponseEntity<String> handleTrade(@RequestBody RequestTrade requestTrade) throws TradeFailureException {
-        Integer sourceInventoryId = requestTrade.sourceInventoryId();
-        String sourceTradeItem = requestTrade.sourceTradeItemName();
-        Integer targetInventoryId = requestTrade.targetInventoryId();
-        String targetTradeItem = requestTrade.targetTradeItemName();
-
-        tradeUseCase.handle(sourceInventoryId, sourceTradeItem, targetInventoryId, targetTradeItem);
+    public ResponseEntity<String> handleTrade(@RequestBody RequestTrade reqTrade) throws TradeFailureException {
+        tradeUseCase.handle(
+                reqTrade.sourceInventoryId(),
+                reqTrade.sourceTradeItemName(),
+                reqTrade.targetInventoryId(),
+                reqTrade.targetTradeItemName()
+        );
         return ResponseEntity.ok("Trade successful");
     }
 }

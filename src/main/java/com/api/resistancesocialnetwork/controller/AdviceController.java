@@ -34,6 +34,4 @@ public class AdviceController {
     public ResponseEntity<String> handleIllegalStateException(IllegalStateException e) {
         return ResponseEntity.status(400).body(e.getMessage());
     }
-
-
 }
