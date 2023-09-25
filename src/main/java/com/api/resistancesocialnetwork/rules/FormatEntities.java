@@ -23,7 +23,7 @@ public class FormatEntities {
         );
         rebel.setStats(
                 formatData.formatString(rebel.getName(), "rebel name"),
-                formatData.formatInteger(rebel.getAge()),
+                formatData.formatInteger(rebel.getAge(), "rebel age"),
                 formatData.formatString(rebel.getGender(), "rebel gender")
         );
     }
@@ -40,7 +40,7 @@ public class FormatEntities {
         );
     }
 
-    public void formatItems(Inventory inventory) {
+    public void formatInventory(Inventory inventory) {
         inventory = Optional.ofNullable(inventory).orElseThrow(
                 () -> new IllegalStateException("must provide inventory parameters")
         );
@@ -51,7 +51,7 @@ public class FormatEntities {
             );
 
             item.setName(formatData.formatString(item.getName(), "item name"));
-            item.setPrice(formatData.formatInteger(item.getPrice()));
+            item.setPrice(formatData.formatInteger(item.getPrice(), "item price"));
         }
     }
 }

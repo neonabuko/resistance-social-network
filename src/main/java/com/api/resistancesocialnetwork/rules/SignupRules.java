@@ -29,6 +29,6 @@ public class SignupRules {
     }
 
     private void assert_inventory_valid(Inventory inventory){
-        formatEntities.formatItems(inventory);
+        formatEntities.formatInventory(inventory);
     }
 }

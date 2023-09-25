@@ -19,8 +19,10 @@ public class FormatData {
         );
     }
 
-    public Integer formatInteger(Integer integer) {
-        int output = Math.min(Optional.ofNullable(integer).orElse(0), 100);
+    public Integer formatInteger(Integer integer, String paramName) {
+        int output = Math.min(Optional.ofNullable(integer).orElseThrow(
+                () -> new IllegalStateException("must provide " + paramName))
+                , 100);
         return Math.max(output, 0);
     }
 }
