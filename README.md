@@ -1,14 +1,15 @@
-![Resistance_Emblem_Star_Wars svg](https://github.com/neonabuko/resistance-social-network/assets/83613676/72382598-dbd3-4624-8dc7-3f2c645f3af5)
-
-# Star Wars Resistance Social Network
-
-_A REST API challenge._
+<div align="center">
+  <img src="https://github.com/neonabuko/resistance-social-network/assets/83613676/df0eaabc-10f3-4b5e-a09b-db7896bce003" alt="Star Wars Resistance Emblem" width="180" height="100">
+  <h1>Star Wars Resistance Social Network</h1>
+  <h3>A REST API coding challenge</h3>
+</div>
 
 > The empire continues its relentless struggle to conquer the galaxy. As a resistance soldier, I have been assigned to
 > develop a system for sharing resources among rebels.
 
-### Implements:
+### Java Version: 21
 
+### Implements:
 - [x] Spring Web
 - [x] Spring Data JPA
 - [x] Hibernate (H2)
@@ -26,3 +27,15 @@ _A REST API challenge._
 1. Traitors can't trade
 2. Traitors can't show up on alliance reports
 3. Both parties in a trade must offer the same amount of points
+
+<div align="left">
+    <footer>
+        <br>
+        <p>Contributors:
+            <br>
+            <a href="https://github.com/neonabuko/">@neonabuko</a>
+            <br>
+            <a href=https://github.com/alissonspada>@alissonspada</a>
+        </p>
+    </footer>
+</div>
