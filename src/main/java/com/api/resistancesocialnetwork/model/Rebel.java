@@ -96,7 +96,7 @@ public class Rebel {
     @Override
     public String toString() {
         return "Rebel " +
-                "\n\tid=" + id +
+                "id " + id +
                 "\n\tname='" + name + '\'' +
                 "\n\tage=" + age +
                 "\n\tgender='" + gender + '\'' +

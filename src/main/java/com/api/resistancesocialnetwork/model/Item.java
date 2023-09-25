@@ -45,8 +45,8 @@ public class Item {
 
     @Override
     public String toString() {
-        return "\n\tItem { " +
-                "\n\t\tid=" + id +
+        return "\n\tItem " +
+                "id " + id + " {" +
                 "\n\t\tname=" + name +
                 "\n\t\tprice=" + price + "\n" +
                 "\t}";

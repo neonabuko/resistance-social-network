@@ -15,10 +15,10 @@ public class AdviceController {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
         String mostSpecificCause = e.getMostSpecificCause().getMessage();
-        String localizedError = mostSpecificCause.substring(mostSpecificCause.indexOf("line")).replace("]", "");
+        String localizedErrorInJSON = mostSpecificCause.substring(mostSpecificCause.indexOf("line")).replace("]", "");
 
         if (mostSpecificCause.contains("Numeric value") && mostSpecificCause.contains("out of range"))
-            return ResponseEntity.status(400).body("Number too large at " + localizedError);
+            return ResponseEntity.status(400).body("Value out of range\n" + localizedErrorInJSON);
 
         else return ResponseEntity.status(400).body(mostSpecificCause);
     }

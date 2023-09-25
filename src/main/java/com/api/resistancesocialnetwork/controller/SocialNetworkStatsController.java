@@ -36,7 +36,7 @@ public class SocialNetworkStatsController {
 
         for (String entityString : allies)
             if (entityString.startsWith("Inventory"))
-                allies.set(allies.indexOf(entityString), entityString + "\n" + "─".repeat(50) + "¬");
+                allies.set(allies.indexOf(entityString), entityString + "\n" + "─".repeat(50));
 
         return ResponseEntity.ok(String.join("\n", allies));
     }
@@ -49,7 +49,7 @@ public class SocialNetworkStatsController {
 
         String percentages = "Allies: " + decimalToPercentage.format(decimalsList.get(0)) + ", " +
                              "Traitors: " + decimalToPercentage.format(decimalsList.get(1));
-        return ResponseEntity.ok(percentages);
+        return ResponseEntity.ok("Percentages of allies vs. traitors:\n\n" + percentages.replace(", ", "\n"));
     }
 
     @GetMapping("/show-average-number-items")
@@ -58,10 +58,13 @@ public class SocialNetworkStatsController {
 
         if (averagesMap.isEmpty()) return ResponseEntity.ok().body("No average number of items per rebel to show");
 
-        String response = "Average number of items per rebel: \n" +
+        String response = "Average number of items per rebel: \n\n" +
                 averagesMap.toString()
-                .replace("{", "")
-                .replace("}", "");
+                        .replace("{", "")
+                        .replace("}", "")
+                        .replace("=", ": ")
+                        .replace(", ", "\n");
+
         return ResponseEntity.ok(response);
     }
 }
