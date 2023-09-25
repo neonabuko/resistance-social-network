@@ -20,11 +20,13 @@ class SignupRulesTest {
     private final Inventory inventory = new Inventory(Arrays.asList(new Item("food", 1), new Item("water", 2)));
 
     @Test
-    void should_return_name_as_undefined_when_not_provided() {
+    void should_throw_IllegalStateException_when_name_null() {
         rebel.setStats(null, 18, "male");
-        signupRules.handle(rebel, location, inventory);
+        Exception e = assertThrows(IllegalStateException.class, () ->
+                signupRules.handle(rebel, location, inventory)
+        );
         rebelRepositoryInMemory.save(rebel);
-        assertEquals("undefined", rebel.getName());
+        assertTrue(e.getMessage().contains("must provide rebel name"));
     }
 
     @Test
@@ -60,11 +62,13 @@ class SignupRulesTest {
     }
 
     @Test
-    void should_return_gender_undefined_if_not_provided() {
+    void should_throw_IllegalStateException_when_gender_null() {
         rebel.setStats("dummy", 12, null);
-        signupRules.handle(rebel, location, inventory);
+        Exception e = assertThrows(IllegalStateException.class, () ->
+                signupRules.handle(rebel, location, inventory)
+        );
         rebelRepositoryInMemory.save(rebel);
-        assertEquals("undefined", rebel.getGender());
+        assertTrue(e.getMessage().contains("must provide rebel gender"));
     }
 
     @Test

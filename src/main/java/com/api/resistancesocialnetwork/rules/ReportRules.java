@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class ReportRules {
     public void handle(Rebel sourceRebel, Rebel targetRebel) throws IllegalArgumentException {
-        assert_source_not_reporting_himself(sourceRebel, targetRebel);
+        assert_not_self_reporting(sourceRebel, targetRebel);
         assert_target_not_already_reported_by_source(sourceRebel, targetRebel);
     }
 
-    private void assert_source_not_reporting_himself(Rebel sourceRebel, Rebel targetRebel) {
+    private void assert_not_self_reporting(Rebel sourceRebel, Rebel targetRebel) {
         if (sourceRebel.getId().equals(targetRebel.getId())) throw new IllegalArgumentException("can not report yourself");
     }
 

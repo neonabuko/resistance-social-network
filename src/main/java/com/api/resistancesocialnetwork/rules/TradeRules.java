@@ -14,11 +14,8 @@ public class TradeRules {
                        Integer sourceTradeItemId, Integer targetTradeItemId) throws TradeFailureException {
 
         assert_traders_are_allies(sourceInventory.getRebel(), targetInventory.getRebel());
-
-        assert_has_item(sourceInventory, sourceTradeItemId);
-
-        assert_has_item(targetInventory, targetTradeItemId);
-
+        assert_inventory_has_item(sourceInventory, sourceTradeItemId);
+        assert_inventory_has_item(targetInventory, targetTradeItemId);
         assert_points_match(
                 sourceInventory.findItemBy(sourceTradeItemId).get().getPrice(),
                 targetInventory.findItemBy(targetTradeItemId).get().getPrice()
@@ -30,7 +27,7 @@ public class TradeRules {
         if (targetRebel.isTraitor()) throw new TradeFailureException("target rebel is a traitor");
     }
 
-    private void assert_has_item(Inventory inventory, Integer tradeItemId) throws TradeFailureException {
+    private void assert_inventory_has_item(Inventory inventory, Integer tradeItemId) throws TradeFailureException {
         inventory.findItemBy(tradeItemId).orElseThrow(
                 () -> new TradeFailureException("Inventory id " + inventory.getId() + ": item not found")
         );
