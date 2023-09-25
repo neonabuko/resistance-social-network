@@ -50,6 +50,11 @@ public class Inventory {
         this.items = items;
     }
 
+    public void replaceItem(Item previousItem, Item newItem) {
+        items.remove(previousItem);
+        items.add(newItem);
+    }
+
     @Override
     public String toString() {
         return "Inventory " +

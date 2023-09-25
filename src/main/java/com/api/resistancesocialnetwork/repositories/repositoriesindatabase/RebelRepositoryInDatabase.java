@@ -42,4 +42,10 @@ public class RebelRepositoryInDatabase implements RebelRepository {
         return adapter.findAll();
     }
 
+    @Override
+    public void saveAll(List<Rebel> rebels) {
+        adapter.saveAll(rebels);
+    }
+
+
 }

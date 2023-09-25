@@ -40,11 +40,13 @@ class SignupRulesTest {
     }
 
     @Test
-    void should_return_age_0_if_not_provided() {
+    void should_throw_IllegalStateException_if_age_not_provided() {
         rebel.setStats("dummy", null, "base");
-        signupRules.handle(rebel, location, inventory);
+        Exception e = assertThrows(IllegalStateException.class, () ->
+                signupRules.handle(rebel, location, inventory)
+        );
         rebelRepositoryInMemory.save(rebel);
-        assertEquals(0, rebel.getAge());
+        assertTrue(e.getMessage().contains("must provide rebel age"));
     }
 
     @Test

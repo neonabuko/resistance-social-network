@@ -93,6 +93,10 @@ public class Rebel {
         return (reportCounter > 2);
     }
 
+    public void addToReportedRebels(Integer reportedId) {
+        reportedRebels.add(reportedId);
+    }
+
     @Override
     public String toString() {
         return "Rebel " +

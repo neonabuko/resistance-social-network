@@ -19,18 +19,18 @@ public class LocationUpdateUseCase {
     public void handle(LocationUpdateDTO locationUpdateDTO) {
         locationUpdateRules.handle(locationUpdateDTO.location());
 
-        Location referencedLocation = locationRepository.findById(locationUpdateDTO.location().getId()).orElseThrow(
+        Location location_in_repository = locationRepository.findById(locationUpdateDTO.location().getId()).orElseThrow(
                 () -> new IllegalArgumentException("location not found")
         );
 
         Location newLocation = locationUpdateDTO.location();
 
-        referencedLocation.setLocation(
+        location_in_repository.setLocation(
                 newLocation.getLatitude(),
                 newLocation.getLongitude(),
                 newLocation.getBase()
         );
 
-        locationRepository.save(referencedLocation);
+        locationRepository.save(location_in_repository);
     }
 }

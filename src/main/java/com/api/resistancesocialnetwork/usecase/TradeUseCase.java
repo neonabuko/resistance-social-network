@@ -9,6 +9,8 @@ import com.api.resistancesocialnetwork.rules.TradeRules;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+
 @Service
 @Transactional
 public class TradeUseCase {
@@ -38,13 +40,9 @@ public class TradeUseCase {
         Item sourceItem = sourceInventory.findItemBy(tradeDTO.sourceItemId()).get();
         Item targetItem = targetInventory.findItemBy(tradeDTO.targetItemId()).get();
 
-        sourceInventory.getItems().remove(sourceItem);
-        sourceInventory.getItems().add(targetItem);
+        sourceInventory.replaceItem(sourceItem, targetItem);
+        targetInventory.replaceItem(targetItem, sourceItem);
 
-        targetInventory.getItems().remove(targetItem);
-        targetInventory.getItems().add(sourceItem);
-
-        inventoryRepo.save(sourceInventory);
-        inventoryRepo.save(targetInventory);
+        inventoryRepo.saveAll(Arrays.asList(sourceInventory, targetInventory));
     }
 }

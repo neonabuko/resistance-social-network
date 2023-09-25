@@ -13,4 +13,6 @@ public interface RebelRepository {
     boolean existsById(Integer id);
 
     List<Rebel> findAll();
+
+    void saveAll(List<Rebel> rebels);
 }

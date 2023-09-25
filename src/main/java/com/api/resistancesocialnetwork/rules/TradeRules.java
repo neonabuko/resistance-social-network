@@ -11,15 +11,17 @@ import java.util.Objects;
 @Transactional
 public class TradeRules {
     public void handle(Inventory sourceInventory, Inventory targetInventory,
-                       Integer sourceTradeItemId, Integer targetTradeItemId) throws TradeFailureException {
+                       Integer sourceItemId, Integer targetItemId) throws TradeFailureException {
+
 
         assert_traders_are_allies(sourceInventory.getRebel(), targetInventory.getRebel());
-        assert_inventory_has_item(sourceInventory, sourceTradeItemId);
-        assert_inventory_has_item(targetInventory, targetTradeItemId);
-        assert_points_match(
-                sourceInventory.findItemBy(sourceTradeItemId).get().getPrice(),
-                targetInventory.findItemBy(targetTradeItemId).get().getPrice()
-        );
+        assert_inventory_has_item(sourceInventory, sourceItemId);
+        assert_inventory_has_item(targetInventory, targetItemId);
+
+        Integer sourceItemPrice = sourceInventory.findItemBy(sourceItemId).get().getPrice();
+        Integer targetItemPrice = targetInventory.findItemBy(targetItemId).get().getPrice();
+
+        assert_points_match(sourceItemPrice, targetItemPrice);
     }
 
     private void assert_traders_are_allies(Rebel sourceRebel, Rebel targetRebel) throws TradeFailureException {

@@ -24,7 +24,8 @@ public class SignupUseCase {
     public SignupUseCase(RebelRepository rebelRepo,
                          LocationRepository locationRepo,
                          InventoryRepository inventoryRepo,
-                         ItemRepository itemRepository, SignupRules signUpRules) {
+                         ItemRepository itemRepository,
+                         SignupRules signUpRules) {
         this.rebelRepo = rebelRepo;
         this.locationRepo = locationRepo;
         this.inventoryRepo = inventoryRepo;
@@ -52,6 +53,7 @@ public class SignupUseCase {
         formattedRebel.setLocation(formattedLocation);
         formattedRebel.setInventory(formattedInventory);
         rebelRepo.save(formattedRebel);
+
         itemRepository.saveAll(formattedInventory.getItems());
     }
 }

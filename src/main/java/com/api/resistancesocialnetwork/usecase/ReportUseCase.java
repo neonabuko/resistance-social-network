@@ -6,6 +6,8 @@ import com.api.resistancesocialnetwork.request.DTO.ReportDTO;
 import com.api.resistancesocialnetwork.rules.ReportRules;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+
 @Service
 public class ReportUseCase {
     private final RebelRepository rebelRepository;
@@ -27,9 +29,8 @@ public class ReportUseCase {
         reportRules.handle(sourceRebel, targetRebel);
 
         targetRebel.setReportCounterUp();
-        sourceRebel.getReportedRebels().add(targetRebel.getId());
+        sourceRebel.addToReportedRebels(targetRebel.getId());
 
-        rebelRepository.save(sourceRebel);
-        rebelRepository.save(targetRebel);
+        rebelRepository.saveAll(Arrays.asList(sourceRebel, targetRebel));
     }
 }

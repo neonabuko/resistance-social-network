@@ -35,6 +35,11 @@ public class InventoryRepositoryInDatabase implements InventoryRepository {
     }
 
     @Override
+    public void saveAll(List<Inventory> inventories) {
+        adapter.saveAll(inventories);
+    }
+
+    @Override
     public Optional<Inventory> findById(Integer id) {
         return adapter.findById(id);
     }

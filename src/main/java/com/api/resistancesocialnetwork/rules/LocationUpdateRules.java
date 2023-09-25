@@ -16,15 +16,8 @@ public class LocationUpdateRules {
     }
 
     public void handle(Location referencedLocation) {
-        assert_new_location_provided(referencedLocation);
         assert_new_location_id_provided(referencedLocation);
         formatEntities.formatLocation(referencedLocation);
-    }
-
-    private void assert_new_location_provided(Location location) {
-        Optional.ofNullable(location).orElseThrow(
-                () -> new IllegalArgumentException("must provide new location")
-        );
     }
 
     private void assert_new_location_id_provided(Location location) {
