@@ -12,7 +12,8 @@ public class ReportUseCaseTest {
     private final RebelRepositoryInMemory rebelRepoInMem = new RebelRepositoryInMemory();
 
     @Test
-    void reportCounter_should_increase_by_one_after_report() throws Exception {
+    void reportCounter_should_increase_by_one_after_report() {
+        ReportDTO reportDTO = new ReportDTO(1, 2);
         Rebel rebel1 = new Rebel("zezinho", 18, "masculino");
         Rebel rebel2 = new Rebel("pedrinho", 18, "feminino");
         rebel1.setId(1);

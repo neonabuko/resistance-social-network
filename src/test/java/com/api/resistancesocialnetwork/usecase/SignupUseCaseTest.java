@@ -38,8 +38,8 @@ class SignupUseCaseTest {
 
     @BeforeEach
     public void setUp() {
-        signupUseCase.handle(luke, lukeLocation, lukeInv);
-        signupUseCase.handle(leia, leiaLocation, leiaInv);
+        signupUseCase.handle(signupDTOLuke);
+        signupUseCase.handle(signupDTOLeia);
     }
 
     @Test

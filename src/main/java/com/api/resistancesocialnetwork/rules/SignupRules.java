@@ -12,17 +12,25 @@ import java.util.Optional;
 @Service
 public class SignupRules {
 
-    public void format(Rebel rebel, Location location, Inventory inventory) {
-        DataFormatRules dataFormatRules = new DataFormatRules();
+    DataFormatRules dataFormatRules = new DataFormatRules();
 
+    public void handle(Rebel rebel, Location location, Inventory inventory) {
+        check_If_Rebel_Is_Null(rebel);
+        check_If_Location_Is_Null(location);
+        check_If_Inventory_Is_Null(inventory);
+    }
+
+    private void check_If_Rebel_Is_Null(Rebel rebel){
         dataFormatRules.handle(Optional.ofNullable(rebel).orElseThrow(
                 () -> new InvalidDataAccessApiUsageException("must provide rebel parameters")
         ));
+    }
 
-        dataFormatRules.handle(Optional.ofNullable(location).orElseThrow(
-                () -> new InvalidDataAccessApiUsageException("must provide location parameters")
-        ));
+    private void check_If_Location_Is_Null(Location location){
+        dataFormatRules.handleWithException(location);
+    }
 
+    private void check_If_Inventory_Is_Null(Inventory inventory){
         for (Item newItem : Optional.ofNullable(inventory).orElseThrow(
                 () -> new InvalidDataAccessApiUsageException("must provide inventory parameters")).getItems()) {
             newItem.setName(dataFormatRules.handle(newItem.getName()));

@@ -2,6 +2,7 @@ package com.api.resistancesocialnetwork.usecase;
 
 import com.api.resistancesocialnetwork.model.Location;
 import com.api.resistancesocialnetwork.repositories.interfacerepositories.LocationRepository;
+import com.api.resistancesocialnetwork.request.DTO.LocationUpdateDTO;
 import com.api.resistancesocialnetwork.rules.LocationUpdateRules;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +16,23 @@ public class LocationUpdateUseCase {
         this.locationUpdateRules = locationUpdateRules;
     }
 
-    public void handle(Integer locationId, Double latitude, Double longitude, String base) {
-        Location formattedLocation = locationUpdateRules.handle(locationId, latitude, longitude, base);
-        locationRepository.save(formattedLocation);
+    public void handle(LocationUpdateDTO locationUpdateDTO) {
+        Location location = locationRepository.findById(locationUpdateDTO.getLocationId()).orElseThrow(
+                () -> new IllegalArgumentException("location not found")
+        );
+
+        Location formattedLocation = locationUpdateRules.checkIfLocationIsValid(
+                locationUpdateDTO.getLatitude(),
+                locationUpdateDTO.getLongitude(),
+                locationUpdateDTO.getBase()
+        );
+
+        location.setNewLocation(
+                formattedLocation.getLatitude(),
+                formattedLocation.getLongitude(),
+                formattedLocation.getBase()
+        );
+
+        locationRepository.save(location);
     }
 }

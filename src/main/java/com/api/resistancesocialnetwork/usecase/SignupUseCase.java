@@ -29,8 +29,12 @@ public class SignupUseCase {
         this.signUpRules = signUpRules;
     }
 
-    public void handle(Rebel rebel, Location location, Inventory inventory) {
-        new SignupRules().format(rebel, location, inventory);
+    public void handle(SignupDTO signupDTO) {
+        signUpRules.handle(
+                 signupDTO.getRebel(),
+                 signupDTO.getLocation(),
+                 signupDTO.getInventory()
+         );
 
         signupDTO.getLocation().setRebel(signupDTO.getRebel());
         locationRepo.save(signupDTO.getLocation());
@@ -38,7 +42,7 @@ public class SignupUseCase {
         signupDTO.getInventory().setRebel(signupDTO.getRebel());
         inventoryRepo.save(signupDTO.getInventory());
 
-        rebelRepo.save(rebel);
-        itemRepository.saveAll(inventory.getItems());
+        rebelRepo.save(signupDTO.getRebel());
+        itemRepository.saveAll(signupDTO.getInventory().getItems());
     }
 }
