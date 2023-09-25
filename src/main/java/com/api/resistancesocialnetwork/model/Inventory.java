@@ -8,11 +8,11 @@ import java.util.Optional;
 
 @Entity(name = "inventory")
 public class Inventory {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "inventory_id")
     private Integer id;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany
+    @JoinColumn(name = "inventory_id")
     private List<Item> items = new ArrayList<>();
     @OneToOne
     @JoinColumn(name = "rebel_id")

@@ -27,6 +27,7 @@ public class ItemRepositoryInDatabase implements ItemRepository {
         adapter.save(item);
     }
 
+
     @Override
     public Optional<Item> findById(Integer id) {
         return adapter.findById(id);

@@ -2,16 +2,15 @@ package com.api.resistancesocialnetwork.request.DTO;
 
 import java.util.Optional;
 
-public record TradeDTO(Integer sourceInventoryId, Integer sourceTradeItemId, Integer targetInventoryId, Integer targetTradeItemId) {
+public record TradeDTO(Integer sourceInventoryId, Integer sourceItemId, Integer targetInventoryId, Integer targetItemId) {
 
     @Override
     public Integer sourceInventoryId() {
         return Optional.ofNullable(sourceInventoryId).orElse(0);
     }
 
-    @Override
-    public Integer sourceTradeItemId() {
-        return Optional.ofNullable(sourceTradeItemId).orElse(0);
+    public Integer sourceItemId() {
+        return Optional.ofNullable(sourceItemId).orElse(0);
     }
 
     @Override
@@ -19,8 +18,7 @@ public record TradeDTO(Integer sourceInventoryId, Integer sourceTradeItemId, Int
         return Optional.ofNullable(targetInventoryId).orElse(0);
     }
 
-    @Override
-    public Integer targetTradeItemId() {
-        return Optional.ofNullable(targetTradeItemId).orElse(0);
+    public Integer targetItemId() {
+        return Optional.ofNullable(targetItemId).orElse(0);
     }
 }

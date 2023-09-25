@@ -51,7 +51,7 @@ class TradeRulesTest {
         Exception e = assertThrows(TradeFailureException.class,
                 () -> tradeRules.handle(lukeInv, leiaInv, 0, 0)
         );
-        assertTrue(e.getMessage().contains("source item not found"));
+        assertTrue(e.getMessage().contains("Inventory id " + lukeInv.getId() + ": item not found"));
     }
 
     @Test
@@ -59,7 +59,7 @@ class TradeRulesTest {
         Exception e = assertThrows(TradeFailureException.class,
                 () -> tradeRules.handle(lukeInv, leiaInv, 1, 0)
         );
-        assertTrue(e.getMessage().contains("target item not found"));
+        assertTrue(e.getMessage().contains("Inventory id " + leiaInv.getId() + ": item not found"));
     }
 
     @Test
