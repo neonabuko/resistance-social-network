@@ -15,22 +15,22 @@ public class SignupRules {
     DataFormatRules dataFormatRules = new DataFormatRules();
 
     public void handle(Rebel rebel, Location location, Inventory inventory) {
-        check_If_Rebel_Is_Null(rebel);
-        check_If_Location_Is_Null(location);
-        check_If_Inventory_Is_Null(inventory);
+        assert_rebel_not_null(rebel);
+        assert_coordinates_are_valid(location);
+        assert_inventory_is_valid(inventory);
     }
 
-    private void check_If_Rebel_Is_Null(Rebel rebel){
+    private void assert_rebel_not_null(Rebel rebel){
         dataFormatRules.handle(Optional.ofNullable(rebel).orElseThrow(
                 () -> new InvalidDataAccessApiUsageException("must provide rebel parameters")
         ));
     }
 
-    private void check_If_Location_Is_Null(Location location){
+    private void assert_coordinates_are_valid(Location location){
         dataFormatRules.handleWithException(location);
     }
 
-    private void check_If_Inventory_Is_Null(Inventory inventory){
+    private void assert_inventory_is_valid(Inventory inventory){
         for (Item newItem : Optional.ofNullable(inventory).orElseThrow(
                 () -> new InvalidDataAccessApiUsageException("must provide inventory parameters")).getItems()) {
             newItem.setName(dataFormatRules.handle(newItem.getName()));

@@ -44,7 +44,6 @@ public class TradeUseCase {
         targetInventory.getItems().remove(targetItem);
         targetInventory.getItems().add(sourceItem);
 
-
         inventoryRepo.save(sourceInventory);
         inventoryRepo.save(targetInventory);
     }
