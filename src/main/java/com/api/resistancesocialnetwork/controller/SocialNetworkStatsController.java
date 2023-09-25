@@ -32,7 +32,7 @@ public class SocialNetworkStatsController {
     public ResponseEntity<String> showAllAllies() {
         List<String> allies = showAlliesUseCase.handle();
 
-        if (allies.isEmpty()) return ResponseEntity.status(204).body("No rebels to show");
+        if (allies.isEmpty()) return ResponseEntity.ok().body("No rebels to show");
 
         for (String entityString : allies)
             if (entityString.startsWith("Inventory"))
@@ -45,7 +45,7 @@ public class SocialNetworkStatsController {
     public ResponseEntity<String> showAlliesTraitorsPercentages() {
         List<Double> decimalsList = alliesTraitorsPercentagesUseCase.handle();
 
-        if (decimalsList.isEmpty()) return ResponseEntity.status(204).body("No percentages to show");
+        if (decimalsList.isEmpty()) return ResponseEntity.ok().body("No percentages of allies/traitors to show");
 
         String percentages = "Allies: " + decimalToPercentage.format(decimalsList.get(0)) + ", " +
                              "Traitors: " + decimalToPercentage.format(decimalsList.get(1));
@@ -55,6 +55,9 @@ public class SocialNetworkStatsController {
     @GetMapping("/show-average-number-items")
     public ResponseEntity<String> showItemAverages() {
         Map<String, Double> averagesMap = itemAveragesPerRebelUseCase.handle();
+
+        if (averagesMap.isEmpty()) return ResponseEntity.ok().body("No average number of items per rebel to show");
+
         String response = "Average number of items per rebel: \n" +
                 averagesMap.toString()
                 .replace("{", "")

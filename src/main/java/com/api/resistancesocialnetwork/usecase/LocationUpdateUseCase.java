@@ -27,7 +27,7 @@ public class LocationUpdateUseCase {
                 locationUpdateDTO.getBase()
         );
 
-        location.setNewLocation(
+        location.setLocation(
                 formattedLocation.getLatitude(),
                 formattedLocation.getLongitude(),
                 formattedLocation.getBase()

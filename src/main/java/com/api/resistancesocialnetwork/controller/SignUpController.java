@@ -23,7 +23,7 @@ public class SignUpController {
 
     @PostMapping("/signup")
     public ResponseEntity<String> handleSignUp(@RequestBody RequestSignUp requestSignUp) {
-        signupUseCase.handle(requestSignUp.signupDTO());
+        signupUseCase.handle(requestSignUp.signupForm());
         return ResponseEntity.ok("Registration successful");
     }
 }

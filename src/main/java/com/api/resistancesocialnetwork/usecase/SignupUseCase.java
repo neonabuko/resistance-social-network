@@ -1,5 +1,8 @@
 package com.api.resistancesocialnetwork.usecase;
 
+import com.api.resistancesocialnetwork.model.Inventory;
+import com.api.resistancesocialnetwork.model.Location;
+import com.api.resistancesocialnetwork.model.Rebel;
 import com.api.resistancesocialnetwork.repositories.interfacerepositories.InventoryRepository;
 import com.api.resistancesocialnetwork.repositories.interfacerepositories.ItemRepository;
 import com.api.resistancesocialnetwork.repositories.interfacerepositories.LocationRepository;
@@ -31,18 +34,22 @@ public class SignupUseCase {
 
     public void handle(SignupDTO signupDTO) {
         signUpRules.handle(
-                 signupDTO.getRebel(),
-                 signupDTO.getLocation(),
-                 signupDTO.getInventory()
+                 signupDTO.rebel(),
+                 signupDTO.location(),
+                 signupDTO.inventory()
          );
 
-        signupDTO.getLocation().setRebel(signupDTO.getRebel());
-        locationRepo.save(signupDTO.getLocation());
+        Location formattedLocation = signupDTO.location();
+        Rebel formattedRebel = signupDTO.rebel();
+        Inventory formattedInventory = signupDTO.inventory();
 
-        signupDTO.getInventory().setRebel(signupDTO.getRebel());
-        inventoryRepo.save(signupDTO.getInventory());
+        formattedLocation.setRebel(formattedRebel);
+        locationRepo.save(formattedLocation);
 
-        rebelRepo.save(signupDTO.getRebel());
-        itemRepository.saveAll(signupDTO.getInventory().getItems());
+        formattedInventory.setRebel(formattedRebel);
+        inventoryRepo.save(signupDTO.inventory());
+
+        rebelRepo.save(formattedRebel);
+        itemRepository.saveAll(formattedInventory.getItems());
     }
 }

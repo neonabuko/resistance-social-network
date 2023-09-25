@@ -28,19 +28,19 @@ public class RebelController {
 
     @PatchMapping("/report")
     public ResponseEntity<String> handleReport(@RequestBody RequestReport requestReport) {
-        reportUseCase.handle(requestReport.reportDTO());
+        reportUseCase.handle(requestReport.reportForm());
         return ResponseEntity.ok("Rebel reported.");
     }
 
     @PatchMapping("/update-location")
     public ResponseEntity<String> handleLocationUpdate(@RequestBody RequestLocationUpdate requestLocationUpdate) {
-        locationUpdateUseCase.handle(requestLocationUpdate.locationUpdateDTO());
+        locationUpdateUseCase.handle(requestLocationUpdate.locationUpdateForm());
         return ResponseEntity.ok("Location updated.");
     }
 
     @PatchMapping("/trade")
     public ResponseEntity<String> handleTrade(@RequestBody RequestTrade requestTrade) throws TradeFailureException {
-        tradeUseCase.handle(requestTrade.tradeDTO());
+        tradeUseCase.handle(requestTrade.tradeForm());
         return ResponseEntity.ok("Trade successful");
     }
 }

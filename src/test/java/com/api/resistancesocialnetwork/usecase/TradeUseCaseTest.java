@@ -10,6 +10,7 @@ import com.api.resistancesocialnetwork.rules.TradeRules;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -29,10 +30,16 @@ class TradeUseCaseTest {
     void setUp() {
         Rebel luke = new Rebel("luke", 18, "male");
         Rebel leia = new Rebel("leia", 30, "female");
+
         doritos = new Item("doritos", 1);
         fandango = new Item("fandango", 1);
-        lukeInv = new Inventory(Arrays.asList(doritos));
-        leiaInv = new Inventory(Arrays.asList(fandango));
+
+        lukeInv = new Inventory(
+                new ArrayList<>(Arrays.asList(doritos))
+        );
+        leiaInv = new Inventory(
+                new ArrayList<>(Arrays.asList(fandango))
+        );
 
         lukeInv.setId(1);
         lukeInv.setRebel(luke);

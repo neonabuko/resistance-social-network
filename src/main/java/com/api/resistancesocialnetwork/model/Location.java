@@ -26,7 +26,7 @@ public class Location {
 
     public Location() {}
 
-    public void setNewLocation(Double newLatitude, Double newLongitude, String newBase) {
+    public void setLocation(Double newLatitude, Double newLongitude, String newBase) {
         this.latitude = newLatitude;
         this.longitude = newLongitude;
         this.base = newBase;

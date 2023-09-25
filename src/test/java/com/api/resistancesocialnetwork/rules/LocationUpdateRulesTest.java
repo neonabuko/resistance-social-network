@@ -10,25 +10,21 @@ class LocationUpdateRulesTest {
 
     @Test
     void should_set_latitude_to_minus_90_when_under_negative_90() {
-
         Double latitude = -123.2;
         Double longitude = 23.2;
         String base = "base";
 
         Location formattedLocation = locationUpdateRules.checkIfLocationIsValid(latitude, longitude, base);
-
         assertEquals(-90, formattedLocation.getLatitude());
     }
 
     @Test
     void should_set_latitude_to_90_when_over_90() {
-
         Double latitude = 200.2;
         Double longitude = 20.20;
         String base = "auau";
 
         Location formattedLocation = locationUpdateRules.checkIfLocationIsValid(latitude, longitude, base);
-
         assertEquals(90, formattedLocation.getLatitude());
     }
 
@@ -54,11 +50,9 @@ class LocationUpdateRulesTest {
 
     @Test
     void should_return_base_as_undefined_if_not_provided() {
-        Double latitude = 30.2;
-        Double longitude = 3.3;
-        String base = null;
-
-        Exception e = assertThrows(Exception.class, () -> locationUpdateRules.checkIfLocationIsValid(latitude, longitude, base));
+        Exception e = assertThrows(Exception.class, () ->
+                locationUpdateRules.checkIfLocationIsValid(43.3, 3.2, null)
+        );
         assertTrue(e.getMessage().contains("must provide base"));
     }
 
