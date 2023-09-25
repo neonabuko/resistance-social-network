@@ -9,8 +9,8 @@ import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.ItemRep
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.LocationRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
 import com.api.resistancesocialnetwork.request.DTO.SignupDTO;
-import com.api.resistancesocialnetwork.rules.FormatData;
-import com.api.resistancesocialnetwork.rules.FormatEntities;
+import com.api.resistancesocialnetwork.formatters.FormatData;
+import com.api.resistancesocialnetwork.formatters.FormatEntities;
 import com.api.resistancesocialnetwork.rules.SignupRules;
 import org.junit.jupiter.api.Test;
 

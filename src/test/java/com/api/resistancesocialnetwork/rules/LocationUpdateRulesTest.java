@@ -1,5 +1,7 @@
 package com.api.resistancesocialnetwork.rules;
 
+import com.api.resistancesocialnetwork.formatters.FormatData;
+import com.api.resistancesocialnetwork.formatters.FormatEntities;
 import com.api.resistancesocialnetwork.model.Location;
 import org.junit.jupiter.api.Test;
 

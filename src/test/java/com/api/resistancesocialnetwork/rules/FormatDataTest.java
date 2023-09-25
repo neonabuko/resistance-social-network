@@ -1,5 +1,6 @@
 package com.api.resistancesocialnetwork.rules;
 
+import com.api.resistancesocialnetwork.formatters.FormatData;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

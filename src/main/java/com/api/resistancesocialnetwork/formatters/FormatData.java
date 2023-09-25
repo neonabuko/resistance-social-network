@@ -1,4 +1,4 @@
-package com.api.resistancesocialnetwork.rules;
+package com.api.resistancesocialnetwork.formatters;
 
 import org.springframework.stereotype.Component;
 

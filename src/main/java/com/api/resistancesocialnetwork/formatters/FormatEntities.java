@@ -1,4 +1,4 @@
-package com.api.resistancesocialnetwork.rules;
+package com.api.resistancesocialnetwork.formatters;
 
 
 import com.api.resistancesocialnetwork.model.Inventory;
@@ -18,7 +18,7 @@ public class FormatEntities {
     }
 
     public void formatRebel(Rebel rebel) {
-        rebel = Optional.ofNullable(rebel).orElseThrow(
+        Optional.ofNullable(rebel).orElseThrow(
                 () -> new IllegalStateException("must provide rebel parameters")
         );
         rebel.setStats(
@@ -29,7 +29,7 @@ public class FormatEntities {
     }
 
     public void formatLocation(Location location) {
-        location = Optional.ofNullable(location).orElseThrow(
+        Optional.ofNullable(location).orElseThrow(
                 () -> new IllegalStateException("must provide location parameters")
         );
 
@@ -41,7 +41,7 @@ public class FormatEntities {
     }
 
     public void formatInventory(Inventory inventory) {
-        inventory = Optional.ofNullable(inventory).orElseThrow(
+        Optional.ofNullable(inventory).orElseThrow(
                 () -> new IllegalStateException("must provide inventory parameters")
         );
 

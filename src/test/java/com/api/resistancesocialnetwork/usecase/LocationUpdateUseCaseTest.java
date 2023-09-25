@@ -3,8 +3,8 @@ package com.api.resistancesocialnetwork.usecase;
 import com.api.resistancesocialnetwork.model.Location;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.LocationRepositoryInMemory;
 import com.api.resistancesocialnetwork.request.DTO.LocationUpdateDTO;
-import com.api.resistancesocialnetwork.rules.FormatData;
-import com.api.resistancesocialnetwork.rules.FormatEntities;
+import com.api.resistancesocialnetwork.formatters.FormatData;
+import com.api.resistancesocialnetwork.formatters.FormatEntities;
 import com.api.resistancesocialnetwork.rules.LocationUpdateRules;
 import org.junit.jupiter.api.Test;
 
