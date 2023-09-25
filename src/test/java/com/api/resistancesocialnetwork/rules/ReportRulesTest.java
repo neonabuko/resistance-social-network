@@ -20,8 +20,8 @@ class ReportRulesTest {
     void setUp() {
         rebel1.setId(1);
         rebel2.setId(2);
-        rebelRepositoryinMemory.saveInMem(rebel1);
-        rebelRepositoryinMemory.saveInMem(rebel2);
+        rebelRepositoryinMemory.save(rebel1);
+        rebelRepositoryinMemory.save(rebel2);
     }
 
     @Test

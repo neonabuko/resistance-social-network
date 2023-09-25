@@ -49,8 +49,8 @@ class TradeUseCaseTest {
         doritos.setId(1);
         fandango.setId(2);
 
-        inventoryRepoInMem.saveInMem(lukeInv);
-        inventoryRepoInMem.saveInMem(leiaInv);
+        inventoryRepoInMem.save(lukeInv);
+        inventoryRepoInMem.save(leiaInv);
     }
 
     @Test
@@ -68,15 +68,18 @@ class TradeUseCaseTest {
     }
 
     @Test
-    void should_not_trade_when_something_unexpected_happens() {
+    void inventories_should_remain_the_same_if_trade_fails() {
         tradeDTO = new TradeDTO(null, 1, 2, 2);
         try {
             tradeUseCase.handle(tradeDTO);
-        } catch (TradeFailureException ignored) {
-        }
-        Inventory expectedInventory = new Inventory(Arrays.asList(doritos));
-        expectedInventory.setId(1);
+        } catch (TradeFailureException ignored) {}
 
-        assertEquals(lukeInv.toString(), expectedInventory.toString());
+        Inventory expectedLukeInventory = new Inventory(Arrays.asList(doritos));
+        Inventory expectedLeiaInventory = new Inventory(Arrays.asList(fandango));
+        expectedLukeInventory.setId(1);
+        expectedLeiaInventory.setId(2);
+
+        assertEquals(lukeInv.toString(), expectedLukeInventory.toString());
+        assertEquals(leiaInv.toString(), expectedLeiaInventory.toString());
     }
 }

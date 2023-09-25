@@ -12,16 +12,16 @@ public class LocationUpdateUseCaseTest {
     private final LocationRepositoryInMemory locationRepoInMem = new LocationRepositoryInMemory();
 
     @Test
-    void should_save_new_location() {
+    void should_update_location() {
         Location location = new Location(54.4, 12.2, "xereca");
         location.setId(1);
-        locationRepoInMem.saveInMem(location);
-        LocationUpdateDTO locationUpdateDTO = new LocationUpdateDTO(1, 3453.3, 22.2, "base");
+        locationRepoInMem.save(location);
 
-        LocationUpdateUseCase locationUpdateUseCase = new LocationUpdateUseCase(locationRepoInMem, new LocationUpdateRules());
-        locationUpdateUseCase.handle(locationUpdateDTO);
+        LocationUpdateDTO locationUpdateDTO = new LocationUpdateDTO(location.getId(), 3453.3, 22.2, "base");
+
+        new LocationUpdateUseCase(locationRepoInMem, new LocationUpdateRules()).handle(locationUpdateDTO);
         
-        Location newLocation = locationRepoInMem.findById(1).get();
+        Location newLocation = locationRepoInMem.findById(location.getId()).get();
 
         assertEquals(90, newLocation.getLatitude());
         assertEquals(22.2, newLocation.getLongitude());

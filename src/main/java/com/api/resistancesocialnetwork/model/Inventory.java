@@ -46,6 +46,10 @@ public class Inventory {
         return items.stream().filter(item -> item.getId().equals(itemId)).findFirst();
     }
 
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
     @Override
     public String toString() {
         return "Inventory " +

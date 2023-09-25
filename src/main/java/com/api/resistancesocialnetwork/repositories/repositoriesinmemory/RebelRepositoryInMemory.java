@@ -10,15 +10,9 @@ import java.util.Optional;
 public class RebelRepositoryInMemory implements RebelRepository {
     private final List<Rebel> rebelList = new ArrayList<>();
 
-    public void saveInMem(Rebel rebel) {
-        rebelList.add(rebel);
-    }
-
     @Override
-    public void save(Rebel rebel) {}
-
-    public void deleteAllInMem() {
-        rebelList.clear();
+    public void save(Rebel rebel) {
+        rebelList.add(rebel);
     }
 
     @Override

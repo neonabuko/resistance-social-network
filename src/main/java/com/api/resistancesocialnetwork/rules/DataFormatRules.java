@@ -5,9 +5,11 @@ import com.api.resistancesocialnetwork.model.Inventory;
 import com.api.resistancesocialnetwork.model.Item;
 import com.api.resistancesocialnetwork.model.Location;
 import com.api.resistancesocialnetwork.model.Rebel;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+@Component
 public class DataFormatRules {
     public String formatString(String string) {
         return Optional.ofNullable(string)
@@ -61,6 +63,10 @@ public class DataFormatRules {
         );
 
         for (Item item : inventory.getItems()) {
+            Optional.ofNullable(item).orElseThrow(
+                    () -> new IllegalStateException("must provide at least one item")
+            );
+
             item.setName(formatString(item.getName()));
             item.setPrice(formatInteger(item.getPrice()));
         }

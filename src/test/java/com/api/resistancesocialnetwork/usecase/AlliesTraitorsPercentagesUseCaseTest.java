@@ -15,7 +15,7 @@ class AlliesTraitorsPercentagesUseCaseTest {
     @Test
     void should_return_percentages_string() {
         Rebel luke = new Rebel("luke", 28, "male");
-        rebelRepoInMem.saveInMem(luke);
+        rebelRepoInMem.save(luke);
 
         List<Double> actualDecimals = alliesTraitorsPercentagesUseCase.handle();
 

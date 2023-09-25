@@ -49,6 +49,8 @@ public class SignupUseCase {
         formattedInventory.setRebel(formattedRebel);
         inventoryRepo.save(signupDTO.inventory());
 
+        formattedRebel.setLocation(formattedLocation);
+        formattedRebel.setInventory(formattedInventory);
         rebelRepo.save(formattedRebel);
         itemRepository.saveAll(formattedInventory.getItems());
     }

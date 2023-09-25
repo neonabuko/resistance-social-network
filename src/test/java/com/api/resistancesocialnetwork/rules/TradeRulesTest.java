@@ -31,9 +31,9 @@ class TradeRulesTest {
         leia = new Rebel("leia", 30, "female");
 
         luke.setId(1);
-        rebelRepoInMem.saveInMem(luke);
+        rebelRepoInMem.save(luke);
         leia.setId(2);
-        rebelRepoInMem.saveInMem(leia);
+        rebelRepoInMem.save(leia);
 
         lukeInv.setId(1);
         lukeInv.setRebel(luke);
@@ -42,8 +42,8 @@ class TradeRulesTest {
 
         doritos.setId(1);
         water.setId(2);
-        inventoryRepoInMem.saveInMem(lukeInv);
-        inventoryRepoInMem.saveInMem(leiaInv);
+        inventoryRepoInMem.save(lukeInv);
+        inventoryRepoInMem.save(leiaInv);
     }
 
     @Test

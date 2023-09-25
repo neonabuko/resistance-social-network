@@ -18,8 +18,8 @@ public class ReportUseCaseTest {
         Rebel rebel2 = new Rebel("pedrinho", 18, "feminino");
         rebel1.setId(1);
         rebel2.setId(2);
-        rebelRepoInMem.saveInMem(rebel1);
-        rebelRepoInMem.saveInMem(rebel2);
+        rebelRepoInMem.save(rebel1);
+        rebelRepoInMem.save(rebel2);
 
         ReportRules reportRules = new ReportRules();
         ReportUseCase reportUseCase = new ReportUseCase(rebelRepoInMem, reportRules);

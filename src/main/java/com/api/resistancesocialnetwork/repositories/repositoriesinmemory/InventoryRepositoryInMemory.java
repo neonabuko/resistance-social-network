@@ -11,15 +11,9 @@ import java.util.Optional;
 public class InventoryRepositoryInMemory implements InventoryRepository {
     private final List<Inventory> inventoryList = new ArrayList<>();
 
-    public void saveInMem(Inventory inventory) {
-        inventoryList.add(inventory);
-    }
-
     @Override
-    public void save(Inventory inventory) {}
-
-    public void deleteAllInMem() {
-        inventoryList.clear();
+    public void save(Inventory inventory) {
+        inventoryList.add(inventory);
     }
 
     @Override

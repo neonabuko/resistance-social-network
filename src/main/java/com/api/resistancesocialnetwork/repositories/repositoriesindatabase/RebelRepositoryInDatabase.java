@@ -33,8 +33,8 @@ public class RebelRepositoryInDatabase implements RebelRepository {
     }
 
     @Override
-    public boolean existsById(Integer mustProvideSourceRebelId) {
-        return adapter.existsById(mustProvideSourceRebelId);
+    public boolean existsById(Integer id) {
+        return adapter.existsById(id);
     }
 
     @Override

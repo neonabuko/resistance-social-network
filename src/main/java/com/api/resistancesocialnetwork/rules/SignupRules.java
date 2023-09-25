@@ -3,9 +3,9 @@ package com.api.resistancesocialnetwork.rules;
 import com.api.resistancesocialnetwork.model.Inventory;
 import com.api.resistancesocialnetwork.model.Location;
 import com.api.resistancesocialnetwork.model.Rebel;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class SignupRules {
 
     DataFormatRules dataFormatRules = new DataFormatRules();

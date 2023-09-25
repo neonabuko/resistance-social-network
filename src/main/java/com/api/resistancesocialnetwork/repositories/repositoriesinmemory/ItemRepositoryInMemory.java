@@ -10,15 +10,9 @@ import java.util.Optional;
 public class ItemRepositoryInMemory implements ItemRepository {
     private final List<Item> itemList = new ArrayList<>();
 
-    public void saveInMem(Item item) {
-        itemList.add(item);
-    }
-
     @Override
-    public void save(Item item) {}
-
-    public void deleteAllInMem() {
-        itemList.clear();
+    public void save(Item item) {
+        itemList.add(item);
     }
 
     @Override

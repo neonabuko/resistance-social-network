@@ -10,15 +10,13 @@ import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.Locatio
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
 import com.api.resistancesocialnetwork.request.DTO.SignupDTO;
 import com.api.resistancesocialnetwork.rules.SignupRules;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class SignupUseCaseTest {
     private final RebelRepositoryInMemory rebelRepoInMem = new RebelRepositoryInMemory();
@@ -26,45 +24,117 @@ class SignupUseCaseTest {
     private final LocationRepositoryInMemory locationRepoInMem = new LocationRepositoryInMemory();
     private final ItemRepositoryInMemory itemRepoInMem = new ItemRepositoryInMemory();
     private final SignupRules signUpRules = new SignupRules();
-    private final SignupUseCase signupUseCase = new SignupUseCase(rebelRepoInMem, locationRepoInMem, inventoryRepoInMem, itemRepoInMem, signUpRules);
-    private final Rebel luke = new Rebel("luke", 18, "male");
-    private final Rebel leia = new Rebel("leia", 30, "female");
-    private final Location lukeLocation = new Location(0.2, 21.3, "base/galaxy");
-    private final Location leiaLocation = new Location(0.2, 21.3, "base/galaxy");
-    private final Inventory lukeInv = new Inventory(new ArrayList<>(List.of(new Item("doritos", 1))));
-    private final Inventory leiaInv = new Inventory(new ArrayList<>(List.of(new Item("water", 2))));
-    private final SignupDTO signupDTOLuke = new SignupDTO(luke, lukeLocation, lukeInv);
-    private final SignupDTO signupDTOLeia = new SignupDTO(leia, leiaLocation, leiaInv);
-
-    @BeforeEach
-    public void setUp() {
-        signupUseCase.handle(signupDTOLuke);
-        signupUseCase.handle(signupDTOLeia);
-    }
+    private final SignupUseCase signupUseCase =
+            new SignupUseCase(
+                    rebelRepoInMem,
+                    locationRepoInMem,
+                    inventoryRepoInMem,
+                    itemRepoInMem,
+                    signUpRules
+            );
+    private Rebel luke = new Rebel("luke", 18, "male");
+    private Location lukeLocation = new Location(0.2, 21.3, "base/galaxy");
+    private final Item doritos = new Item("doritos", 1);
+    private Inventory lukeInv = new Inventory(new ArrayList<>(Arrays.asList(doritos)));
+    private SignupDTO signupDTO;
 
     @Test
-    void should_save_rebel() {
+    void should_save_rebel_with_location_and_inventory() {
         luke.setId(1);
-        rebelRepoInMem.saveInMem(luke);
-        assertNotEquals(Optional.empty(), rebelRepoInMem.findById(luke.getId()));
-    }
-
-    @Test
-    void should_save_location() {
         lukeLocation.setId(1);
-        locationRepoInMem.saveInMem(lukeLocation);
-        assertNotEquals(Optional.empty(), locationRepoInMem.findById(lukeLocation.getId()));
-    }
-
-    @Test
-    void should_save_inventory() {
         lukeInv.setId(1);
-        inventoryRepoInMem.saveInMem(lukeInv);
+        doritos.setId(1);
+
+        signupDTO = new SignupDTO(luke, lukeLocation, lukeInv);
+        signupUseCase.handle(signupDTO);
+
+        assertNotEquals(Optional.empty(), rebelRepoInMem.findById(luke.getId()));
+        assertNotEquals(Optional.empty(), locationRepoInMem.findById(lukeLocation.getId()));
         assertNotEquals(Optional.empty(), inventoryRepoInMem.findById(lukeInv.getId()));
+        assertFalse(itemRepoInMem.findAll().isEmpty());
     }
 
     @Test
-    void should_save_items() {
-        assertFalse(itemRepoInMem.findAll().isEmpty());
+    void should_not_save_anything_if_rebel_null() {
+        luke = null;
+        signupDTO = new SignupDTO(luke, lukeLocation, lukeInv);
+        try {
+            signupUseCase.handle(signupDTO);
+        } catch (Exception ignored) {}
+
+        assertTrue(rebelRepoInMem.findAll().isEmpty());
+        assertTrue(locationRepoInMem.findAll().isEmpty());
+        assertTrue(inventoryRepoInMem.findAll().isEmpty());
+    }
+
+    @Test
+    void should_not_save_anything_if_location_null() {
+        lukeLocation = null;
+        signupDTO = new SignupDTO(luke, lukeLocation, lukeInv);
+        try {
+            signupUseCase.handle(signupDTO);
+        } catch (Exception ignored) {}
+
+        assertTrue(rebelRepoInMem.findAll().isEmpty());
+        assertTrue(locationRepoInMem.findAll().isEmpty());
+        assertTrue(inventoryRepoInMem.findAll().isEmpty());
+    }
+
+    @Test
+    void should_not_save_anything_if_inventor_null() {
+        lukeInv = null;
+        signupDTO = new SignupDTO(luke, lukeLocation, lukeInv);
+
+        try {
+            signupUseCase.handle(signupDTO);
+        } catch (Exception ignored) {}
+
+        assertTrue(rebelRepoInMem.findAll().isEmpty());
+        assertTrue(locationRepoInMem.findAll().isEmpty());
+        assertTrue(inventoryRepoInMem.findAll().isEmpty());
+    }
+
+    @Test
+    void should_not_save_anything_if_latitude_null() {
+        lukeLocation.setLocation(null, 23.2, "base");
+        signupDTO = new SignupDTO(luke, lukeLocation, lukeInv);
+
+        try {
+            signupUseCase.handle(signupDTO);
+        } catch (Exception ignored) {}
+
+        assertTrue(rebelRepoInMem.findAll().isEmpty());
+        assertTrue(locationRepoInMem.findAll().isEmpty());
+        assertTrue(inventoryRepoInMem.findAll().isEmpty());
+    }
+
+    @Test
+    void should_not_save_anything_if_longitude_null() {
+        lukeLocation.setLocation(23.2, null, "base");
+        signupDTO = new SignupDTO(luke, lukeLocation, lukeInv);
+
+        try {
+            signupUseCase.handle(signupDTO);
+        } catch (Exception ignored) {}
+
+        assertTrue(rebelRepoInMem.findAll().isEmpty());
+        assertTrue(locationRepoInMem.findAll().isEmpty());
+        assertTrue(inventoryRepoInMem.findAll().isEmpty());
+    }
+
+    @Test
+    void should_not_save_anything_if_item_null() {
+        Item nullItem = null;
+        lukeInv.setItems(Arrays.asList(nullItem));
+        signupDTO = new SignupDTO(luke, lukeLocation, lukeInv);
+
+        Exception e = assertThrows(IllegalStateException.class, () ->
+                signupUseCase.handle(signupDTO)
+        );
+
+        assertTrue(rebelRepoInMem.findAll().isEmpty());
+        assertTrue(locationRepoInMem.findAll().isEmpty());
+        assertTrue(inventoryRepoInMem.findAll().isEmpty());
+        assertTrue(e.getMessage().contains("must provide at least one item"));
     }
 }
