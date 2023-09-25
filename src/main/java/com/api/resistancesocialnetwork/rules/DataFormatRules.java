@@ -11,7 +11,13 @@ public class DataFormatRules {
         return Optional.ofNullable(string).map(s -> s.substring(0, Math.min(s.length(), 30))).orElse("undefined");
     }
 
-    public Double handle(Double coord, int bound) {
+    public String handleWithException(String string) {
+        return Optional.ofNullable(string).map(s -> s.substring(0, Math.min(s.length(), 30))).orElseThrow(
+                () -> new IllegalStateException("must provide base")
+        );
+    }
+
+    public Double handleWithException(Double coord, int bound) {
         return Optional.ofNullable(coord).map(d -> Math.min(d, bound)).map(d -> Math.max(d, -bound)).orElseThrow(
                 () -> new IllegalStateException("coordinates required for location")
         );
@@ -31,11 +37,14 @@ public class DataFormatRules {
         return rebel;
     }
 
-    public Location handle(Location location) {
+    public void handleWithException(Location location) {
         Optional<Location> optionalLocation = Optional.ofNullable(location);
-        if (optionalLocation.isEmpty()) throw new IllegalStateException("coordinates required for location");
+        if (optionalLocation.isEmpty()) throw new IllegalStateException("location required");
 
-        location.setNewLocation(handle(location.getLatitude(), 90), handle(location.getLongitude(), 180), handle(location.getBase()));
-        return location;
+        location.setNewLocation(
+                handleWithException(location.getLatitude(), 90),
+                handleWithException(location.getLongitude(), 180),
+                handleWithException(location.getBase())
+        );
     }
 }

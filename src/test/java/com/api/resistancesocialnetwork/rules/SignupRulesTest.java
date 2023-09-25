@@ -21,7 +21,7 @@ class SignupRulesTest {
     @Test
     void should_return_name_as_undefined_when_not_provided() {
         rebel.setStats(null, 18, "male");
-        signupRules.format(rebel, location, inventory);
+        signupRules.handle(rebel, location, inventory);
         rebelRepositoryInMemory.saveInMem(rebel);
         assertEquals("undefined", rebel.getName());
     }
@@ -29,7 +29,7 @@ class SignupRulesTest {
     @Test
     void should_return_30char_name_when_name_over_30_char() {
         rebel.setStats("a".repeat(50), 18, "male");
-        signupRules.format(rebel, location, inventory);
+        signupRules.handle(rebel, location, inventory);
         rebelRepositoryInMemory.saveInMem(rebel);
         assertEquals(30, rebel.getName().length());
     }
@@ -37,7 +37,7 @@ class SignupRulesTest {
     @Test
     void should_return_age_0_if_not_provided() {
         rebel.setStats("dummy", null, "base");
-        signupRules.format(rebel, location, inventory);
+        signupRules.handle(rebel, location, inventory);
         rebelRepositoryInMemory.saveInMem(rebel);
         assertEquals(0, rebel.getAge());
     }
@@ -45,7 +45,7 @@ class SignupRulesTest {
     @Test
     void should_return_age_0_if_negative_provided() {
         rebel.setStats("dummy", -1, "base");
-        signupRules.format(rebel, location, inventory);
+        signupRules.handle(rebel, location, inventory);
         rebelRepositoryInMemory.saveInMem(rebel);
         assertEquals(0, rebel.getAge());
     }
@@ -53,7 +53,7 @@ class SignupRulesTest {
     @Test
     void should_return_age_100_if_over_100_provided() {
         rebel.setStats("dummy", 12312, "base");
-        signupRules.format(rebel, location, inventory);
+        signupRules.handle(rebel, location, inventory);
         rebelRepositoryInMemory.saveInMem(rebel);
         assertEquals(100, rebel.getAge());
     }
@@ -61,7 +61,7 @@ class SignupRulesTest {
     @Test
     void should_return_gender_undefined_if_not_provided() {
         rebel.setStats("dummy", 12, null);
-        signupRules.format(rebel, location, inventory);
+        signupRules.handle(rebel, location, inventory);
         rebelRepositoryInMemory.saveInMem(rebel);
         assertEquals("undefined", rebel.getGender());
     }
@@ -69,7 +69,7 @@ class SignupRulesTest {
     @Test
     void should_return_gender_30char_when_over_30char_provided() {
         rebel.setStats("dummy", 12, "a".repeat(31));
-        signupRules.format(rebel, location, inventory);
+        signupRules.handle(rebel, location, inventory);
         rebelRepositoryInMemory.saveInMem(rebel);
         assertEquals(30, rebel.getGender().length());
     }

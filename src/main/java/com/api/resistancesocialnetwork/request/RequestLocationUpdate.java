@@ -1,9 +1,6 @@
 package com.api.resistancesocialnetwork.request;
 
-public record RequestLocationUpdate(
-        Integer locationId,
-        Double latitude,
-        Double longitude,
-        String base
-) {
+import com.api.resistancesocialnetwork.request.DTO.LocationUpdateDTO;
+
+public record RequestLocationUpdate(LocationUpdateDTO locationUpdateDTO) {
 }

@@ -1,34 +1,15 @@
 package com.api.resistancesocialnetwork.rules;
 
 
-import com.api.resistancesocialnetwork.repositories.interfacerepositories.RebelRepository;
-import org.springframework.stereotype.Service;
+import com.api.resistancesocialnetwork.model.Rebel;
+import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
-@Service
+@Component
 public class ReportRules {
-    private final RebelRepository rebelRepo;
+    public void handle(Rebel sourceRebel, Rebel targetRebel) throws IllegalArgumentException {
+        if (sourceRebel.getId().equals(targetRebel.getId())) throw new IllegalArgumentException("can not report yourself");
 
-    public ReportRules(RebelRepository rebelRepo) {
-        this.rebelRepo = rebelRepo;
-    }
-
-    public void handle(Integer sourceId, Integer targetId) throws IllegalArgumentException {
-        Optional<Integer> optionalSourceId = Optional.ofNullable(sourceId);
-        Optional<Integer> optionalTargetId = Optional.ofNullable(targetId);
-
-        if (!rebelRepo.existsById(optionalSourceId.orElseThrow(
-                () -> new IllegalArgumentException("must provide source rebel id")))
-        ) throw new IllegalArgumentException("source rebel not found");
-
-        if (!rebelRepo.existsById(optionalTargetId.orElseThrow(
-                () -> new IllegalArgumentException("must provide target rebel id")))
-        ) throw new IllegalArgumentException("target rebel not found");
-
-        if (targetId.equals(sourceId)) throw new IllegalArgumentException("can not report yourself");
-
-        if (rebelRepo.findById(sourceId).get().getReportedRebels().contains(targetId))
+        if (sourceRebel.getReportedRebels().contains(targetRebel.getId()))
             throw new IllegalArgumentException("rebel already reported");
     }
 }

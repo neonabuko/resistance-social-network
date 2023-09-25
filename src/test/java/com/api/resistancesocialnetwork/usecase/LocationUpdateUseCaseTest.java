@@ -2,6 +2,7 @@ package com.api.resistancesocialnetwork.usecase;
 
 import com.api.resistancesocialnetwork.model.Location;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.LocationRepositoryInMemory;
+import com.api.resistancesocialnetwork.request.DTO.LocationUpdateDTO;
 import com.api.resistancesocialnetwork.rules.LocationUpdateRules;
 import org.junit.jupiter.api.Test;
 
@@ -9,24 +10,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LocationUpdateUseCaseTest {
     private final LocationRepositoryInMemory locationRepoInMem = new LocationRepositoryInMemory();
-    private final LocationUpdateRules locationUpdateRules = new LocationUpdateRules(locationRepoInMem);
-    private final LocationUpdateUseCase locationUpdateUseCase = new LocationUpdateUseCase(locationRepoInMem, locationUpdateRules);
 
     @Test
     void should_save_new_location() {
-        Location oldLocation = new Location(150.1, 12.2, "xereca");
-        oldLocation.setId(1);
-        locationRepoInMem.saveInMem(oldLocation);
+        Location location = new Location(54.4, 12.2, "xereca");
+        location.setId(1);
+        locationRepoInMem.saveInMem(location);
+        LocationUpdateDTO locationUpdateDTO = new LocationUpdateDTO(1, 3453.3, 22.2, "base");
 
-        Double newLatitude = 38.1;
-        Double newLongitude = 64.7;
-        String newBase = "jumanji";
+        LocationUpdateUseCase locationUpdateUseCase = new LocationUpdateUseCase(locationRepoInMem, new LocationUpdateRules());
+        locationUpdateUseCase.handle(locationUpdateDTO);
+        
+        Location newLocation = locationRepoInMem.findById(1).get();
 
-        locationUpdateUseCase.handle(oldLocation.getId(), newLatitude, newLongitude, newBase);
-        Location newLocation = locationRepoInMem.findById(oldLocation.getId()).get();
-
-        assertEquals(newLatitude, newLocation.getLatitude());
-        assertEquals(newLongitude, newLocation.getLongitude());
-        assertEquals(newBase, newLocation.getBase());
+        assertEquals(90, newLocation.getLatitude());
+        assertEquals(22.2, newLocation.getLongitude());
+        assertEquals("base", newLocation.getBase());
     }
 }

@@ -1,7 +1,7 @@
 package com.api.resistancesocialnetwork.request;
 
-public record RequestReport(
-        Integer sourceId,
-        Integer targetId
-) {
+import com.api.resistancesocialnetwork.request.DTO.ReportDTO;
+
+public record RequestReport(ReportDTO reportDTO) {
 }
+

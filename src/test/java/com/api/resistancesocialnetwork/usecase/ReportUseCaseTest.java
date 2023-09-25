@@ -2,6 +2,7 @@ package com.api.resistancesocialnetwork.usecase;
 
 import com.api.resistancesocialnetwork.model.Rebel;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
+import com.api.resistancesocialnetwork.request.DTO.ReportDTO;
 import com.api.resistancesocialnetwork.rules.ReportRules;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -19,10 +20,10 @@ public class ReportUseCaseTest {
         rebelRepoInMem.saveInMem(rebel1);
         rebelRepoInMem.saveInMem(rebel2);
 
-        ReportRules reportRules = new ReportRules(rebelRepoInMem);
+        ReportRules reportRules = new ReportRules();
         ReportUseCase reportUseCase = new ReportUseCase(rebelRepoInMem, reportRules);
 
-        reportUseCase.handle(rebel1.getId(), rebel2.getId());
+        reportUseCase.handle(reportDTO);
 
         Assertions.assertEquals(1, rebel2.getReportCounter());
     }

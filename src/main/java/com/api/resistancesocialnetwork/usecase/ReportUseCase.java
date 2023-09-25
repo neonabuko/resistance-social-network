@@ -2,6 +2,7 @@ package com.api.resistancesocialnetwork.usecase;
 
 import com.api.resistancesocialnetwork.model.Rebel;
 import com.api.resistancesocialnetwork.repositories.interfacerepositories.RebelRepository;
+import com.api.resistancesocialnetwork.request.DTO.ReportDTO;
 import com.api.resistancesocialnetwork.rules.ReportRules;
 import org.springframework.stereotype.Service;
 
@@ -15,14 +16,18 @@ public class ReportUseCase {
         this.reportRules = reportRules;
     }
 
-    public void handle(Integer sourceId, Integer targetId) throws IllegalArgumentException {
-        reportRules.handle(sourceId, targetId);
+    public void handle(ReportDTO reportDTO) throws IllegalArgumentException {
+        Rebel sourceRebel = rebelRepository.findById(reportDTO.sourceId()).orElseThrow(
+                () -> new IllegalArgumentException("source rebel not found")
+        );
+        Rebel targetRebel = rebelRepository.findById(reportDTO.targetId()).orElseThrow(
+                () -> new IllegalArgumentException("target rebel not found")
+        );
 
-        Rebel sourceRebel = rebelRepository.findById(sourceId).get();
-        Rebel targetRebel = rebelRepository.findById(targetId).get();
+        reportRules.handle(sourceRebel, targetRebel);
 
         targetRebel.setReportCounterUp();
-        sourceRebel.getReportedRebels().add(targetId);
+        sourceRebel.getReportedRebels().add(targetRebel.getId());
 
         rebelRepository.save(sourceRebel);
         rebelRepository.save(targetRebel);

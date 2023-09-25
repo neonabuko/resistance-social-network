@@ -9,7 +9,6 @@ import java.util.List;
 
 @Service
 public class AlliesTraitorsPercentagesUseCase {
-
     private final RebelRepository rebelRepository;
 
     public AlliesTraitorsPercentagesUseCase(RebelRepository rebelRepository) {

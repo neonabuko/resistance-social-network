@@ -1,12 +1,6 @@
 package com.api.resistancesocialnetwork.request;
 
-import com.api.resistancesocialnetwork.model.Inventory;
-import com.api.resistancesocialnetwork.model.Location;
-import com.api.resistancesocialnetwork.model.Rebel;
+import com.api.resistancesocialnetwork.request.DTO.SignupDTO;
 
-public record RequestSignUp(
-        Rebel rebel,
-        Location location,
-        Inventory inventory
-) {
+public record RequestSignUp(SignupDTO signupDTO) {
 }

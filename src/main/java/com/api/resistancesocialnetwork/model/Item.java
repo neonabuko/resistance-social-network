@@ -11,9 +11,6 @@ public class Item {
     private String name;
     @Column(name = "item_price")
     private Integer price;
-    @ManyToOne
-    @JoinColumn(name = "inventory_id")
-    private Inventory inventory;
 
     public Item(String name, Integer price) {
         this.name = name;
@@ -28,14 +25,6 @@ public class Item {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Inventory getInventory() {
-        return inventory;
-    }
-
-    public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
     }
 
     public String getName() {

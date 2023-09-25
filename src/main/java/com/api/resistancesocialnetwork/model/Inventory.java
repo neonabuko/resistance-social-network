@@ -12,7 +12,7 @@ public class Inventory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "inventory_id")
     private Integer id;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "inventory")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Item> items = new ArrayList<>();
     @OneToOne
     @JoinColumn(name = "rebel_id")
@@ -42,8 +42,8 @@ public class Inventory {
         this.id = id;
     }
 
-    public Optional<Item> findItemByName(String itemName) {
-        return items.stream().filter(item -> item.getName().equals(itemName)).findFirst();
+    public Optional<Item> findItemBy(Integer itemId) {
+        return items.stream().filter(item -> item.getId().equals(itemId)).findFirst();
     }
 
     @Override

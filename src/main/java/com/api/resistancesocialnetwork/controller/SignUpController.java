@@ -22,12 +22,8 @@ public class SignUpController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<String> handleSignUp(@RequestBody RequestSignUp signUpData) {
-        signupUseCase.handle(
-                signUpData.rebel(),
-                signUpData.location(),
-                signUpData.inventory()
-        );
+    public ResponseEntity<String> handleSignUp(@RequestBody RequestSignUp requestSignUp) {
+        signupUseCase.handle(requestSignUp.signupDTO());
         return ResponseEntity.ok("Registration successful");
     }
 }

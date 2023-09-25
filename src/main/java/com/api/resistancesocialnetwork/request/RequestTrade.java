@@ -1,9 +1,7 @@
 package com.api.resistancesocialnetwork.request;
 
-public record RequestTrade(
-        Integer sourceInventoryId,
-        String sourceTradeItemName,
-        Integer targetInventoryId,
-        String targetTradeItemName
-) {
+import com.api.resistancesocialnetwork.request.DTO.TradeDTO;
+
+public record RequestTrade(TradeDTO tradeDTO) {
 }
+
