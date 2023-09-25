@@ -1,7 +1,7 @@
 package com.api.resistancesocialnetwork.controller;
 
-import com.api.resistancesocialnetwork.usecase.AlliesTraitorsPercentagesUseCase;
-import com.api.resistancesocialnetwork.usecase.ItemAveragesPerRebelUseCase;
+import com.api.resistancesocialnetwork.usecase.statistics.AlliesTraitorsPercentagesUseCase;
+import com.api.resistancesocialnetwork.usecase.statistics.ItemAveragesPerRebelUseCase;
 import com.api.resistancesocialnetwork.usecase.ShowAlliesUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

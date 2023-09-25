@@ -1,4 +1,4 @@
-package com.api.resistancesocialnetwork.usecase;
+package com.api.resistancesocialnetwork.usecase.statistics;
 
 import com.api.resistancesocialnetwork.model.Rebel;
 import com.api.resistancesocialnetwork.repositories.interfacerepositories.RebelRepository;

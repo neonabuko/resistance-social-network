@@ -30,5 +30,7 @@ public class LocationUpdateUseCase {
                 newLocation.getLongitude(),
                 newLocation.getBase()
         );
+
+        locationRepository.save(referencedLocation);
     }
 }

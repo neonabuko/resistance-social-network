@@ -4,6 +4,7 @@ import com.api.resistancesocialnetwork.model.Inventory;
 import com.api.resistancesocialnetwork.model.Item;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.InventoryRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.ItemRepositoryInMemory;
+import com.api.resistancesocialnetwork.usecase.statistics.ItemAveragesPerRebelUseCase;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
