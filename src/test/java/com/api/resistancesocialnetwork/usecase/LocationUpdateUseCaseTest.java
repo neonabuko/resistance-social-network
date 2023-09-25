@@ -3,7 +3,8 @@ package com.api.resistancesocialnetwork.usecase;
 import com.api.resistancesocialnetwork.model.Location;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.LocationRepositoryInMemory;
 import com.api.resistancesocialnetwork.request.DTO.LocationUpdateDTO;
-import com.api.resistancesocialnetwork.rules.DataFormatRules;
+import com.api.resistancesocialnetwork.rules.FormatData;
+import com.api.resistancesocialnetwork.rules.FormatEntities;
 import com.api.resistancesocialnetwork.rules.LocationUpdateRules;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LocationUpdateUseCaseTest {
     private final LocationRepositoryInMemory locationRepoInMem = new LocationRepositoryInMemory();
-    private final DataFormatRules dataFormatRules = new DataFormatRules();
+    private final FormatEntities formatEntities = new FormatEntities(new FormatData());
 
     @Test
     void should_update_location() {
@@ -24,7 +25,7 @@ public class LocationUpdateUseCaseTest {
 
         LocationUpdateDTO locationUpdateDTO = new LocationUpdateDTO(toUpdateLocation);
 
-        new LocationUpdateUseCase(locationRepoInMem, new LocationUpdateRules(dataFormatRules)).handle(locationUpdateDTO);
+        new LocationUpdateUseCase(locationRepoInMem, new LocationUpdateRules(formatEntities)).handle(locationUpdateDTO);
 
         assertEquals(90, savedLocation.getLatitude());
         assertEquals(-180, savedLocation.getLongitude());

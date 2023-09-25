@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LocationUpdateRulesTest {
-    private final DataFormatRules dataFormatRules = new DataFormatRules();
-    private final LocationUpdateRules locationUpdateRules = new LocationUpdateRules(dataFormatRules);
+    private final FormatEntities formatEntities = new FormatEntities(new FormatData());
+    private final LocationUpdateRules locationUpdateRules = new LocationUpdateRules(formatEntities);
 
     @Test
     void should_set_latitude_to_minus_90_when_under_negative_90() {

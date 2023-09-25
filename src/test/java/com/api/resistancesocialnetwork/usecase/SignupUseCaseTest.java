@@ -9,6 +9,8 @@ import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.ItemRep
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.LocationRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
 import com.api.resistancesocialnetwork.request.DTO.SignupDTO;
+import com.api.resistancesocialnetwork.rules.FormatData;
+import com.api.resistancesocialnetwork.rules.FormatEntities;
 import com.api.resistancesocialnetwork.rules.SignupRules;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +25,8 @@ class SignupUseCaseTest {
     private final InventoryRepositoryInMemory inventoryRepoInMem = new InventoryRepositoryInMemory();
     private final LocationRepositoryInMemory locationRepoInMem = new LocationRepositoryInMemory();
     private final ItemRepositoryInMemory itemRepoInMem = new ItemRepositoryInMemory();
-    private final SignupRules signUpRules = new SignupRules();
+    private final FormatEntities formatEntities = new FormatEntities(new FormatData());
+    private final SignupRules signUpRules = new SignupRules(formatEntities);
     private final SignupUseCase signupUseCase =
             new SignupUseCase(
                     rebelRepoInMem,

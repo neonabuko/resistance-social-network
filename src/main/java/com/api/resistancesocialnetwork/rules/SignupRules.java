@@ -8,7 +8,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class SignupRules {
 
-    DataFormatRules dataFormatRules = new DataFormatRules();
+    private final FormatEntities formatEntities;
+
+    public SignupRules(FormatEntities formatEntities) {
+        this.formatEntities = formatEntities;
+    }
 
     public void handle(Rebel rebel, Location location, Inventory inventory) {
         assert_rebel_valid(rebel);
@@ -17,14 +21,14 @@ public class SignupRules {
     }
 
     private void assert_rebel_valid(Rebel rebel){
-        dataFormatRules.formatRebel(rebel);
+        formatEntities.formatRebel(rebel);
     }
 
     private void assert_coordinates_valid(Location location){
-        dataFormatRules.formatLocation(location);
+        formatEntities.formatLocation(location);
     }
 
     private void assert_inventory_valid(Inventory inventory){
-        dataFormatRules.formatItems(inventory);
+        formatEntities.formatItems(inventory);
     }
 }

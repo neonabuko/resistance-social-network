@@ -13,7 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SignupRulesTest {
     private final RebelRepositoryInMemory rebelRepositoryInMemory = new RebelRepositoryInMemory();
-    private final SignupRules signupRules = new SignupRules();
+    private final FormatEntities formatEntities = new FormatEntities(new FormatData());
+    private final SignupRules signupRules = new SignupRules(formatEntities);
     private final Rebel rebel = new Rebel("dummy", 18, "male");
     private final Location location = new Location(0.0, 0.0, "base");
     private final Inventory inventory = new Inventory(Arrays.asList(new Item("food", 1), new Item("water", 2)));
