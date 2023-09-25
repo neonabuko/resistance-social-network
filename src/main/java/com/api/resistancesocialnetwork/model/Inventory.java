@@ -54,7 +54,10 @@ public class Inventory {
     public String toString() {
         return "Inventory " +
                 "id " + id +
-                "\t" + items.toString().replace("[", "").replace("]", "") + "\n";
+                "\t" + items.toString()
+                .replace("[", "")
+                .replace("]", "")
+                .replace(",", "") + "\n";
     }
 
 }

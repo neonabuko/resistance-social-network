@@ -6,13 +6,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class LocationUpdateRules {
+    private final DataFormatRules dataFormatRules;
 
-    private final DataFormatRules dataFormatRules = new DataFormatRules();
-    public Location checkIfLocationIsValid(Double latitude, Double longitude, String base) {
-        Double formattedLatitude = dataFormatRules.formatCoordinate(latitude, 90);
-        Double formattedLongitude = dataFormatRules.formatCoordinate(longitude, 180);
-        String formattedBase = dataFormatRules.formatBase(base);
+    public LocationUpdateRules(DataFormatRules dataFormatRules) {
+        this.dataFormatRules = dataFormatRules;
+    }
 
-        return new Location(formattedLatitude, formattedLongitude, formattedBase);
+    public void formatLocationParams(Location location) {
+        dataFormatRules.formatLocation(location);
     }
 }

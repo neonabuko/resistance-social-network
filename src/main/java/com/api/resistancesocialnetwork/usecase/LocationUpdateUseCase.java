@@ -17,22 +17,15 @@ public class LocationUpdateUseCase {
     }
 
     public void handle(LocationUpdateDTO locationUpdateDTO) {
-        Location location = locationRepository.findById(locationUpdateDTO.getLocationId()).orElseThrow(
+        Location location = locationRepository.findById(locationUpdateDTO.getLocation().getId()).orElseThrow(
                 () -> new IllegalArgumentException("location not found")
         );
-
-        Location formattedLocation = locationUpdateRules.checkIfLocationIsValid(
-                locationUpdateDTO.getLatitude(),
-                locationUpdateDTO.getLongitude(),
-                locationUpdateDTO.getBase()
-        );
+        locationUpdateRules.formatLocationParams(locationUpdateDTO.getLocation());
 
         location.setLocation(
-                formattedLocation.getLatitude(),
-                formattedLocation.getLongitude(),
-                formattedLocation.getBase()
+                locationUpdateDTO.getLocation().getLatitude(),
+                locationUpdateDTO.getLocation().getLongitude(),
+                locationUpdateDTO.getLocation().getBase()
         );
-
-        locationRepository.save(location);
     }
 }

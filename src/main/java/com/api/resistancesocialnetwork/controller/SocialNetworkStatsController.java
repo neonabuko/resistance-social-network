@@ -34,9 +34,9 @@ public class SocialNetworkStatsController {
 
         if (allies.isEmpty()) return ResponseEntity.ok().body("No rebels to show");
 
-        for (String entityString : allies)
-            if (entityString.startsWith("Inventory"))
-                allies.set(allies.indexOf(entityString), entityString + "\n" + "─".repeat(50));
+        for (String rebelString : allies)
+            if (allies.size() > 3 && rebelString.startsWith("Inventory"))
+                allies.set(allies.indexOf(rebelString), rebelString + "\n" + "─".repeat(50) + "\n");
 
         return ResponseEntity.ok(String.join("\n", allies));
     }

@@ -1,34 +1,16 @@
 package com.api.resistancesocialnetwork.request.DTO;
 
-import java.util.Optional;
+import com.api.resistancesocialnetwork.model.Location;
 
 public class LocationUpdateDTO {
 
-    private final Integer locationId;
-    private final Double latitude;
-    private final Double longitude;
-    private final String base;
+    private final Location location;
 
-    public LocationUpdateDTO(Integer locationId, Double latitude, Double longitude, String base) {
-        this.locationId = locationId;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.base = base;
+    public LocationUpdateDTO(Location location) {
+        this.location = location;
     }
 
-    public Integer getLocationId() {
-        return Optional.ofNullable(locationId).orElse(0);
-    }
-
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public String getBase() {
-        return base;
+    public Location getLocation() {
+        return location;
     }
 }
