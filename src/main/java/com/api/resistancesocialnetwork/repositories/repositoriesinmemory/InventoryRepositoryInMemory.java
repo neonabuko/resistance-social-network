@@ -17,6 +17,11 @@ public class InventoryRepositoryInMemory implements InventoryRepository {
     }
 
     @Override
+    public void saveAll(List<Inventory> inventories) {
+
+    }
+
+    @Override
     public Optional<Inventory> findById(Integer id) {
         return inventoryList.stream().filter(inventory -> inventory.getId().equals(id)).findFirst();
     }

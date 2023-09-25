@@ -29,4 +29,9 @@ public class RebelRepositoryInMemory implements RebelRepository {
     public List<Rebel> findAll() {
         return rebelList;
     }
+
+    @Override
+    public void saveAll(List<Rebel> rebels) {
+
+    }
 }

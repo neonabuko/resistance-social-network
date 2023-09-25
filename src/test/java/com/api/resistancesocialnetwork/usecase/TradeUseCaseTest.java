@@ -3,7 +3,9 @@ package com.api.resistancesocialnetwork.usecase;
 import com.api.resistancesocialnetwork.model.Inventory;
 import com.api.resistancesocialnetwork.model.Item;
 import com.api.resistancesocialnetwork.model.Rebel;
+import com.api.resistancesocialnetwork.repositories.interfacerepositories.RebelRepository;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.InventoryRepositoryInMemory;
+import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
 import com.api.resistancesocialnetwork.request.DTO.TradeDTO;
 import com.api.resistancesocialnetwork.rules.TradeFailureException;
 import com.api.resistancesocialnetwork.rules.TradeRules;
@@ -19,7 +21,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class TradeUseCaseTest {
     private final InventoryRepositoryInMemory inventoryRepoInMem = new InventoryRepositoryInMemory();
     private final TradeRules tradeRules = new TradeRules();
-    private final TradeUseCase tradeUseCase = new TradeUseCase(inventoryRepoInMem, tradeRules);
+
+    private final RebelRepositoryInMemory rebelRepoInMem = new RebelRepositoryInMemory();
+    private final TradeUseCase tradeUseCase = new TradeUseCase(tradeRules, rebelRepoInMem);
     private Item doritos;
     private Item fandango;
     private Inventory lukeInv;
