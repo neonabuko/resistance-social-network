@@ -8,10 +8,17 @@ import java.util.List;
 import java.util.Optional;
 
 public class ItemRepositoryInMemory implements ItemRepository {
-    private final List<Item> itemList = new ArrayList<>();
+    private final List<Item> itemList;
+    private static Integer id;
+
+    public ItemRepositoryInMemory() {
+        itemList = new ArrayList<>();
+        id = 1;
+    }
 
     @Override
     public void save(Item item) {
+        item.setId(id++);
         itemList.add(item);
     }
 
@@ -32,6 +39,9 @@ public class ItemRepositoryInMemory implements ItemRepository {
 
     @Override
     public void saveAll(List<Item> items) {
-        itemList.addAll(items);
+        for (Item item : items) {
+            item.setId(id++);
+            itemList.add(item);
+        }
     }
 }

@@ -32,18 +32,12 @@ class TradeRulesTest {
         luke = new Rebel("luke", 18, "male");
         leia = new Rebel("leia", 30, "female");
 
-        luke.setId(1);
         rebelRepoInMem.save(luke);
-        leia.setId(2);
         rebelRepoInMem.save(leia);
 
-        lukeInv.setId(1);
-        leiaInv.setId(2);
         luke.setInventory(lukeInv);
         leia.setInventory(leiaInv);
 
-        doritos.setId(1);
-        water.setId(2);
         inventoryRepoInMem.save(lukeInv);
         inventoryRepoInMem.save(leiaInv);
 
@@ -69,7 +63,7 @@ class TradeRulesTest {
 
     @Test
     void should_throw_TradeFailureException_when_source_traitor() {
-        IntStream.range(0, 3).forEach(i -> luke.setReportCounterUp());
+        IntStream.range(0, 3).forEach(_ -> luke.setReportCounterUp());
         Exception e = assertThrows(TradeFailureException.class,
                 () -> tradeRules.handle(luke, leia, 1, 2)
         );
@@ -78,7 +72,7 @@ class TradeRulesTest {
 
     @Test
     void should_throw_TradeFailureException_when_target_traitor() {
-        IntStream.range(0, 3).forEach(i -> leia.setReportCounterUp());
+        IntStream.range(0, 3).forEach(_ -> leia.setReportCounterUp());
         Exception e = assertThrows(TradeFailureException.class,
                 () -> tradeRules.handle(luke, leia, 1, 2)
         );

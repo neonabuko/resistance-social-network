@@ -16,14 +16,11 @@ public class LocationUpdateUseCaseTest {
     private final LocationRepositoryInMemory locationRepoInMem = new LocationRepositoryInMemory();
     private final FormatEntities formatEntities = new FormatEntities(new FormatData());
     private final RebelRepositoryInMemory rebelRepositoryInMem = new RebelRepositoryInMemory();
-    Rebel rebel = new Rebel("name", 18, "male");
-    Location location_in_repo = new Location(54.4, 12.2, "xereca");
+    private final Rebel rebel = new Rebel("name", 18, "male");
+    private final Location location_in_repo = new Location(54.4, 12.2, "xereca");
 
     @Test
     void should_update_location() {
-        rebel.setId(1);
-
-        location_in_repo.setId(1);
         locationRepoInMem.save(location_in_repo);
 
         rebel.setLocation(location_in_repo);

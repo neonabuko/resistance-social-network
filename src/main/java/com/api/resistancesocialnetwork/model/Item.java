@@ -5,11 +5,11 @@ import jakarta.persistence.*;
 @Entity(name = "item")
 public class Item {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "item_id")
+    @Column(name = "id")
     private Integer id;
-    @Column(name = "item_name")
+    @Column(name = "name")
     private String name;
-    @Column(name = "item_price")
+    @Column(name = "price")
     private Integer price;
 
     public Item(String name, Integer price) {
@@ -46,7 +46,7 @@ public class Item {
     @Override
     public String toString() {
         return "\n\tItem " +
-                "id " + id + " {" +
+                "(id " + id + ") {" +
                 "\n\t\tname=" + name +
                 "\n\t\tprice=" + price + "\n" +
                 "\t}";

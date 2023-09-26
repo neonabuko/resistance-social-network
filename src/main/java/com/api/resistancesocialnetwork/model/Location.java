@@ -4,9 +4,7 @@ import jakarta.persistence.*;
 
 @Entity(name = "location")
 public class Location {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "location_id")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "latitude")
     private Double latitude;
@@ -63,7 +61,7 @@ public class Location {
     @Override
     public String toString() {
         return "Location " +
-                "id " + id +
+                "(id " + id + ")" +
                 "\n\tlatitude=" + latitude +
                 "\n\tlongitude=" + longitude +
                 "\n\tbase='" + base + '\'' + "\n";

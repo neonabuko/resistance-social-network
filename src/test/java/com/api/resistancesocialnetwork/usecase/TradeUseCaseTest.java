@@ -5,6 +5,7 @@ import com.api.resistancesocialnetwork.model.Item;
 import com.api.resistancesocialnetwork.model.Rebel;
 import com.api.resistancesocialnetwork.repositories.interfacerepositories.InventoryRepository;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.InventoryRepositoryInMemory;
+import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.ItemRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
 import com.api.resistancesocialnetwork.request.DTO.TradeDTO;
 import com.api.resistancesocialnetwork.rules.TradeFailureException;
@@ -28,6 +29,7 @@ class TradeUseCaseTest {
     private Inventory lukeInv;
     private Inventory leiaInv;
     private TradeDTO tradeDTO;
+    private final ItemRepositoryInMemory itemRepoInMem = new ItemRepositoryInMemory();
 
     @BeforeEach
     void setUp() {
@@ -43,27 +45,19 @@ class TradeUseCaseTest {
         leiaInv = new Inventory(
                 new ArrayList<>(Arrays.asList(fandango))
         );
-        luke.setId(1);
-        leia.setId(2);
-
-        lukeInv.setId(1);
-        leiaInv.setId(2);
 
         luke.setInventory(lukeInv);
         leia.setInventory(leiaInv);
 
-        doritos.setId(1);
-        fandango.setId(2);
-
-        rebelRepoInMem.save(luke);
-        rebelRepoInMem.save(leia);
-        inventoryRepoInMem.save(lukeInv);
-        inventoryRepoInMem.save(leiaInv);
+        rebelRepoInMem.saveAll(Arrays.asList(luke, leia));
+        itemRepoInMem.saveAll(Arrays.asList(doritos, fandango));
+        inventoryRepoInMem.saveAll(Arrays.asList(lukeInv, leiaInv));
     }
 
     @Test
     void source_should_contain_fandango_after_trade() throws TradeFailureException {
         tradeDTO = new TradeDTO(1, 1, 2, 2);
+        System.out.println(rebelRepoInMem.findAll());
         tradeUseCase.handle(tradeDTO);
         assertTrue(inventoryRepoInMem.findItemByName(lukeInv.getId(), fandango.getName()).isPresent());
     }

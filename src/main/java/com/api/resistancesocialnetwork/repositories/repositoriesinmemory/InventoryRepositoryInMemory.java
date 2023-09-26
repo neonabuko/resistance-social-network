@@ -9,16 +9,25 @@ import java.util.List;
 import java.util.Optional;
 
 public class InventoryRepositoryInMemory implements InventoryRepository {
-    private final List<Inventory> inventoryList = new ArrayList<>();
+    private final List<Inventory> inventoryList;
+    private static Integer id;
 
+    public InventoryRepositoryInMemory() {
+        inventoryList = new ArrayList<>();
+        id = 1;
+    }
     @Override
     public void save(Inventory inventory) {
+        inventory.setId(id++);
         inventoryList.add(inventory);
     }
 
     @Override
     public void saveAll(List<Inventory> inventories) {
-
+        for (Inventory inventory : inventories) {
+            inventory.setId(id++);
+            inventoryList.add(inventory);
+        }
     }
 
     @Override

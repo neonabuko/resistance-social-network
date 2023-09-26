@@ -32,7 +32,6 @@ class SignupUseCaseTest {
                     rebelRepoInMem,
                     locationRepoInMem,
                     inventoryRepoInMem,
-                    itemRepoInMem,
                     signUpRules
             );
     private Rebel luke = new Rebel("luke", 18, "male");
@@ -43,11 +42,6 @@ class SignupUseCaseTest {
 
     @Test
     void should_save_rebel_with_location_and_inventory() {
-        luke.setId(1);
-        lukeLocation.setId(1);
-        lukeInv.setId(1);
-        doritos.setId(1);
-
         signupDTO = new SignupDTO(luke, lukeLocation, lukeInv);
         signupUseCase.handle(signupDTO);
 

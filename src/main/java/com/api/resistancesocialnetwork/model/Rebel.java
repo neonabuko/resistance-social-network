@@ -7,18 +7,15 @@ import java.util.List;
 
 @Entity(name = "rebel")
 public class Rebel {
-    private final List<Integer> reportedRebels = new ArrayList<>();
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rebel_id")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "rebel_name")
+    @Column(name = "name")
     private String name;
-    @Column(name = "rebel_age")
+    @Column(name = "age")
     private Integer age;
-    @Column(name = "rebel_gender")
+    @Column(name = "gender")
     private String gender;
-    @Column(name = "rebel_report_counter")
+    @Column(name = "report_counter")
     private Integer reportCounter = 0;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "rebel")
     @JoinColumn(name = "location_id")
@@ -26,6 +23,8 @@ public class Rebel {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "rebel")
     @JoinColumn(name = "inventory_id")
     private Inventory inventory;
+    @Column(name = "reported_ids")
+    private final List<Integer> reportedRebels = new ArrayList<>();
 
     public Rebel(String name, Integer age, String gender) {
         this.name = name;
@@ -100,7 +99,7 @@ public class Rebel {
     @Override
     public String toString() {
         return "Rebel " +
-                "id " + id +
+                "(id " + id + ")" +
                 "\n\tname='" + name + '\'' +
                 "\n\tage=" + age +
                 "\n\tgender='" + gender + '\'' +

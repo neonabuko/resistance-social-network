@@ -9,10 +9,8 @@ import java.util.Optional;
 @Entity(name = "inventory")
 public class Inventory {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "inventory_id")
     private Integer id;
-    @OneToMany
-    @JoinColumn(name = "inventory_id")
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Item> items = new ArrayList<>();
     @OneToOne
     @JoinColumn(name = "rebel_id")
@@ -58,7 +56,7 @@ public class Inventory {
     @Override
     public String toString() {
         return "Inventory " +
-                "id " + id +
+                "(id " + id + ")" +
                 "\t" + items.toString()
                 .replace("[", "")
                 .replace("]", "")

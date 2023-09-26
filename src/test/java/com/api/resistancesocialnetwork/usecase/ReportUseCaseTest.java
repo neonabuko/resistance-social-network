@@ -16,8 +16,7 @@ public class ReportUseCaseTest {
         ReportDTO reportDTO = new ReportDTO(1, 2);
         Rebel rebel1 = new Rebel("zezinho", 18, "masculino");
         Rebel rebel2 = new Rebel("pedrinho", 18, "feminino");
-        rebel1.setId(1);
-        rebel2.setId(2);
+
         rebelRepoInMem.save(rebel1);
         rebelRepoInMem.save(rebel2);
 
