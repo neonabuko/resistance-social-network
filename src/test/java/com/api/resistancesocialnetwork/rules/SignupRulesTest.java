@@ -14,7 +14,7 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SignupRulesTest {
-    private final RebelRepositoryInMemory rebelRepositoryInMemory = new RebelRepositoryInMemory();
+    private final RebelRepositoryInMemory rebelRepositoryInMem = new RebelRepositoryInMemory();
     private final FormatEntities formatEntities = new FormatEntities(new FormatData());
     private final SignupRules signupRules = new SignupRules(formatEntities);
     private final Rebel rebel = new Rebel("dummy", 18, "male");
@@ -27,7 +27,7 @@ class SignupRulesTest {
         Exception e = assertThrows(IllegalStateException.class, () ->
                 signupRules.handle(rebel, location, inventory)
         );
-        rebelRepositoryInMemory.save(rebel);
+        rebelRepositoryInMem.save(rebel);
         assertTrue(e.getMessage().contains("must provide rebel name"));
     }
 
@@ -35,7 +35,7 @@ class SignupRulesTest {
     void should_return_30_character_name_when_name_over_30_character_provided() {
         rebel.setStats("a".repeat(50), 18, "male");
         signupRules.handle(rebel, location, inventory);
-        rebelRepositoryInMemory.save(rebel);
+        rebelRepositoryInMem.save(rebel);
         assertEquals(30, rebel.getName().length());
     }
 
@@ -45,7 +45,7 @@ class SignupRulesTest {
         Exception e = assertThrows(IllegalStateException.class, () ->
                 signupRules.handle(rebel, location, inventory)
         );
-        rebelRepositoryInMemory.save(rebel);
+        rebelRepositoryInMem.save(rebel);
         assertTrue(e.getMessage().contains("must provide rebel age"));
     }
 
@@ -53,7 +53,7 @@ class SignupRulesTest {
     void should_return_age_0_if_negative_provided() {
         rebel.setStats("dummy", -1, "base");
         signupRules.handle(rebel, location, inventory);
-        rebelRepositoryInMemory.save(rebel);
+        rebelRepositoryInMem.save(rebel);
         assertEquals(0, rebel.getAge());
     }
 
@@ -61,7 +61,7 @@ class SignupRulesTest {
     void should_return_age_100_if_over_100_provided() {
         rebel.setStats("dummy", 12312, "base");
         signupRules.handle(rebel, location, inventory);
-        rebelRepositoryInMemory.save(rebel);
+        rebelRepositoryInMem.save(rebel);
         assertEquals(100, rebel.getAge());
     }
 
@@ -71,7 +71,7 @@ class SignupRulesTest {
         Exception e = assertThrows(IllegalStateException.class, () ->
                 signupRules.handle(rebel, location, inventory)
         );
-        rebelRepositoryInMemory.save(rebel);
+        rebelRepositoryInMem.save(rebel);
         assertTrue(e.getMessage().contains("must provide rebel gender"));
     }
 
@@ -79,7 +79,7 @@ class SignupRulesTest {
     void should_return_30_characters_gender_when_over_30_characters_provided() {
         rebel.setStats("dummy", 12, "a".repeat(31));
         signupRules.handle(rebel, location, inventory);
-        rebelRepositoryInMemory.save(rebel);
+        rebelRepositoryInMem.save(rebel);
         assertEquals(30, rebel.getGender().length());
     }
 

@@ -35,7 +35,8 @@ class TradeUseCaseTest {
     void setUp() {
         Rebel luke = new Rebel("luke", 18, "male");
         Rebel leia = new Rebel("leia", 30, "female");
-
+        luke.setId(1);
+        leia.setId(2);
         doritos = new Item("doritos", 1);
         fandango = new Item("fandango", 1);
 
@@ -57,7 +58,6 @@ class TradeUseCaseTest {
     @Test
     void source_should_contain_fandango_after_trade() throws TradeFailureException {
         tradeDTO = new TradeDTO(1, 1, 2, 2);
-        System.out.println(rebelRepoInMem.findAll());
         tradeUseCase.handle(tradeDTO);
         assertTrue(inventoryRepoInMem.findItemByName(lukeInv.getId(), fandango.getName()).isPresent());
     }

@@ -12,8 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class TradeRulesTest {
     private final RebelRepositoryInMemory rebelRepoInMem = new RebelRepositoryInMemory();
@@ -63,7 +62,7 @@ class TradeRulesTest {
 
     @Test
     void should_throw_TradeFailureException_when_source_traitor() {
-        IntStream.range(0, 3).forEach(_ -> luke.setReportCounterUp());
+        IntStream.range(0, 3).forEach(i -> luke.setReportCounterUp());
         Exception e = assertThrows(TradeFailureException.class,
                 () -> tradeRules.handle(luke, leia, 1, 2)
         );
@@ -72,7 +71,7 @@ class TradeRulesTest {
 
     @Test
     void should_throw_TradeFailureException_when_target_traitor() {
-        IntStream.range(0, 3).forEach(_ -> leia.setReportCounterUp());
+        IntStream.range(0, 3).forEach(i -> leia.setReportCounterUp());
         Exception e = assertThrows(TradeFailureException.class,
                 () -> tradeRules.handle(luke, leia, 1, 2)
         );

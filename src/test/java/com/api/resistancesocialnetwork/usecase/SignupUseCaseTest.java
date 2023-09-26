@@ -1,16 +1,15 @@
 package com.api.resistancesocialnetwork.usecase;
 
+import com.api.resistancesocialnetwork.formatters.FormatData;
+import com.api.resistancesocialnetwork.formatters.FormatEntities;
 import com.api.resistancesocialnetwork.model.Inventory;
 import com.api.resistancesocialnetwork.model.Item;
 import com.api.resistancesocialnetwork.model.Location;
 import com.api.resistancesocialnetwork.model.Rebel;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.InventoryRepositoryInMemory;
-import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.ItemRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.LocationRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
 import com.api.resistancesocialnetwork.request.DTO.SignupDTO;
-import com.api.resistancesocialnetwork.formatters.FormatData;
-import com.api.resistancesocialnetwork.formatters.FormatEntities;
 import com.api.resistancesocialnetwork.rules.SignupRules;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +23,6 @@ class SignupUseCaseTest {
     private final RebelRepositoryInMemory rebelRepoInMem = new RebelRepositoryInMemory();
     private final InventoryRepositoryInMemory inventoryRepoInMem = new InventoryRepositoryInMemory();
     private final LocationRepositoryInMemory locationRepoInMem = new LocationRepositoryInMemory();
-    private final ItemRepositoryInMemory itemRepoInMem = new ItemRepositoryInMemory();
     private final FormatEntities formatEntities = new FormatEntities(new FormatData());
     private final SignupRules signUpRules = new SignupRules(formatEntities);
     private final SignupUseCase signupUseCase =
@@ -42,13 +40,16 @@ class SignupUseCaseTest {
 
     @Test
     void should_save_rebel_with_location_and_inventory() {
+        luke.setId(1);
+        lukeLocation.setId(1);
+        lukeInv.setId(1);
+
         signupDTO = new SignupDTO(luke, lukeLocation, lukeInv);
         signupUseCase.handle(signupDTO);
 
         assertNotEquals(Optional.empty(), rebelRepoInMem.findById(luke.getId()));
         assertNotEquals(Optional.empty(), locationRepoInMem.findById(lukeLocation.getId()));
         assertNotEquals(Optional.empty(), inventoryRepoInMem.findById(lukeInv.getId()));
-        assertFalse(itemRepoInMem.findAll().isEmpty());
     }
 
     @Test

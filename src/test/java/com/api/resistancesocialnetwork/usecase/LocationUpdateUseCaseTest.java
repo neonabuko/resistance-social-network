@@ -24,6 +24,7 @@ public class LocationUpdateUseCaseTest {
         locationRepoInMem.save(location_in_repo);
 
         rebel.setLocation(location_in_repo);
+        rebel.setId(1);
         rebelRepositoryInMem.save(rebel);
 
         Location toUpdateLocation = new Location(345345423525.23452345, -1283476.34323, "base");
