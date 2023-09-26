@@ -18,33 +18,38 @@ import java.util.Arrays;
 public class TradeUseCase {
     private final TradeRules tradeRules;
     private final RebelRepository rebelRepo;
+    private final InventoryRepository inventoryRepo;
 
-    public TradeUseCase( TradeRules tradeRules,RebelRepository rebelRepository) {
+    public TradeUseCase(TradeRules tradeRules, RebelRepository rebelRepository, InventoryRepository inventoryRepo) {
         this.tradeRules = tradeRules;
         this.rebelRepo = rebelRepository;
+        this.inventoryRepo = inventoryRepo;
     }
 
     public void handle(TradeDTO tradeDTO) throws TradeFailureException {
-        Rebel sourceInventory = rebelRepo.findById(tradeDTO.sourceInventoryId()).orElseThrow(
-                () -> new TradeFailureException("no such source inventory")
+        Rebel sourceRebel = rebelRepo.findById(tradeDTO.sourceRebelId()).orElseThrow(
+                () -> new TradeFailureException("no such source rebel")
         );
-        Rebel targetInventory = rebelRepo.findById(tradeDTO.targetInventoryId()).orElseThrow(
-                () -> new TradeFailureException("no such target inventory")
+        Rebel targetRebel = rebelRepo.findById(tradeDTO.targetRebelId()).orElseThrow(
+                () -> new TradeFailureException("no such target rebel")
         );
 
+        Inventory sourceInventory = sourceRebel.getInventory();
+        Inventory targetInventory = targetRebel.getInventory();
+
         tradeRules.handle(
-                sourceInventory,
-                targetInventory,
+                sourceRebel,
+                targetRebel,
                 tradeDTO.sourceItemId(),
                 tradeDTO.targetItemId()
         );
 
-        Item sourceItem = sourceInventory.getInventory().findItemBy(tradeDTO.sourceItemId()).get();
-        Item targetItem = targetInventory.getInventory().findItemBy(tradeDTO.targetItemId()).get();
+        Item sourceItem = sourceInventory.findItemBy(tradeDTO.sourceItemId()).get();
+        Item targetItem = targetInventory.findItemBy(tradeDTO.targetItemId()).get();
 
-        sourceInventory.getInventory().replaceItem(sourceItem, targetItem);
-        targetInventory.getInventory().replaceItem(targetItem, sourceItem);
+        sourceInventory.replaceItem(sourceItem, targetItem);
+        targetInventory.replaceItem(targetItem, sourceItem);
 
-        rebelRepo.saveAll(Arrays.asList(sourceInventory, targetInventory));
+        inventoryRepo.saveAll(Arrays.asList(sourceInventory, targetInventory));
     }
 }

@@ -3,7 +3,7 @@ package com.api.resistancesocialnetwork.usecase;
 import com.api.resistancesocialnetwork.model.Inventory;
 import com.api.resistancesocialnetwork.model.Item;
 import com.api.resistancesocialnetwork.model.Rebel;
-import com.api.resistancesocialnetwork.repositories.interfacerepositories.RebelRepository;
+import com.api.resistancesocialnetwork.repositories.interfacerepositories.InventoryRepository;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.InventoryRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
 import com.api.resistancesocialnetwork.request.DTO.TradeDTO;
@@ -19,11 +19,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TradeUseCaseTest {
-    private final InventoryRepositoryInMemory inventoryRepoInMem = new InventoryRepositoryInMemory();
     private final TradeRules tradeRules = new TradeRules();
-
     private final RebelRepositoryInMemory rebelRepoInMem = new RebelRepositoryInMemory();
-    private final TradeUseCase tradeUseCase = new TradeUseCase(tradeRules, rebelRepoInMem);
+    private final InventoryRepository inventoryRepoInMem = new InventoryRepositoryInMemory();
+    private final TradeUseCase tradeUseCase = new TradeUseCase(tradeRules, rebelRepoInMem, inventoryRepoInMem);
     private Item doritos;
     private Item fandango;
     private Inventory lukeInv;
@@ -44,15 +43,20 @@ class TradeUseCaseTest {
         leiaInv = new Inventory(
                 new ArrayList<>(Arrays.asList(fandango))
         );
+        luke.setId(1);
+        leia.setId(2);
 
         lukeInv.setId(1);
-        lukeInv.setRebel(luke);
         leiaInv.setId(2);
-        leiaInv.setRebel(leia);
+
+        luke.setInventory(lukeInv);
+        leia.setInventory(leiaInv);
 
         doritos.setId(1);
         fandango.setId(2);
 
+        rebelRepoInMem.save(luke);
+        rebelRepoInMem.save(leia);
         inventoryRepoInMem.save(lukeInv);
         inventoryRepoInMem.save(leiaInv);
     }
