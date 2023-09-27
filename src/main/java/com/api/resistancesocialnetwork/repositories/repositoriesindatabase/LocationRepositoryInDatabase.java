@@ -1,7 +1,7 @@
 package com.api.resistancesocialnetwork.repositories.repositoriesindatabase;
 
 import com.api.resistancesocialnetwork.model.Location;
-import com.api.resistancesocialnetwork.repositories.interfacerepositories.LocationRepository;
+import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;

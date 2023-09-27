@@ -3,7 +3,7 @@ package com.api.resistancesocialnetwork.rules;
 
 import com.api.resistancesocialnetwork.formatters.FormatEntities;
 import com.api.resistancesocialnetwork.model.Location;
-import com.api.resistancesocialnetwork.request.DTO.LocationUpdateDTO;
+import com.api.resistancesocialnetwork.request.facade.LocationUpdateFacade;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -16,9 +16,9 @@ public class LocationUpdateRules {
         this.formatEntities = formatEntities;
     }
 
-    public void handle(LocationUpdateDTO locationUpdateDTO) {
-        formatEntities.formatLocation(locationUpdateDTO.location());
-        assert_rebelId_provided_in_DTO(locationUpdateDTO.location());
+    public void handle(LocationUpdateFacade locationUpdateFacade) {
+        formatEntities.formatLocation(locationUpdateFacade.location());
+        assert_rebelId_provided_in_DTO(locationUpdateFacade.location());
     }
 
     private void assert_rebelId_provided_in_DTO(Location location) {

@@ -1,7 +1,6 @@
-package com.api.resistancesocialnetwork.repositories.interfacerepositories;
+package com.api.resistancesocialnetwork.repositories.repositoryinterfaces;
 
 import com.api.resistancesocialnetwork.model.Inventory;
-import com.api.resistancesocialnetwork.model.Item;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +14,4 @@ public interface InventoryRepository {
     boolean existsById(Integer id);
 
     List<Inventory> findAll();
-
-    Optional<Item> findItemByName(Integer id, String itemName);
 }

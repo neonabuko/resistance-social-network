@@ -9,7 +9,7 @@ import com.api.resistancesocialnetwork.model.Rebel;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.InventoryRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.LocationRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
-import com.api.resistancesocialnetwork.request.DTO.SignupDTO;
+import com.api.resistancesocialnetwork.request.facade.SignupFacade;
 import com.api.resistancesocialnetwork.rules.SignupRules;
 import org.junit.jupiter.api.Test;
 
@@ -36,7 +36,7 @@ class SignupUseCaseTest {
     private Location lukeLocation = new Location(0.2, 21.3, "base/galaxy");
     private final Item doritos = new Item("doritos", 1);
     private Inventory lukeInv = new Inventory(new ArrayList<>(Arrays.asList(doritos)));
-    private SignupDTO signupDTO;
+    private SignupFacade signupFacade;
 
     @Test
     void should_save_rebel_with_location_and_inventory() {
@@ -44,8 +44,8 @@ class SignupUseCaseTest {
         lukeLocation.setId(1);
         lukeInv.setId(1);
 
-        signupDTO = new SignupDTO(luke, lukeLocation, lukeInv);
-        signupUseCase.handle(signupDTO);
+        signupFacade = new SignupFacade(luke, lukeLocation, lukeInv);
+        signupUseCase.handle(signupFacade);
 
         assertNotEquals(Optional.empty(), rebelRepoInMem.findById(luke.getId()));
         assertNotEquals(Optional.empty(), locationRepoInMem.findById(lukeLocation.getId()));
@@ -55,9 +55,9 @@ class SignupUseCaseTest {
     @Test
     void should_not_save_anything_if_rebel_null() {
         luke = null;
-        signupDTO = new SignupDTO(luke, lukeLocation, lukeInv);
+        signupFacade = new SignupFacade(luke, lukeLocation, lukeInv);
         try {
-            signupUseCase.handle(signupDTO);
+            signupUseCase.handle(signupFacade);
         } catch (Exception ignored) {}
 
         assertTrue(rebelRepoInMem.findAll().isEmpty());
@@ -68,9 +68,9 @@ class SignupUseCaseTest {
     @Test
     void should_not_save_anything_if_location_null() {
         lukeLocation = null;
-        signupDTO = new SignupDTO(luke, lukeLocation, lukeInv);
+        signupFacade = new SignupFacade(luke, lukeLocation, lukeInv);
         try {
-            signupUseCase.handle(signupDTO);
+            signupUseCase.handle(signupFacade);
         } catch (Exception ignored) {}
 
         assertTrue(rebelRepoInMem.findAll().isEmpty());
@@ -81,10 +81,10 @@ class SignupUseCaseTest {
     @Test
     void should_not_save_anything_if_inventor_null() {
         lukeInv = null;
-        signupDTO = new SignupDTO(luke, lukeLocation, lukeInv);
+        signupFacade = new SignupFacade(luke, lukeLocation, lukeInv);
 
         try {
-            signupUseCase.handle(signupDTO);
+            signupUseCase.handle(signupFacade);
         } catch (Exception ignored) {}
 
         assertTrue(rebelRepoInMem.findAll().isEmpty());
@@ -95,10 +95,10 @@ class SignupUseCaseTest {
     @Test
     void should_not_save_anything_if_latitude_null() {
         lukeLocation.setLocation(null, 23.2, "base");
-        signupDTO = new SignupDTO(luke, lukeLocation, lukeInv);
+        signupFacade = new SignupFacade(luke, lukeLocation, lukeInv);
 
         try {
-            signupUseCase.handle(signupDTO);
+            signupUseCase.handle(signupFacade);
         } catch (Exception ignored) {}
 
         assertTrue(rebelRepoInMem.findAll().isEmpty());
@@ -109,10 +109,10 @@ class SignupUseCaseTest {
     @Test
     void should_not_save_anything_if_longitude_null() {
         lukeLocation.setLocation(23.2, null, "base");
-        signupDTO = new SignupDTO(luke, lukeLocation, lukeInv);
+        signupFacade = new SignupFacade(luke, lukeLocation, lukeInv);
 
         try {
-            signupUseCase.handle(signupDTO);
+            signupUseCase.handle(signupFacade);
         } catch (Exception ignored) {}
 
         assertTrue(rebelRepoInMem.findAll().isEmpty());
@@ -124,10 +124,10 @@ class SignupUseCaseTest {
     void should_not_save_anything_if_item_null() {
         Item nullItem = null;
         lukeInv.setItems(Arrays.asList(nullItem));
-        signupDTO = new SignupDTO(luke, lukeLocation, lukeInv);
+        signupFacade = new SignupFacade(luke, lukeLocation, lukeInv);
 
         Exception e = assertThrows(IllegalStateException.class, () ->
-                signupUseCase.handle(signupDTO)
+                signupUseCase.handle(signupFacade)
         );
 
         assertTrue(rebelRepoInMem.findAll().isEmpty());

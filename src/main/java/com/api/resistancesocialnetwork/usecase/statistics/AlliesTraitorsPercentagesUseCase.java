@@ -1,7 +1,7 @@
 package com.api.resistancesocialnetwork.usecase.statistics;
 
 import com.api.resistancesocialnetwork.model.Rebel;
-import com.api.resistancesocialnetwork.repositories.interfacerepositories.RebelRepository;
+import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.RebelRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;

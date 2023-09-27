@@ -1,8 +1,8 @@
-package com.api.resistancesocialnetwork.request.DTO;
+package com.api.resistancesocialnetwork.request.facade;
 
 import java.util.Optional;
 
-public record ReportDTO(Integer sourceId, Integer targetId) {
+public record ReportFacade(Integer sourceId, Integer targetId) {
 
     @Override
     public Integer sourceId() {

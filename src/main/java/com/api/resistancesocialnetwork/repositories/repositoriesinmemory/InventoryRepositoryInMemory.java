@@ -1,8 +1,7 @@
 package com.api.resistancesocialnetwork.repositories.repositoriesinmemory;
 
 import com.api.resistancesocialnetwork.model.Inventory;
-import com.api.resistancesocialnetwork.model.Item;
-import com.api.resistancesocialnetwork.repositories.interfacerepositories.InventoryRepository;
+import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.InventoryRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,24 +9,18 @@ import java.util.Optional;
 
 public class InventoryRepositoryInMemory implements InventoryRepository {
     private final List<Inventory> inventoryList;
-    private static Integer id;
 
     public InventoryRepositoryInMemory() {
         inventoryList = new ArrayList<>();
-        id = 1;
     }
     @Override
     public void save(Inventory inventory) {
-        inventory.setId(id++);
         inventoryList.add(inventory);
     }
 
     @Override
     public void saveAll(List<Inventory> inventories) {
-        for (Inventory inventory : inventories) {
-            inventory.setId(id++);
-            inventoryList.add(inventory);
-        }
+        inventoryList.addAll(inventories);
     }
 
     @Override
@@ -43,10 +36,5 @@ public class InventoryRepositoryInMemory implements InventoryRepository {
     @Override
     public List<Inventory> findAll() {
         return inventoryList;
-    }
-
-    @Override
-    public Optional<Item> findItemByName(Integer id, String itemName) {
-        return findById(id).get().getItems().stream().filter(item -> item.getName().equals(itemName)).findFirst();
     }
 }

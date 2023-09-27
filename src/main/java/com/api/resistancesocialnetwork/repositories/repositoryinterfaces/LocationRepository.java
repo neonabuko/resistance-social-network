@@ -1,4 +1,4 @@
-package com.api.resistancesocialnetwork.repositories.interfacerepositories;
+package com.api.resistancesocialnetwork.repositories.repositoryinterfaces;
 
 import com.api.resistancesocialnetwork.model.Location;
 

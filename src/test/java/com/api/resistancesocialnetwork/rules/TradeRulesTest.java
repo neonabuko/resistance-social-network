@@ -30,16 +30,21 @@ class TradeRulesTest {
     void setUp() {
         luke = new Rebel("luke", 18, "male");
         leia = new Rebel("leia", 30, "female");
-
+        luke.setId(1);
+        leia.setId(2);
         rebelRepoInMem.save(luke);
         rebelRepoInMem.save(leia);
 
+        lukeInv.setId(1);
+        leiaInv.setId(2);
         luke.setInventory(lukeInv);
         leia.setInventory(leiaInv);
 
         inventoryRepoInMem.save(lukeInv);
         inventoryRepoInMem.save(leiaInv);
 
+        doritos.setId(1);
+        water.setId(2);
         itemRepositoryInMemory.save(doritos);
         itemRepositoryInMemory.save(water);
     }

@@ -3,7 +3,7 @@ package com.api.resistancesocialnetwork.repositories.repositoriesindatabase;
 
 import com.api.resistancesocialnetwork.model.Inventory;
 import com.api.resistancesocialnetwork.model.Item;
-import com.api.resistancesocialnetwork.repositories.interfacerepositories.InventoryRepository;
+import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.InventoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
@@ -52,10 +52,5 @@ public class InventoryRepositoryInDatabase implements InventoryRepository {
     @Override
     public List<Inventory> findAll() {
         return adapter.findAll();
-    }
-
-    @Override
-    public Optional<Item> findItemByName(Integer id, String itemName) {
-        return adapter.findItemByName(id, itemName);
     }
 }

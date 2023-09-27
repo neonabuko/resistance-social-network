@@ -3,10 +3,10 @@ package com.api.resistancesocialnetwork.usecase;
 import com.api.resistancesocialnetwork.model.Inventory;
 import com.api.resistancesocialnetwork.model.Location;
 import com.api.resistancesocialnetwork.model.Rebel;
-import com.api.resistancesocialnetwork.repositories.interfacerepositories.InventoryRepository;
-import com.api.resistancesocialnetwork.repositories.interfacerepositories.LocationRepository;
-import com.api.resistancesocialnetwork.repositories.interfacerepositories.RebelRepository;
-import com.api.resistancesocialnetwork.request.DTO.SignupDTO;
+import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.InventoryRepository;
+import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.LocationRepository;
+import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.RebelRepository;
+import com.api.resistancesocialnetwork.request.facade.SignupFacade;
 import com.api.resistancesocialnetwork.rules.SignupRules;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -29,22 +29,22 @@ public class SignupUseCase {
         this.signUpRules = signUpRules;
     }
 
-    public void handle(SignupDTO signupDTO) {
+    public void handle(SignupFacade signupFacade) {
         signUpRules.handle(
-                 signupDTO.rebel(),
-                 signupDTO.location(),
-                 signupDTO.inventory()
+                 signupFacade.rebel(),
+                 signupFacade.location(),
+                 signupFacade.inventory()
          );
 
-        Location formattedLocation = signupDTO.location();
-        Rebel formattedRebel = signupDTO.rebel();
-        Inventory formattedInventory = signupDTO.inventory();
+        Location formattedLocation = signupFacade.location();
+        Rebel formattedRebel = signupFacade.rebel();
+        Inventory formattedInventory = signupFacade.inventory();
 
         formattedLocation.setRebel(formattedRebel);
         locationRepo.save(formattedLocation);
 
         formattedInventory.setRebel(formattedRebel);
-        inventoryRepo.save(signupDTO.inventory());
+        inventoryRepo.save(signupFacade.inventory());
 
         formattedRebel.setLocation(formattedLocation);
         formattedRebel.setInventory(formattedInventory);

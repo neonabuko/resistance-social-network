@@ -2,7 +2,7 @@ package com.api.resistancesocialnetwork.rules;
 
 import com.api.resistancesocialnetwork.model.Rebel;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
-import com.api.resistancesocialnetwork.request.DTO.ReportDTO;
+import com.api.resistancesocialnetwork.request.facade.ReportFacade;
 import com.api.resistancesocialnetwork.usecase.ReportUseCase;
 import org.junit.jupiter.api.Test;
 
@@ -21,10 +21,10 @@ class ReportRulesTest {
         rebelRepositoryinMem.saveInMem(rebel2);
         rebel1.setId(1);
         rebel2.setId(2);
-        ReportDTO reportDTO = new ReportDTO(1, 2);
+        ReportFacade reportFacade = new ReportFacade(1, 2);
         ReportUseCase reportUseCase = new ReportUseCase(rebelRepositoryinMem, reportRules);
 
-        reportUseCase.handle(reportDTO);
+        reportUseCase.handle(reportFacade);
 
         Exception e = assertThrows(Exception.class, () -> reportRules.handle(rebel1, rebel2));
         assertTrue(e.getMessage().contains("rebel already reported"));

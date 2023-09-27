@@ -1,7 +1,7 @@
 package com.api.resistancesocialnetwork.request;
 
-import com.api.resistancesocialnetwork.request.DTO.TradeDTO;
+import com.api.resistancesocialnetwork.request.facade.TradeFacade;
 
-public record RequestTrade(TradeDTO tradeForm) {
+public record RequestTrade(TradeFacade tradeForm) {
 }
 

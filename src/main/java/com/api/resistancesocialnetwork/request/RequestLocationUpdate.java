@@ -1,6 +1,6 @@
 package com.api.resistancesocialnetwork.request;
 
-import com.api.resistancesocialnetwork.request.DTO.LocationUpdateDTO;
+import com.api.resistancesocialnetwork.request.facade.LocationUpdateFacade;
 
-public record RequestLocationUpdate(LocationUpdateDTO locationUpdateForm) {
+public record RequestLocationUpdate(LocationUpdateFacade locationUpdateForm) {
 }

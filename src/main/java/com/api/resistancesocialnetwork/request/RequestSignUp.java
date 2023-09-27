@@ -1,6 +1,6 @@
 package com.api.resistancesocialnetwork.request;
 
-import com.api.resistancesocialnetwork.request.DTO.SignupDTO;
+import com.api.resistancesocialnetwork.request.facade.SignupFacade;
 
-public record RequestSignUp(SignupDTO signupForm) {
+public record RequestSignUp(SignupFacade signupForm) {
 }

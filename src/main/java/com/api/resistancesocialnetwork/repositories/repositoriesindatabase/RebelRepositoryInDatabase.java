@@ -1,7 +1,7 @@
 package com.api.resistancesocialnetwork.repositories.repositoriesindatabase;
 
 import com.api.resistancesocialnetwork.model.Rebel;
-import com.api.resistancesocialnetwork.repositories.interfacerepositories.RebelRepository;
+import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.RebelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;

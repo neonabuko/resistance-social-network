@@ -3,9 +3,9 @@ package com.api.resistancesocialnetwork.usecase;
 import com.api.resistancesocialnetwork.model.Inventory;
 import com.api.resistancesocialnetwork.model.Item;
 import com.api.resistancesocialnetwork.model.Rebel;
-import com.api.resistancesocialnetwork.repositories.interfacerepositories.InventoryRepository;
-import com.api.resistancesocialnetwork.repositories.interfacerepositories.RebelRepository;
-import com.api.resistancesocialnetwork.request.DTO.TradeDTO;
+import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.InventoryRepository;
+import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.RebelRepository;
+import com.api.resistancesocialnetwork.request.facade.TradeFacade;
 import com.api.resistancesocialnetwork.rules.TradeFailureException;
 import com.api.resistancesocialnetwork.rules.TradeRules;
 import jakarta.transaction.Transactional;
@@ -26,11 +26,11 @@ public class TradeUseCase {
         this.inventoryRepo = inventoryRepo;
     }
 
-    public void handle(TradeDTO tradeDTO) throws TradeFailureException {
-        Rebel sourceRebel = rebelRepo.findById(tradeDTO.sourceRebelId()).orElseThrow(
+    public void handle(TradeFacade tradeFacade) throws TradeFailureException {
+        Rebel sourceRebel = rebelRepo.findById(tradeFacade.sourceRebelId()).orElseThrow(
                 () -> new TradeFailureException("no such source rebel")
         );
-        Rebel targetRebel = rebelRepo.findById(tradeDTO.targetRebelId()).orElseThrow(
+        Rebel targetRebel = rebelRepo.findById(tradeFacade.targetRebelId()).orElseThrow(
                 () -> new TradeFailureException("no such target rebel")
         );
 
@@ -40,12 +40,12 @@ public class TradeUseCase {
         tradeRules.handle(
                 sourceRebel,
                 targetRebel,
-                tradeDTO.sourceItemId(),
-                tradeDTO.targetItemId()
+                tradeFacade.sourceItemId(),
+                tradeFacade.targetItemId()
         );
 
-        Item sourceItem = sourceInventory.findItemBy(tradeDTO.sourceItemId()).get();
-        Item targetItem = targetInventory.findItemBy(tradeDTO.targetItemId()).get();
+        Item sourceItem = sourceInventory.findItemBy(tradeFacade.sourceItemId()).get();
+        Item targetItem = targetInventory.findItemBy(tradeFacade.targetItemId()).get();
 
         sourceInventory.replaceItem(sourceItem, targetItem);
         targetInventory.replaceItem(targetItem, sourceItem);

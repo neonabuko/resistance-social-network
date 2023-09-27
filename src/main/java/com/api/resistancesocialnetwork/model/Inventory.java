@@ -12,6 +12,7 @@ public class Inventory {
     private Integer id;
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Item> items = new ArrayList<>();
+
     @OneToOne
     @JoinColumn(name = "rebel_id")
     private Rebel rebel;

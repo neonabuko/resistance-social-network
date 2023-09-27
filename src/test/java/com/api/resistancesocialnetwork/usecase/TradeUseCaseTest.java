@@ -3,11 +3,11 @@ package com.api.resistancesocialnetwork.usecase;
 import com.api.resistancesocialnetwork.model.Inventory;
 import com.api.resistancesocialnetwork.model.Item;
 import com.api.resistancesocialnetwork.model.Rebel;
-import com.api.resistancesocialnetwork.repositories.interfacerepositories.InventoryRepository;
+import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.InventoryRepository;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.InventoryRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.ItemRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
-import com.api.resistancesocialnetwork.request.DTO.TradeDTO;
+import com.api.resistancesocialnetwork.request.facade.TradeFacade;
 import com.api.resistancesocialnetwork.rules.TradeFailureException;
 import com.api.resistancesocialnetwork.rules.TradeRules;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +28,7 @@ class TradeUseCaseTest {
     private Item fandango;
     private Inventory lukeInv;
     private Inventory leiaInv;
-    private TradeDTO tradeDTO;
+    private TradeFacade tradeFacade;
     private final ItemRepositoryInMemory itemRepoInMem = new ItemRepositoryInMemory();
 
     @BeforeEach
@@ -46,7 +46,8 @@ class TradeUseCaseTest {
         leiaInv = new Inventory(
                 new ArrayList<>(Arrays.asList(fandango))
         );
-
+        doritos.setId(1);
+        fandango.setId(2);
         luke.setInventory(lukeInv);
         leia.setInventory(leiaInv);
 
@@ -57,29 +58,29 @@ class TradeUseCaseTest {
 
     @Test
     void source_should_contain_fandango_after_trade() throws TradeFailureException {
-        tradeDTO = new TradeDTO(1, 1, 2, 2);
-        tradeUseCase.handle(tradeDTO);
-        assertTrue(inventoryRepoInMem.findItemByName(lukeInv.getId(), fandango.getName()).isPresent());
+        tradeFacade = new TradeFacade(1, 1, 2, 2);
+        tradeUseCase.handle(tradeFacade);
+        assertTrue(lukeInv.findItemBy(fandango.getId()).isPresent());
     }
 
     @Test
     void target_should_contain_doritos_after_trade() throws TradeFailureException {
-        tradeDTO = new TradeDTO(1, 1, 2, 2);
-        tradeUseCase.handle(tradeDTO);
+        tradeFacade = new TradeFacade(1, 1, 2, 2);
+        tradeUseCase.handle(tradeFacade);
         assertTrue(leiaInv.getItems().contains(doritos));
     }
 
     @Test
     void inventories_should_remain_the_same_if_trade_fails() {
-        tradeDTO = new TradeDTO(null, 1, 2, 2);
+        tradeFacade = new TradeFacade(null, 1, 2, 2);
         try {
-            tradeUseCase.handle(tradeDTO);
+            tradeUseCase.handle(tradeFacade);
         } catch (TradeFailureException ignored) {}
 
         Inventory expectedLukeInventory = new Inventory(Arrays.asList(doritos));
         Inventory expectedLeiaInventory = new Inventory(Arrays.asList(fandango));
-        expectedLukeInventory.setId(1);
-        expectedLeiaInventory.setId(2);
+        expectedLukeInventory.setId(lukeInv.getId());
+        expectedLeiaInventory.setId(leiaInv.getId());
 
         assertEquals(lukeInv.toString(), expectedLukeInventory.toString());
         assertEquals(leiaInv.toString(), expectedLeiaInventory.toString());
