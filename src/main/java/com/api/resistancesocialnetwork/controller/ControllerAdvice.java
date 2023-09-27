@@ -21,13 +21,14 @@ public class ControllerAdvice {
 
         else return ResponseEntity.status(400).body(mostSpecificCause);
     }
+
     @ExceptionHandler(InvalidDataAccessApiUsageException.class)
     public ResponseEntity<String> handleInvalidDataAccessApiUsageException(InvalidDataAccessApiUsageException e) {
         return ResponseEntity.status(500).body(e.getMessage());
     }
 
     @ExceptionHandler(ResistanceSocialNetworkException.class)
-    public ResponseEntity<String> handleTradeFailureException(ResistanceSocialNetworkException e) {
+    public ResponseEntity<String> handleResistanceSocialNetworkException(ResistanceSocialNetworkException e) {
         return ResponseEntity.status(500).body(e.getMessage());
     }
 }

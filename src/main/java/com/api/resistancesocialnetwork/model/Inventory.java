@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Entity(name = "inventory")
+@Table(name = "inventories")
 public class Inventory {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -49,7 +50,7 @@ public class Inventory {
                 "\t" + items.toString()
                 .replace("[", "")
                 .replace("]", "")
-                .replace(",", "") + "\n";
+                .replace(",", "");
     }
 
 }

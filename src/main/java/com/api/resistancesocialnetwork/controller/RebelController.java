@@ -29,13 +29,13 @@ public class RebelController {
 
     @PatchMapping("/report")
     public ResponseEntity<String> handleReport(@RequestBody ReportRequest reportRequest) {
-        reportUseCase.handle(reportRequest.reportFacade());
+        reportUseCase.handle(reportRequest.report());
         return new ResponseEntity<>(HttpStatus.valueOf(200));
     }
 
     @PatchMapping("/update-location")
     public ResponseEntity<String> handleLocationUpdate(@RequestBody LocationUpdateRequest locationUpdateRequest) throws ResistanceSocialNetworkException {
-        locationUpdateUseCase.handle(locationUpdateRequest.locationUpdateFacade());
+        locationUpdateUseCase.handle(locationUpdateRequest.locationUpdate());
         return new ResponseEntity<>(HttpStatus.valueOf(200));
     }
 

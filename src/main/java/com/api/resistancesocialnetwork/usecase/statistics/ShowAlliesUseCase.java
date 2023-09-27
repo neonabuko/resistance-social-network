@@ -23,11 +23,14 @@ public class ShowAlliesUseCase {
         if (rebelsList.isEmpty()) return allies;
 
         for (Rebel rebel : rebelsList) {
-            allies.addAll(Arrays.asList(
-                    rebel.toString(),
-                    rebel.getLocation().toString(),
-                    rebel.getInventory().toString()
-            ));
+            if (rebel.getReportCounter() < 3) {
+                allies.addAll(Arrays.asList(
+                        rebel.toString(),
+                        rebel.getLocation().toString(),
+                        rebel.getInventory().toString(),
+                        "\n" + "─".repeat(50) + "\n"
+                ));
+            }
         }
 
         return allies;

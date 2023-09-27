@@ -26,6 +26,6 @@ public class SignUpController {
     @PostMapping("/signup")
     public ResponseEntity<Void> handleSignUp(@RequestBody SignupRequest signupRequest) throws ResistanceSocialNetworkException {
         signupUseCase.handle(signupRequest.signup());
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.valueOf(201));
     }
 }

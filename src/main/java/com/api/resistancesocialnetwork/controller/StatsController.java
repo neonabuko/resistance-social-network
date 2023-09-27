@@ -13,16 +13,16 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/alliance-stats")
-public class SocialNetworkStatsController {
+@RequestMapping("/stats")
+public class StatsController {
     private final ShowAlliesUseCase showAlliesUseCase;
     private final AlliesTraitorsPercentagesUseCase alliesTraitorsPercentagesUseCase;
     private final ItemAveragesPerRebelUseCase itemAveragesPerRebelUseCase;
     private final NumberFormat decimalToPercentage = NumberFormat.getPercentInstance();
 
-    public SocialNetworkStatsController(ShowAlliesUseCase showAlliesUseCase,
-                                        AlliesTraitorsPercentagesUseCase alliesTraitorsPercentagesUseCase,
-                                        ItemAveragesPerRebelUseCase itemAveragesPerRebelUseCase) {
+    public StatsController(ShowAlliesUseCase showAlliesUseCase,
+                           AlliesTraitorsPercentagesUseCase alliesTraitorsPercentagesUseCase,
+                           ItemAveragesPerRebelUseCase itemAveragesPerRebelUseCase) {
         this.showAlliesUseCase = showAlliesUseCase;
         this.alliesTraitorsPercentagesUseCase = alliesTraitorsPercentagesUseCase;
         this.itemAveragesPerRebelUseCase = itemAveragesPerRebelUseCase;
@@ -32,11 +32,7 @@ public class SocialNetworkStatsController {
     public ResponseEntity<String> showAllAllies() {
         List<String> allies = showAlliesUseCase.handle();
 
-        if (allies.isEmpty()) return ResponseEntity.ok().body("No rebels to show");
-
-        for (String rebelString : allies)
-            if (allies.size() > 3 && rebelString.startsWith("Inventory"))
-                allies.set(allies.indexOf(rebelString), rebelString + "\n" + "─".repeat(50) + "\n");
+        if (allies.isEmpty()) return ResponseEntity.status(204).body("No rebels to show");
 
         return ResponseEntity.status(200).body(String.join("\n", allies));
     }
@@ -45,7 +41,7 @@ public class SocialNetworkStatsController {
     public ResponseEntity<String> showAlliesTraitorsPercentages() {
         List<Double> decimalsList = alliesTraitorsPercentagesUseCase.handle();
 
-        if (decimalsList.isEmpty()) return ResponseEntity.ok().body("No percentages of allies/traitors to show");
+        if (decimalsList.isEmpty()) return ResponseEntity.status(204).body("No percentages of allies/traitors to show");
 
         String percentages = "Allies: " + decimalToPercentage.format(decimalsList.get(0)) + ", " +
                              "Traitors: " + decimalToPercentage.format(decimalsList.get(1));
@@ -56,7 +52,7 @@ public class SocialNetworkStatsController {
     public ResponseEntity<String> showItemAverages() {
         Map<String, Double> averagesMap = itemAveragesPerRebelUseCase.handle();
 
-        if (averagesMap.isEmpty()) return ResponseEntity.ok().body("No average number of items per rebel to show");
+        if (averagesMap.isEmpty()) return ResponseEntity.status(204).body("No average number of items per rebel to show");
 
         String response = "Average number of items per rebel: \n\n" +
                 averagesMap.toString()

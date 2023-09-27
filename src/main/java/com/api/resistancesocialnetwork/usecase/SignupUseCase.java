@@ -30,6 +30,7 @@ public class SignupUseCase {
 
         formattedRebel.setLocation(formattedLocation);
         formattedRebel.setInventory(formattedInventory);
+
         rebelRepo.save(formattedRebel);
     }
 }

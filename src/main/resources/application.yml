@@ -2,14 +2,16 @@ spring:
 
   datasource:
     url: jdbc:h2:mem:testdb
-    username: sa
+    username:
     password:
     driverClassName: org.h2.Driver
 
   jpa:
+    hibernate:
+      ddl-auto=update
     database-platform: org.hibernate.dialect.H2Dialect
     properties.hibernate.show_sql: true
-    properties.hibernate.format_sql: true
+    properties.hibernate.format_sql: false
 
   h2:
     console:

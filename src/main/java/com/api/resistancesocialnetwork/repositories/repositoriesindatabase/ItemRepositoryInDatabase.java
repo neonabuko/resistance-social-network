@@ -2,7 +2,6 @@ package com.api.resistancesocialnetwork.repositories.repositoriesindatabase;
 
 import com.api.resistancesocialnetwork.model.Item;
 import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.ItemRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +16,6 @@ public class ItemRepositoryInDatabase implements ItemRepository {
 
     private final ItemRepositoryJpa adapter;
 
-    @Autowired
     public ItemRepositoryInDatabase(ItemRepositoryJpa adapter) {
         this.adapter = adapter;
     }

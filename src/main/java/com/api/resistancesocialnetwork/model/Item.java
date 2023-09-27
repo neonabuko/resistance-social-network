@@ -3,6 +3,7 @@ package com.api.resistancesocialnetwork.model;
 import jakarta.persistence.*;
 
 @Entity(name = "item")
+@Table(name = "items")
 public class Item {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

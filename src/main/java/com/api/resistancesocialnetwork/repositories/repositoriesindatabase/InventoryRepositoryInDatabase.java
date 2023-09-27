@@ -3,7 +3,6 @@ package com.api.resistancesocialnetwork.repositories.repositoriesindatabase;
 
 import com.api.resistancesocialnetwork.model.Inventory;
 import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.InventoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +17,6 @@ public class InventoryRepositoryInDatabase implements InventoryRepository {
 
     private final InventoryRepositoryJpa adapter;
 
-    @Autowired
     public InventoryRepositoryInDatabase(InventoryRepositoryJpa adapter) {
         this.adapter = adapter;
     }
