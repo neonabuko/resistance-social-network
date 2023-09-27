@@ -24,9 +24,9 @@
     2. Average number of items per rebel
 
 ## Main Rules
-1. Traitors can't trade
+1. Traitors can't tradeFacade
 2. Traitors can't show up on alliance reports
-3. Both parties in a trade must offer the same amount of points
+3. Both parties in a tradeFacade must offer the same amount of points
 
 <div align="left">
     <footer>

@@ -7,6 +7,8 @@ import com.api.resistancesocialnetwork.model.Item;
 import com.api.resistancesocialnetwork.model.Location;
 import com.api.resistancesocialnetwork.model.Rebel;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
+import com.api.resistancesocialnetwork.request.facade.SignupFacade;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -24,8 +26,9 @@ class SignupRulesTest {
     @Test
     void should_throw_IllegalStateException_when_name_null() {
         rebel.setStats(null, 18, "male");
-        Exception e = assertThrows(IllegalStateException.class, () ->
-                signupRules.handle(rebel, location, inventory)
+        SignupFacade signup = new SignupFacade(rebel, location, inventory);
+        Exception e = assertThrows(ResistanceSocialNetworkException.class, () ->
+                signupRules.handle(signup)
         );
         rebelRepositoryInMem.save(rebel);
         assertTrue(e.getMessage().contains("must provide rebel name"));
@@ -34,7 +37,8 @@ class SignupRulesTest {
     @Test
     void should_return_30_character_name_when_name_over_30_character_provided() {
         rebel.setStats("a".repeat(50), 18, "male");
-        signupRules.handle(rebel, location, inventory);
+        SignupFacade signup = new SignupFacade(rebel, location, inventory);
+        signupRules.handle(signup);
         rebelRepositoryInMem.save(rebel);
         assertEquals(30, rebel.getName().length());
     }
@@ -42,8 +46,9 @@ class SignupRulesTest {
     @Test
     void should_throw_IllegalStateException_if_age_not_provided() {
         rebel.setStats("dummy", null, "base");
-        Exception e = assertThrows(IllegalStateException.class, () ->
-                signupRules.handle(rebel, location, inventory)
+        SignupFacade signup = new SignupFacade(rebel, location, inventory);
+        Exception e = assertThrows(ResistanceSocialNetworkException.class, () ->
+                signupRules.handle(signup)
         );
         rebelRepositoryInMem.save(rebel);
         assertTrue(e.getMessage().contains("must provide rebel age"));
@@ -52,7 +57,8 @@ class SignupRulesTest {
     @Test
     void should_return_age_0_if_negative_provided() {
         rebel.setStats("dummy", -1, "base");
-        signupRules.handle(rebel, location, inventory);
+        SignupFacade signup = new SignupFacade(rebel, location, inventory);
+        signupRules.handle(signup);
         rebelRepositoryInMem.save(rebel);
         assertEquals(0, rebel.getAge());
     }
@@ -60,7 +66,8 @@ class SignupRulesTest {
     @Test
     void should_return_age_100_if_over_100_provided() {
         rebel.setStats("dummy", 12312, "base");
-        signupRules.handle(rebel, location, inventory);
+        SignupFacade signup = new SignupFacade(rebel, location, inventory);
+        signupRules.handle(signup);
         rebelRepositoryInMem.save(rebel);
         assertEquals(100, rebel.getAge());
     }
@@ -68,8 +75,9 @@ class SignupRulesTest {
     @Test
     void should_throw_IllegalStateException_when_gender_null() {
         rebel.setStats("dummy", 12, null);
-        Exception e = assertThrows(IllegalStateException.class, () ->
-                signupRules.handle(rebel, location, inventory)
+        SignupFacade signup = new SignupFacade(rebel, location, inventory);
+        Exception e = assertThrows(ResistanceSocialNetworkException.class, () ->
+                signupRules.handle(signup)
         );
         rebelRepositoryInMem.save(rebel);
         assertTrue(e.getMessage().contains("must provide rebel gender"));
@@ -78,7 +86,8 @@ class SignupRulesTest {
     @Test
     void should_return_30_characters_gender_when_over_30_characters_provided() {
         rebel.setStats("dummy", 12, "a".repeat(31));
-        signupRules.handle(rebel, location, inventory);
+        SignupFacade signup = new SignupFacade(rebel, location, inventory);
+        signupRules.handle(signup);
         rebelRepositoryInMem.save(rebel);
         assertEquals(30, rebel.getGender().length());
     }
@@ -87,11 +96,11 @@ class SignupRulesTest {
     void should_throw_IllegalStateException_when_null_item_provided() {
         Item nullItem = null;
         inventory.setItems(Arrays.asList(nullItem));
-
-        Exception e = assertThrows(IllegalStateException.class, () ->
-                signupRules.handle(rebel, location, inventory)
+        SignupFacade signup = new SignupFacade(rebel, location, inventory);
+        Exception e = assertThrows(ResistanceSocialNetworkException.class, () ->
+                signupRules.handle(signup)
         );
 
-        assertTrue(e.getMessage().contains("must provide at least one item"));
+        assertTrue(e.getMessage().contains("must provide item parameters"));
     }
 }

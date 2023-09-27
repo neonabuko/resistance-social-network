@@ -4,9 +4,11 @@ import com.api.resistancesocialnetwork.model.Rebel;
 import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.RebelRepository;
 import com.api.resistancesocialnetwork.request.facade.ReportFacade;
 import com.api.resistancesocialnetwork.rules.ReportRules;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 @Service
 public class ReportUseCase {
@@ -18,12 +20,14 @@ public class ReportUseCase {
         this.reportRules = reportRules;
     }
 
-    public void handle(ReportFacade reportFacade) throws IllegalArgumentException {
+    public void handle(ReportFacade reportFacadeFacade) throws ResistanceSocialNetworkException {
+        ReportFacade reportFacade = Optional.ofNullable(reportFacadeFacade).orElse(new ReportFacade(0, 0));
+
         Rebel sourceRebel = rebelRepository.findById(reportFacade.sourceId()).orElseThrow(
-                () -> new IllegalArgumentException("source rebel not found")
+                () -> new ResistanceSocialNetworkException("reporting rebel not found")
         );
         Rebel targetRebel = rebelRepository.findById(reportFacade.targetId()).orElseThrow(
-                () -> new IllegalArgumentException("target rebel not found")
+                () -> new ResistanceSocialNetworkException("reported rebel not found")
         );
 
         reportRules.handle(sourceRebel, targetRebel);

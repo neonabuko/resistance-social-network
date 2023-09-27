@@ -8,6 +8,7 @@ import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.Locatio
 import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.RebelRepository;
 import com.api.resistancesocialnetwork.request.facade.SignupFacade;
 import com.api.resistancesocialnetwork.rules.SignupRules;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -29,12 +30,8 @@ public class SignupUseCase {
         this.signUpRules = signUpRules;
     }
 
-    public void handle(SignupFacade signupFacade) {
-        signUpRules.handle(
-                 signupFacade.rebel(),
-                 signupFacade.location(),
-                 signupFacade.inventory()
-         );
+    public void handle(SignupFacade signupFacade) throws ResistanceSocialNetworkException {
+        signUpRules.handle(signupFacade);
 
         Location formattedLocation = signupFacade.location();
         Rebel formattedRebel = signupFacade.rebel();

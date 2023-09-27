@@ -2,7 +2,7 @@ package com.api.resistancesocialnetwork.controller;
 
 import com.api.resistancesocialnetwork.usecase.statistics.AlliesTraitorsPercentagesUseCase;
 import com.api.resistancesocialnetwork.usecase.statistics.ItemAveragesPerRebelUseCase;
-import com.api.resistancesocialnetwork.usecase.ShowAlliesUseCase;
+import com.api.resistancesocialnetwork.usecase.statistics.ShowAlliesUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,7 +38,7 @@ public class SocialNetworkStatsController {
             if (allies.size() > 3 && rebelString.startsWith("Inventory"))
                 allies.set(allies.indexOf(rebelString), rebelString + "\n" + "─".repeat(50) + "\n");
 
-        return ResponseEntity.ok(String.join("\n", allies));
+        return ResponseEntity.status(200).body(String.join("\n", allies));
     }
 
     @GetMapping("/show-allies-traitors-percentages")
@@ -49,7 +49,7 @@ public class SocialNetworkStatsController {
 
         String percentages = "Allies: " + decimalToPercentage.format(decimalsList.get(0)) + ", " +
                              "Traitors: " + decimalToPercentage.format(decimalsList.get(1));
-        return ResponseEntity.ok("Percentages of allies vs. traitors:\n\n" + percentages.replace(", ", "\n"));
+        return ResponseEntity.status(200).body("Percentages of allies vs. traitors:\n\n" + percentages.replace(", ", "\n"));
     }
 
     @GetMapping("/show-average-number-items")
@@ -65,6 +65,6 @@ public class SocialNetworkStatsController {
                         .replace("=", ": ")
                         .replace(", ", "\n");
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(200).body(response);
     }
 }

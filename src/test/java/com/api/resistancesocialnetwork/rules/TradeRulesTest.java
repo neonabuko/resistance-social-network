@@ -6,6 +6,7 @@ import com.api.resistancesocialnetwork.model.Rebel;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.InventoryRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.ItemRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -51,41 +52,42 @@ class TradeRulesTest {
 
     @Test
     void should_throw_NoSuchElementException_when_no_such_item_source() {
-        Exception e = assertThrows(TradeFailureException.class,
+        Exception e = assertThrows(ResistanceSocialNetworkException.class,
                 () -> tradeRules.handle(luke, leia, 0, 0)
         );
-        assertTrue(e.getMessage().contains("Inventory id " + lukeInv.getId() + ": item not found"));
+        assertTrue(e.getMessage().contains("item not found with rebel id " + luke.getId()));
     }
 
     @Test
     void should_throw_NoSuchElementException_when_no_such_item_target() {
-        Exception e = assertThrows(TradeFailureException.class,
+        Exception e = assertThrows(ResistanceSocialNetworkException.class,
                 () -> tradeRules.handle(luke, leia, 1, 0)
         );
-        assertTrue(e.getMessage().contains("Inventory id " + leiaInv.getId() + ": item not found"));
+        System.out.println(e.getMessage());
+        assertTrue(e.getMessage().contains("item not found with rebel id " + leia.getId()));
     }
 
     @Test
     void should_throw_TradeFailureException_when_source_traitor() {
         IntStream.range(0, 3).forEach(i -> luke.setReportCounterUp());
-        Exception e = assertThrows(TradeFailureException.class,
+        Exception e = assertThrows(ResistanceSocialNetworkException.class,
                 () -> tradeRules.handle(luke, leia, 1, 2)
         );
-        assertTrue(e.getMessage().contains("source rebel is a traitor"));
+        assertTrue(e.getMessage().contains("left rebel is a traitor"));
     }
 
     @Test
     void should_throw_TradeFailureException_when_target_traitor() {
         IntStream.range(0, 3).forEach(i -> leia.setReportCounterUp());
-        Exception e = assertThrows(TradeFailureException.class,
+        Exception e = assertThrows(ResistanceSocialNetworkException.class,
                 () -> tradeRules.handle(luke, leia, 1, 2)
         );
-        assertTrue(e.getMessage().contains("target rebel is a traitor"));
+        assertTrue(e.getMessage().contains("right rebel is a traitor"));
     }
 
     @Test
     void should_throw_TradeFailureException_when_points_do_not_match() {
-        Exception e = assertThrows(TradeFailureException.class,
+        Exception e = assertThrows(ResistanceSocialNetworkException.class,
                 () -> tradeRules.handle(luke, leia, 1, 2)
         );
         assertTrue(e.getMessage().contains("points do not match"));

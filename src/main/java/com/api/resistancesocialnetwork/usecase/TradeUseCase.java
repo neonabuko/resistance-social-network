@@ -6,12 +6,13 @@ import com.api.resistancesocialnetwork.model.Rebel;
 import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.InventoryRepository;
 import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.RebelRepository;
 import com.api.resistancesocialnetwork.request.facade.TradeFacade;
-import com.api.resistancesocialnetwork.rules.TradeFailureException;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import com.api.resistancesocialnetwork.rules.TradeRules;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -26,30 +27,28 @@ public class TradeUseCase {
         this.inventoryRepo = inventoryRepo;
     }
 
-    public void handle(TradeFacade tradeFacade) throws TradeFailureException {
-        Rebel sourceRebel = rebelRepo.findById(tradeFacade.sourceRebelId()).orElseThrow(
-                () -> new TradeFailureException("no such source rebel")
+    public void handle(TradeFacade tradeFacadeFacade) throws ResistanceSocialNetworkException {
+        TradeFacade tradeFacade = Optional.ofNullable(tradeFacadeFacade).orElseThrow(
+                () -> new ResistanceSocialNetworkException("must provide trade parameters")
         );
-        Rebel targetRebel = rebelRepo.findById(tradeFacade.targetRebelId()).orElseThrow(
-                () -> new TradeFailureException("no such target rebel")
+        Rebel leftRebel = rebelRepo.findById(tradeFacade.leftRebelId()).orElseThrow(
+                () -> new ResistanceSocialNetworkException("left rebel not found")
         );
-
-        Inventory sourceInventory = sourceRebel.getInventory();
-        Inventory targetInventory = targetRebel.getInventory();
-
-        tradeRules.handle(
-                sourceRebel,
-                targetRebel,
-                tradeFacade.sourceItemId(),
-                tradeFacade.targetItemId()
+        Rebel rightRebel = rebelRepo.findById(tradeFacade.rightRebelId()).orElseThrow(
+                () -> new ResistanceSocialNetworkException("right rebel not found")
         );
 
-        Item sourceItem = sourceInventory.findItemBy(tradeFacade.sourceItemId()).get();
-        Item targetItem = targetInventory.findItemBy(tradeFacade.targetItemId()).get();
+        tradeRules.handle(leftRebel, rightRebel, tradeFacade.leftItemId(), tradeFacade.rightItemId());
 
-        sourceInventory.replaceItem(sourceItem, targetItem);
-        targetInventory.replaceItem(targetItem, sourceItem);
+        Inventory leftInventory = leftRebel.getInventory();
+        Inventory rightInventory = rightRebel.getInventory();
 
-        inventoryRepo.saveAll(Arrays.asList(sourceInventory, targetInventory));
+        Item leftItem = leftInventory.findItemBy(tradeFacade.leftItemId()).get();
+        Item rightItem = rightInventory.findItemBy(tradeFacade.rightItemId()).get();
+
+        leftInventory.replace(leftItem, rightItem);
+        rightInventory.replace(rightItem, leftItem);
+
+        inventoryRepo.saveAll(Arrays.asList(leftInventory, rightInventory));
     }
 }

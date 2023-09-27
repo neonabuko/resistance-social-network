@@ -11,6 +11,7 @@ import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.Locatio
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
 import com.api.resistancesocialnetwork.request.facade.SignupFacade;
 import com.api.resistancesocialnetwork.rules.SignupRules;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -126,13 +127,13 @@ class SignupUseCaseTest {
         lukeInv.setItems(Arrays.asList(nullItem));
         signupFacade = new SignupFacade(luke, lukeLocation, lukeInv);
 
-        Exception e = assertThrows(IllegalStateException.class, () ->
+        Exception e = assertThrows(ResistanceSocialNetworkException.class, () ->
                 signupUseCase.handle(signupFacade)
         );
 
         assertTrue(rebelRepoInMem.findAll().isEmpty());
         assertTrue(locationRepoInMem.findAll().isEmpty());
         assertTrue(inventoryRepoInMem.findAll().isEmpty());
-        assertTrue(e.getMessage().contains("must provide at least one item"));
+        assertTrue(e.getMessage().contains("must provide item parameters"));
     }
 }

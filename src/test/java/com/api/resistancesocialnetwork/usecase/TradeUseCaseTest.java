@@ -8,7 +8,7 @@ import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.Invento
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.ItemRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
 import com.api.resistancesocialnetwork.request.facade.TradeFacade;
-import com.api.resistancesocialnetwork.rules.TradeFailureException;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import com.api.resistancesocialnetwork.rules.TradeRules;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,14 +57,14 @@ class TradeUseCaseTest {
     }
 
     @Test
-    void source_should_contain_fandango_after_trade() throws TradeFailureException {
+    void source_should_contain_fandango_after_trade() throws ResistanceSocialNetworkException {
         tradeFacade = new TradeFacade(1, 1, 2, 2);
         tradeUseCase.handle(tradeFacade);
         assertTrue(lukeInv.findItemBy(fandango.getId()).isPresent());
     }
 
     @Test
-    void target_should_contain_doritos_after_trade() throws TradeFailureException {
+    void target_should_contain_doritos_after_trade() throws ResistanceSocialNetworkException {
         tradeFacade = new TradeFacade(1, 1, 2, 2);
         tradeUseCase.handle(tradeFacade);
         assertTrue(leiaInv.getItems().contains(doritos));
@@ -75,7 +75,7 @@ class TradeUseCaseTest {
         tradeFacade = new TradeFacade(null, 1, 2, 2);
         try {
             tradeUseCase.handle(tradeFacade);
-        } catch (TradeFailureException ignored) {}
+        } catch (ResistanceSocialNetworkException ignored) {}
 
         Inventory expectedLukeInventory = new Inventory(Arrays.asList(doritos));
         Inventory expectedLeiaInventory = new Inventory(Arrays.asList(fandango));

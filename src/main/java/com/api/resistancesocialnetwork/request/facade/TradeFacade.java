@@ -2,21 +2,18 @@ package com.api.resistancesocialnetwork.request.facade;
 
 import java.util.Optional;
 
-public record TradeFacade(Integer sourceRebelId, Integer sourceItemId, Integer targetRebelId, Integer targetItemId) {
+public record TradeFacade(Integer leftRebelId, Integer leftItemId, Integer rightRebelId, Integer rightItemId) {
 
-    public Integer sourceRebelId() {
-        return Optional.ofNullable(sourceRebelId).orElse(0);
+    public Integer leftRebelId() {
+        return Optional.ofNullable(leftRebelId).orElse(0);
     }
-
-    public Integer sourceItemId() {
-        return Optional.ofNullable(sourceItemId).orElse(0);
+    public Integer leftItemId() {
+        return Optional.ofNullable(leftItemId).orElse(0);
     }
-
-    public Integer targetRebelId() {
-        return Optional.ofNullable(targetRebelId).orElse(0);
+    public Integer rightRebelId() {
+        return Optional.ofNullable(rightRebelId).orElse(0);
     }
-
-    public Integer targetItemId() {
-        return Optional.ofNullable(targetItemId).orElse(0);
+    public Integer rightItemId() {
+        return Optional.ofNullable(rightItemId).orElse(0);
     }
 }

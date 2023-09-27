@@ -4,9 +4,8 @@ package com.api.resistancesocialnetwork.rules;
 import com.api.resistancesocialnetwork.formatters.FormatEntities;
 import com.api.resistancesocialnetwork.model.Location;
 import com.api.resistancesocialnetwork.request.facade.LocationUpdateFacade;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 @Component
 public class LocationUpdateRules {
@@ -16,14 +15,16 @@ public class LocationUpdateRules {
         this.formatEntities = formatEntities;
     }
 
-    public void handle(LocationUpdateFacade locationUpdateFacade) {
-        formatEntities.formatLocation(locationUpdateFacade.location());
-        assert_rebelId_provided_in_DTO(locationUpdateFacade.location());
+    public void handle(LocationUpdateFacade facade) throws ResistanceSocialNetworkException {
+        assert_facade_provided(facade);
+        assert_new_location_provided(facade.location());
+        formatEntities.formatLocation(facade.location());
     }
 
-    private void assert_rebelId_provided_in_DTO(Location location) {
-        Optional.ofNullable(location.getId()).orElseThrow(
-                () -> new IllegalArgumentException("must provide rebel id")
-        );
+    private void assert_facade_provided(LocationUpdateFacade facade) {
+        if (facade == null) throw new ResistanceSocialNetworkException("must provide parameters for location update");
+    }
+    private void assert_new_location_provided(Location location) {
+        if (location == null) throw new ResistanceSocialNetworkException("must provide new location");
     }
 }

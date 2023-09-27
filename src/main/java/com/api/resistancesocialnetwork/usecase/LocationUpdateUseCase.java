@@ -6,6 +6,7 @@ import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.Locatio
 import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.RebelRepository;
 import com.api.resistancesocialnetwork.request.facade.LocationUpdateFacade;
 import com.api.resistancesocialnetwork.rules.LocationUpdateRules;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,12 +23,12 @@ public class LocationUpdateUseCase {
         this.locationUpdateRules = locationUpdateRules;
     }
 
-    public void handle(LocationUpdateFacade locationUpdateFacade) {
+    public void handle(LocationUpdateFacade locationUpdateFacade) throws ResistanceSocialNetworkException {
         locationUpdateRules.handle(locationUpdateFacade);
         Integer rebelId = locationUpdateFacade.location().getId();
 
         Rebel rebel_in_repository = rebelRepository.findById(rebelId).orElseThrow(
-                () -> new IllegalArgumentException("rebel not found")
+                () -> new ResistanceSocialNetworkException("rebel not found")
         );
 
         Location location_in_repository = rebel_in_repository.getLocation();

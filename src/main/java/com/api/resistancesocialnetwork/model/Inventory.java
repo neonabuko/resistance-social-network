@@ -49,7 +49,7 @@ public class Inventory {
         this.items = items;
     }
 
-    public void replaceItem(Item previousItem, Item newItem) {
+    public void replace(Item previousItem, Item newItem) {
         items.remove(previousItem);
         items.add(newItem);
     }

@@ -1,7 +1,9 @@
 package com.api.resistancesocialnetwork.controller;
 
-import com.api.resistancesocialnetwork.request.RequestSignUp;
+import com.api.resistancesocialnetwork.request.SignupRequest;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import com.api.resistancesocialnetwork.usecase.SignupUseCase;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,12 +20,12 @@ public class SignUpController {
 
     @GetMapping("/")
     public ResponseEntity<String> displayMainPage() {
-        return ResponseEntity.ok("Welcome to the Star Wars Resistance Social Network.");
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<String> handleSignUp(@RequestBody RequestSignUp requestSignUp) {
-        signupUseCase.handle(requestSignUp.signupForm());
-        return ResponseEntity.ok("Registration successful");
+    public ResponseEntity<Void> handleSignUp(@RequestBody SignupRequest signupRequest) throws ResistanceSocialNetworkException {
+        signupUseCase.handle(signupRequest.signupFacade());
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
     }
 }

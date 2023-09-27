@@ -5,9 +5,8 @@ import com.api.resistancesocialnetwork.model.Inventory;
 import com.api.resistancesocialnetwork.model.Item;
 import com.api.resistancesocialnetwork.model.Location;
 import com.api.resistancesocialnetwork.model.Rebel;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 @Component
 public class FormatEntities {
@@ -17,10 +16,7 @@ public class FormatEntities {
         this.formatData = formatData;
     }
 
-    public void formatRebel(Rebel rebel) {
-        Optional.ofNullable(rebel).orElseThrow(
-                () -> new IllegalStateException("must provide rebel parameters")
-        );
+    public void formatRebel(Rebel rebel) throws ResistanceSocialNetworkException {
         rebel.setStats(
                 formatData.formatString(rebel.getName(), "rebel name"),
                 formatData.formatInteger(rebel.getAge(), "rebel age"),
@@ -28,11 +24,7 @@ public class FormatEntities {
         );
     }
 
-    public void formatLocation(Location location) {
-        Optional.ofNullable(location).orElseThrow(
-                () -> new IllegalStateException("must provide location parameters")
-        );
-
+    public void formatLocation(Location location) throws ResistanceSocialNetworkException {
         location.setLocation(
                 formatData.formatCoordinate(location.getLatitude(), 90),
                 formatData.formatCoordinate(location.getLongitude(), 180),
@@ -40,16 +32,8 @@ public class FormatEntities {
         );
     }
 
-    public void formatInventory(Inventory inventory) {
-        Optional.ofNullable(inventory).orElseThrow(
-                () -> new IllegalStateException("must provide inventory parameters")
-        );
-
+    public void formatInventory(Inventory inventory) throws ResistanceSocialNetworkException {
         for (Item item : inventory.getItems()) {
-            Optional.ofNullable(item).orElseThrow(
-                    () -> new IllegalStateException("must provide at least one item")
-            );
-
             item.setName(formatData.formatString(item.getName(), "item name"));
             item.setPrice(formatData.formatInteger(item.getPrice(), "item price"));
         }

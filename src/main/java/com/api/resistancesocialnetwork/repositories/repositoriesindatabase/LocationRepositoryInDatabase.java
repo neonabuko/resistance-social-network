@@ -28,8 +28,8 @@ public class LocationRepositoryInDatabase implements LocationRepository {
     }
 
     @Override
-    public Optional<Location> findById(Integer mustProvideLocationId) {
-        return adapter.findById(mustProvideLocationId);
+    public Optional<Location> findById(Integer id) {
+        return adapter.findById(id);
     }
 
     @Override
