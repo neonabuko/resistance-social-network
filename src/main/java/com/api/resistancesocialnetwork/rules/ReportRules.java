@@ -14,7 +14,7 @@ public class ReportRules {
 
     private void assert_not_self_report(Rebel sourceRebel, Rebel targetRebel) throws ResistanceSocialNetworkException {
         if (sourceRebel.getId().equals(targetRebel.getId()))
-            throw new ResistanceSocialNetworkException("can not report yourself");
+            throw new ResistanceSocialNetworkException("can not self report");
     }
 
     private void assert_target_not_already_reported_by_source(Rebel sourceRebel, Rebel targetRebel) throws ResistanceSocialNetworkException {

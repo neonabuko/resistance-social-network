@@ -1,7 +1,7 @@
 package com.api.resistancesocialnetwork.rules;
 
-import com.api.resistancesocialnetwork.formatters.FormatData;
-import com.api.resistancesocialnetwork.formatters.FormatEntities;
+import com.api.resistancesocialnetwork.usecase.formatters.FormatData;
+import com.api.resistancesocialnetwork.usecase.formatters.FormatEntities;
 import com.api.resistancesocialnetwork.model.Location;
 import com.api.resistancesocialnetwork.request.facade.LocationUpdateFacade;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;

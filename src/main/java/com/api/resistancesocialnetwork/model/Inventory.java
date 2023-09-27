@@ -13,23 +13,11 @@ public class Inventory {
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Item> items = new ArrayList<>();
 
-    @OneToOne
-    @JoinColumn(name = "rebel_id")
-    private Rebel rebel;
-
     public Inventory(List<Item> itemList) {
         this.items = itemList;
     }
 
     public Inventory() {}
-
-    public Rebel getRebel() {
-        return rebel;
-    }
-
-    public void setRebel(Rebel rebel) {
-        this.rebel = rebel;
-    }
 
     public List<Item> getItems() {
         return items;

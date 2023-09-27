@@ -1,4 +1,4 @@
-package com.api.resistancesocialnetwork.formatters;
+package com.api.resistancesocialnetwork.usecase.formatters;
 
 
 import com.api.resistancesocialnetwork.model.Inventory;
@@ -18,9 +18,9 @@ public class FormatEntities {
 
     public void formatRebel(Rebel rebel) throws ResistanceSocialNetworkException {
         rebel.setStats(
-                formatData.formatString(rebel.getName(), "rebel name"),
-                formatData.formatInteger(rebel.getAge(), "rebel age"),
-                formatData.formatString(rebel.getGender(), "rebel gender")
+                formatData.formatString(rebel.getName(), 30, "rebel name"),
+                formatData.formatInteger(rebel.getAge(), 50, "rebel age"),
+                formatData.formatString(rebel.getGender(), 10, "rebel gender")
         );
     }
 
@@ -28,14 +28,14 @@ public class FormatEntities {
         location.setLocation(
                 formatData.formatCoordinate(location.getLatitude(), 90),
                 formatData.formatCoordinate(location.getLongitude(), 180),
-                formatData.formatString(location.getBase(), "base")
+                formatData.formatString(location.getBase(), 30, "base")
         );
     }
 
     public void formatInventory(Inventory inventory) throws ResistanceSocialNetworkException {
         for (Item item : inventory.getItems()) {
-            item.setName(formatData.formatString(item.getName(), "item name"));
-            item.setPrice(formatData.formatInteger(item.getPrice(), "item price"));
+            item.setName(formatData.formatString(item.getName(), 20, "item name"));
+            item.setPrice(formatData.formatInteger(item.getPrice(), 4, "item price"));
         }
     }
 }

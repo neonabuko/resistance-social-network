@@ -1,7 +1,5 @@
 package com.api.resistancesocialnetwork.usecase;
 
-import com.api.resistancesocialnetwork.formatters.FormatData;
-import com.api.resistancesocialnetwork.formatters.FormatEntities;
 import com.api.resistancesocialnetwork.model.Inventory;
 import com.api.resistancesocialnetwork.model.Item;
 import com.api.resistancesocialnetwork.model.Location;
@@ -12,9 +10,11 @@ import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRe
 import com.api.resistancesocialnetwork.request.facade.SignupFacade;
 import com.api.resistancesocialnetwork.rules.SignupRules;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
+import com.api.resistancesocialnetwork.usecase.formatters.FormatData;
+import com.api.resistancesocialnetwork.usecase.formatters.FormatEntities;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -27,19 +27,14 @@ class SignupUseCaseTest {
     private final FormatEntities formatEntities = new FormatEntities(new FormatData());
     private final SignupRules signUpRules = new SignupRules(formatEntities);
     private final SignupUseCase signupUseCase =
-            new SignupUseCase(
-                    rebelRepoInMem,
-                    locationRepoInMem,
-                    inventoryRepoInMem,
-                    signUpRules
-            );
+            new SignupUseCase(rebelRepoInMem, signUpRules);
     private Rebel luke = new Rebel("luke", 18, "male");
     private Location lukeLocation = new Location(0.2, 21.3, "base/galaxy");
-    private final Item doritos = new Item("doritos", 1);
-    private Inventory lukeInv = new Inventory(new ArrayList<>(Arrays.asList(doritos)));
+    private Inventory lukeInv = new Inventory(Arrays.asList(new Item("doritos", 1)));
     private SignupFacade signupFacade;
 
     @Test
+    @DisplayName("should always save a rebel along with his location and inventory")
     void should_save_rebel_with_location_and_inventory() {
         luke.setId(1);
         lukeLocation.setId(1);
@@ -54,6 +49,7 @@ class SignupUseCaseTest {
     }
 
     @Test
+    @DisplayName("should not save anything if rebel not provided")
     void should_not_save_anything_if_rebel_null() {
         luke = null;
         signupFacade = new SignupFacade(luke, lukeLocation, lukeInv);
@@ -67,6 +63,7 @@ class SignupUseCaseTest {
     }
 
     @Test
+    @DisplayName("should not save anything if location not provided")
     void should_not_save_anything_if_location_null() {
         lukeLocation = null;
         signupFacade = new SignupFacade(luke, lukeLocation, lukeInv);
@@ -80,6 +77,7 @@ class SignupUseCaseTest {
     }
 
     @Test
+    @DisplayName("should not save anything if inventory not provided")
     void should_not_save_anything_if_inventor_null() {
         lukeInv = null;
         signupFacade = new SignupFacade(luke, lukeLocation, lukeInv);
@@ -94,6 +92,7 @@ class SignupUseCaseTest {
     }
 
     @Test
+    @DisplayName("should not save anything if latitude not provided")
     void should_not_save_anything_if_latitude_null() {
         lukeLocation.setLocation(null, 23.2, "base");
         signupFacade = new SignupFacade(luke, lukeLocation, lukeInv);
@@ -108,6 +107,7 @@ class SignupUseCaseTest {
     }
 
     @Test
+    @DisplayName("should not save anything if longitude not provided")
     void should_not_save_anything_if_longitude_null() {
         lukeLocation.setLocation(23.2, null, "base");
         signupFacade = new SignupFacade(luke, lukeLocation, lukeInv);
@@ -122,6 +122,7 @@ class SignupUseCaseTest {
     }
 
     @Test
+    @DisplayName("should not save anything if item not provided")
     void should_not_save_anything_if_item_null() {
         Item nullItem = null;
         lukeInv.setItems(Arrays.asList(nullItem));

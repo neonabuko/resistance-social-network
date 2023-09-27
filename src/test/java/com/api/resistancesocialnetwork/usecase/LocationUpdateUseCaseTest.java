@@ -1,7 +1,7 @@
 package com.api.resistancesocialnetwork.usecase;
 
-import com.api.resistancesocialnetwork.formatters.FormatData;
-import com.api.resistancesocialnetwork.formatters.FormatEntities;
+import com.api.resistancesocialnetwork.usecase.formatters.FormatData;
+import com.api.resistancesocialnetwork.usecase.formatters.FormatEntities;
 import com.api.resistancesocialnetwork.model.Location;
 import com.api.resistancesocialnetwork.model.Rebel;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.LocationRepositoryInMemory;
@@ -27,7 +27,7 @@ public class LocationUpdateUseCaseTest {
         rebel.setId(1);
         rebelRepositoryInMem.save(rebel);
 
-        Location toUpdateLocation = new Location(345345423525.23452345, -1283476.34323, "base");
+        Location toUpdateLocation = new Location(345345425.23452345, -1283476.34323, "base");
         toUpdateLocation.setId(1);
 
         LocationUpdateFacade locationUpdateFacade = new LocationUpdateFacade(toUpdateLocation);

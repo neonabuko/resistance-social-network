@@ -5,6 +5,7 @@ import com.api.resistancesocialnetwork.model.Item;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.InventoryRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.ItemRepositoryInMemory;
 import com.api.resistancesocialnetwork.usecase.statistics.ItemAveragesPerRebelUseCase;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -25,22 +26,18 @@ class ItemAveragesPerRebelUseCaseTest {
     private final Inventory leiaInv = new Inventory(Arrays.asList(doritos, water));
 
     @Test
+    @DisplayName("should display all items in repository, associated with their respective average amounts per rebel")
     void should_return_hashMap_with_correct_averages() {
-        itemRepositoryInMem.save(doritos);
-        itemRepositoryInMem.save(water);
-        itemRepositoryInMem.save(fandango);
-        itemRepositoryInMem.save(doritos);
-        itemRepositoryInMem.save(water);
-
-        inventoryRepoInMem.save(lukeInv);
-        inventoryRepoInMem.save(leiaInv);
+        itemRepositoryInMem.saveAll(Arrays.asList(doritos, water, fandango, doritos, water));
+        inventoryRepoInMem.saveAll(Arrays.asList(lukeInv, leiaInv));
 
         Map<String, Double> expectedAverages = new HashMap<>();
         expectedAverages.put("doritos", 1.0);
         expectedAverages.put("water", 1.0);
         expectedAverages.put("fandango", 0.5);
+
         Map<String, Double> actualAverages = itemAveragesPerRebelUseCase.handle();
 
-        assertEquals(expectedAverages.toString(), actualAverages.toString());
+        assertEquals(expectedAverages, actualAverages);
     }
 }

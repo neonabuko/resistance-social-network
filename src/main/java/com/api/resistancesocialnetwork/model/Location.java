@@ -12,9 +12,6 @@ public class Location {
     private Double longitude;
     @Column(name = "base")
     private String base;
-    @OneToOne
-    @JoinColumn(name = "rebel_id")
-    private Rebel rebel;
 
     public Location(Double latitude, Double longitude, String base) {
         this.latitude = latitude;
@@ -28,14 +25,6 @@ public class Location {
         this.latitude = newLatitude;
         this.longitude = newLongitude;
         this.base = newBase;
-    }
-
-    public Rebel getRebel() {
-        return rebel;
-    }
-
-    public void setRebel(Rebel rebel) {
-        this.rebel = rebel;
     }
 
     public Double getLatitude() {

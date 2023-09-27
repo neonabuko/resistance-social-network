@@ -41,7 +41,7 @@ public class RebelController {
 
     @PatchMapping("/trade")
     public ResponseEntity<String> handleTrade(@RequestBody TradeRequest tradeRequest) throws ResistanceSocialNetworkException {
-        tradeUseCase.handle(tradeRequest.tradeFacade());
+        tradeUseCase.handle(tradeRequest.trade());
         return new ResponseEntity<>(HttpStatus.valueOf(200));
     }
 }

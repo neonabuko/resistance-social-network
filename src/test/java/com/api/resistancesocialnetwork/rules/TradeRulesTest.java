@@ -10,6 +10,7 @@ import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkExce
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -33,25 +34,22 @@ class TradeRulesTest {
         leia = new Rebel("leia", 30, "female");
         luke.setId(1);
         leia.setId(2);
-        rebelRepoInMem.save(luke);
-        rebelRepoInMem.save(leia);
+        rebelRepoInMem.saveAll(Arrays.asList(luke, leia));
 
         lukeInv.setId(1);
         leiaInv.setId(2);
         luke.setInventory(lukeInv);
         leia.setInventory(leiaInv);
 
-        inventoryRepoInMem.save(lukeInv);
-        inventoryRepoInMem.save(leiaInv);
+        inventoryRepoInMem.saveAll(Arrays.asList(lukeInv, leiaInv));
 
         doritos.setId(1);
         water.setId(2);
-        itemRepositoryInMemory.save(doritos);
-        itemRepositoryInMemory.save(water);
+        itemRepositoryInMemory.saveAll(Arrays.asList(doritos, water));
     }
 
     @Test
-    void should_throw_NoSuchElementException_when_no_such_item_source() {
+    void should_throw_ResistanceSocialNetworkException_when_no_such_item_source() {
         Exception e = assertThrows(ResistanceSocialNetworkException.class,
                 () -> tradeRules.handle(luke, leia, 0, 0)
         );
