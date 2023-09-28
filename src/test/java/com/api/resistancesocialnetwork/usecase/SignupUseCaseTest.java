@@ -42,10 +42,10 @@ class SignupUseCaseTest {
 
         signupFacade = new SignupFacade(luke, lukeLocation, lukeInv);
         signupUseCase.handle(signupFacade);
-
+        System.out.println(luke.getLocation());
         assertNotEquals(Optional.empty(), rebelRepoInMem.findById(luke.getId()));
-        assertNotEquals(Optional.empty(), locationRepoInMem.findById(lukeLocation.getId()));
-        assertNotEquals(Optional.empty(), inventoryRepoInMem.findById(lukeInv.getId()));
+        assertNotEquals(null, luke.getLocation());
+        assertNotEquals(null, luke.getInventory());
     }
 
     @Test

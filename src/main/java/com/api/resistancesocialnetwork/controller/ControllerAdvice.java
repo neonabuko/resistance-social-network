@@ -24,11 +24,11 @@ public class ControllerAdvice {
 
     @ExceptionHandler(InvalidDataAccessApiUsageException.class)
     public ResponseEntity<String> handleInvalidDataAccessApiUsageException(InvalidDataAccessApiUsageException e) {
-        return ResponseEntity.status(500).body(e.getMessage());
+        return ResponseEntity.status(400).body(e.getMessage());
     }
 
     @ExceptionHandler(ResistanceSocialNetworkException.class)
     public ResponseEntity<String> handleResistanceSocialNetworkException(ResistanceSocialNetworkException e) {
-        return ResponseEntity.status(500).body(e.getMessage());
+        return ResponseEntity.status(400).body(e.getMessage());
     }
 }

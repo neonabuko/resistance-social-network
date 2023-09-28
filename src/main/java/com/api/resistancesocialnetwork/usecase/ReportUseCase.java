@@ -20,21 +20,21 @@ public class ReportUseCase {
         this.reportRules = reportRules;
     }
 
-    public void handle(ReportFacade reportFacadeFacade) throws ResistanceSocialNetworkException {
-        ReportFacade reportFacade = Optional.ofNullable(reportFacadeFacade).orElse(new ReportFacade(0, 0));
+    public void handle(ReportFacade reportFacade) throws ResistanceSocialNetworkException {
+        ReportFacade report = Optional.ofNullable(reportFacade).orElse(new ReportFacade(0, 0));
 
-        Rebel sourceRebel = rebelRepository.findById(reportFacade.sourceId()).orElseThrow(
+        Rebel reporting = rebelRepository.findById(report.reportingId()).orElseThrow(
                 () -> new ResistanceSocialNetworkException("reporting rebel not found")
         );
-        Rebel targetRebel = rebelRepository.findById(reportFacade.targetId()).orElseThrow(
+        Rebel reported = rebelRepository.findById(report.reportedId()).orElseThrow(
                 () -> new ResistanceSocialNetworkException("reported rebel not found")
         );
 
-        reportRules.handle(sourceRebel, targetRebel);
+        reportRules.handle(reporting, reported);
 
-        targetRebel.setReportCounterUp();
-        sourceRebel.addToReportedRebels(targetRebel.getId());
+        reported.setReportCounterUp();
+        reporting.addToReportedRebels(reported.getId());
 
-        rebelRepository.saveAll(Arrays.asList(sourceRebel, targetRebel));
+        rebelRepository.saveAll(Arrays.asList(reporting, reported));
     }
 }

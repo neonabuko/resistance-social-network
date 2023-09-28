@@ -14,15 +14,15 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/stats")
-public class StatsController {
+public class AllianceStatsController {
     private final ShowAlliesUseCase showAlliesUseCase;
     private final AlliesTraitorsPercentagesUseCase alliesTraitorsPercentagesUseCase;
     private final ItemAveragesPerRebelUseCase itemAveragesPerRebelUseCase;
     private final NumberFormat decimalToPercentage = NumberFormat.getPercentInstance();
 
-    public StatsController(ShowAlliesUseCase showAlliesUseCase,
-                           AlliesTraitorsPercentagesUseCase alliesTraitorsPercentagesUseCase,
-                           ItemAveragesPerRebelUseCase itemAveragesPerRebelUseCase) {
+    public AllianceStatsController(ShowAlliesUseCase showAlliesUseCase,
+                                   AlliesTraitorsPercentagesUseCase alliesTraitorsPercentagesUseCase,
+                                   ItemAveragesPerRebelUseCase itemAveragesPerRebelUseCase) {
         this.showAlliesUseCase = showAlliesUseCase;
         this.alliesTraitorsPercentagesUseCase = alliesTraitorsPercentagesUseCase;
         this.itemAveragesPerRebelUseCase = itemAveragesPerRebelUseCase;

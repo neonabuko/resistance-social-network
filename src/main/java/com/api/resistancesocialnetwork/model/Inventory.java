@@ -12,6 +12,11 @@ public class Inventory {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "inventories_with_items",
+            joinColumns = @JoinColumn(name = "inventory_id"),
+            inverseJoinColumns = @JoinColumn(name = "item_id")
+    )
     private List<Item> items = new ArrayList<>();
 
     public Inventory(List<Item> itemList) {

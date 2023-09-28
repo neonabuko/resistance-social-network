@@ -10,7 +10,8 @@ public class ResistanceSocialNetworkException extends RuntimeException {
         if (stackTrace.length < 4) {
             return "UnknownClass";
         }
-        return stackTrace[3].getClassName();
+        assert stackTrace[3].getFileName() != null;
+        return stackTrace[3].getFileName().replace(".java", "");
     }
 }
 

@@ -28,18 +28,15 @@ public class SignupRules {
         if (signupFacade == null) throw new ResistanceSocialNetworkException("must provide signup parameters");
     }
     private void assert_rebel_valid(Rebel rebel) throws ResistanceSocialNetworkException {
-        if (rebel == null) throw new ResistanceSocialNetworkException("must provide rebel parameters");
         formatEntities.formatRebel(rebel);
     }
 
     private void assert_coordinates_valid(Location location) throws ResistanceSocialNetworkException {
-        if (location == null) throw new ResistanceSocialNetworkException("must provide location parameters");
         formatEntities.formatLocation(location);
     }
 
     private void assert_inventory_valid(Inventory inventory) throws ResistanceSocialNetworkException {
-        if (inventory == null) throw new ResistanceSocialNetworkException("must provide inventory parameters");
-
+        if (inventory.getItems().isEmpty()) throw new ResistanceSocialNetworkException("must provide at least one item");
         for (Item item : inventory.getItems()) {
             if (item == null) throw new ResistanceSocialNetworkException("must provide item parameters");
         }

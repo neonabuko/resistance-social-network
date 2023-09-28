@@ -20,54 +20,56 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TradeUseCaseTest {
-    private final TradeRules tradeRules = new TradeRules();
     private final RebelRepositoryInMemory rebelRepoInMem = new RebelRepositoryInMemory();
     private final InventoryRepository inventoryRepoInMem = new InventoryRepositoryInMemory();
-    private final TradeUseCase tradeUseCase = new TradeUseCase(tradeRules, rebelRepoInMem, inventoryRepoInMem);
-    private Item doritos;
-    private Item fandango;
-    private Inventory lukeInv;
-    private Inventory leiaInv;
-    private TradeFacade tradeFacade;
     private final ItemRepositoryInMemory itemRepoInMem = new ItemRepositoryInMemory();
+
+    private final TradeRules tradeRules = new TradeRules();
+    private final TradeUseCase tradeUseCase = new TradeUseCase(tradeRules, rebelRepoInMem, inventoryRepoInMem);
+
+    private Inventory leftInventory;
+    private Inventory rightInventory;
+    private Item leftItem;
+    private Item rightItem;
+
+    private TradeFacade tradeFacade;
 
     @BeforeEach
     void setUp() {
-        Rebel luke = new Rebel("luke", 18, "male");
-        Rebel leia = new Rebel("leia", 30, "female");
-        luke.setId(1);
-        leia.setId(2);
-        doritos = new Item("doritos", 1);
-        fandango = new Item("fandango", 1);
+        Rebel leftRebel = new Rebel("luke", 18, "male");
+        Rebel rightRebel = new Rebel("leia", 30, "female");
+        leftRebel.setId(1);
+        rightRebel.setId(2);
 
-        lukeInv = new Inventory(
-                new ArrayList<>(Arrays.asList(doritos))
-        );
-        leiaInv = new Inventory(
-                new ArrayList<>(Arrays.asList(fandango))
-        );
-        doritos.setId(1);
-        fandango.setId(2);
-        luke.setInventory(lukeInv);
-        leia.setInventory(leiaInv);
+        leftItem = new Item("doritos", 1);
+        rightItem = new Item("fandango", 1);
+        leftItem.setId(1);
+        rightItem.setId(2);
 
-        rebelRepoInMem.saveAll(Arrays.asList(luke, leia));
-        itemRepoInMem.saveAll(Arrays.asList(doritos, fandango));
-        inventoryRepoInMem.saveAll(Arrays.asList(lukeInv, leiaInv));
+        leftInventory = new Inventory(new ArrayList<>(Arrays.asList(leftItem)));
+        rightInventory = new Inventory(new ArrayList<>(Arrays.asList(rightItem)));
+        leftInventory.setId(1);
+        rightInventory.setId(2);
+        leftRebel.setInventory(leftInventory);
+        rightRebel.setInventory(rightInventory);
+
+        rebelRepoInMem.saveAll(Arrays.asList(leftRebel, rightRebel));
+        itemRepoInMem.saveAll(Arrays.asList(leftItem, rightItem));
+        inventoryRepoInMem.saveAll(Arrays.asList(leftInventory, rightInventory));
     }
 
     @Test
-    void source_should_contain_fandango_after_trade() throws ResistanceSocialNetworkException {
+    void left_inventory_should_contain_right_item_after_trade() throws ResistanceSocialNetworkException {
         tradeFacade = new TradeFacade(1, 1, 2, 2);
         tradeUseCase.handle(tradeFacade);
-        assertTrue(lukeInv.findItemBy(fandango.getId()).isPresent());
+        assertTrue(leftInventory.findItemBy(rightItem.getId()).isPresent());
     }
 
     @Test
-    void target_should_contain_doritos_after_trade() throws ResistanceSocialNetworkException {
+    void right_inventory_should_contain_left_item_after_trade() throws ResistanceSocialNetworkException {
         tradeFacade = new TradeFacade(1, 1, 2, 2);
         tradeUseCase.handle(tradeFacade);
-        assertTrue(leiaInv.getItems().contains(doritos));
+        assertTrue(rightInventory.getItems().contains(leftItem));
     }
 
     @Test
@@ -77,12 +79,12 @@ class TradeUseCaseTest {
             tradeUseCase.handle(tradeFacade);
         } catch (ResistanceSocialNetworkException ignored) {}
 
-        Inventory expectedLukeInventory = new Inventory(Arrays.asList(doritos));
-        Inventory expectedLeiaInventory = new Inventory(Arrays.asList(fandango));
-        expectedLukeInventory.setId(lukeInv.getId());
-        expectedLeiaInventory.setId(leiaInv.getId());
+        Inventory expectedLeftInventory = new Inventory(Arrays.asList(leftItem));
+        Inventory expectedRightInventory = new Inventory(Arrays.asList(rightItem));
+        expectedLeftInventory.setId(leftInventory.getId());
+        expectedRightInventory.setId(rightInventory.getId());
 
-        assertEquals(lukeInv.toString(), expectedLukeInventory.toString());
-        assertEquals(leiaInv.toString(), expectedLeiaInventory.toString());
+        assertEquals(leftInventory.toString(), expectedLeftInventory.toString());
+        assertEquals(rightInventory.toString(), expectedRightInventory.toString());
     }
 }

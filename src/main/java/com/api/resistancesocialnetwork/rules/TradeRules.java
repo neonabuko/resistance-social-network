@@ -14,8 +14,8 @@ public class TradeRules {
     public void handle(Rebel leftRebel, Rebel rightRebel,
                        Integer leftItemId, Integer rightItemId) throws ResistanceSocialNetworkException {
         assert_traders_are_allies(leftRebel, rightRebel);
-        Item leftItem = assert_inventory_has_item(leftRebel, leftItemId);
-        Item rightItem = assert_inventory_has_item(rightRebel, rightItemId);
+        Item leftItem = retrieve_item_from_inventory_if_present(leftRebel, leftItemId);
+        Item rightItem = retrieve_item_from_inventory_if_present(rightRebel, rightItemId);
         assert_points_match(leftItem.getPrice(), rightItem.getPrice());
     }
 
@@ -24,7 +24,7 @@ public class TradeRules {
         if (rightRebel.isTraitor()) throw new ResistanceSocialNetworkException("right rebel is a traitor");
     }
 
-    private Item assert_inventory_has_item(Rebel rebel, Integer tradeItemId) throws ResistanceSocialNetworkException {
+    private Item retrieve_item_from_inventory_if_present(Rebel rebel, Integer tradeItemId) throws ResistanceSocialNetworkException {
         return rebel.getInventory().findItemBy(tradeItemId).orElseThrow(
                 () -> new ResistanceSocialNetworkException("item not found with rebel id " + rebel.getId())
         );

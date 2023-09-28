@@ -21,12 +21,12 @@ public class SignupUseCase {
         this.signUpRules = signUpRules;
     }
 
-    public void handle(SignupFacade signupFacade) throws ResistanceSocialNetworkException {
-        signUpRules.handle(signupFacade);
+    public void handle(SignupFacade signup) throws ResistanceSocialNetworkException {
+        signUpRules.handle(signup);
 
-        Location formattedLocation = signupFacade.location();
-        Rebel formattedRebel = signupFacade.rebel();
-        Inventory formattedInventory = signupFacade.inventory();
+        Location formattedLocation = signup.location();
+        Rebel formattedRebel = signup.rebel();
+        Inventory formattedInventory = signup.inventory();
 
         formattedRebel.setLocation(formattedLocation);
         formattedRebel.setInventory(formattedInventory);
