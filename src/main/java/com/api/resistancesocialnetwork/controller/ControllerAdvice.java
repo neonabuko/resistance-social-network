@@ -2,8 +2,10 @@ package com.api.resistancesocialnetwork.controller;
 
 import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -30,5 +32,10 @@ public class ControllerAdvice {
     @ExceptionHandler(ResistanceSocialNetworkException.class)
     public ResponseEntity<String> handleResistanceSocialNetworkException(ResistanceSocialNetworkException e) {
         return ResponseEntity.status(400).body(e.getMessage());
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<String> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
+        return new ResponseEntity<>(HttpStatus.valueOf(405));
     }
 }

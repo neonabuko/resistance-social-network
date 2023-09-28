@@ -26,7 +26,7 @@ class ItemAveragesPerRebelUseCaseTest {
     private final Inventory leiaInv = new Inventory(Arrays.asList(doritos, water));
 
     @Test
-    @DisplayName("should display all items in repository, associated with their respective average amounts per rebel")
+    @DisplayName("should contain all items in repository, associated with their respective average amounts per rebel")
     void should_return_hashMap_with_correct_averages() {
         itemRepositoryInMem.saveAll(Arrays.asList(doritos, water, fandango, doritos, water));
         inventoryRepoInMem.saveAll(Arrays.asList(lukeInv, leiaInv));

@@ -20,65 +20,65 @@ class TradeRulesTest {
     private final RebelRepositoryInMemory rebelRepoInMem = new RebelRepositoryInMemory();
     private final InventoryRepositoryInMemory inventoryRepoInMem = new InventoryRepositoryInMemory();
     private final ItemRepositoryInMemory itemRepositoryInMemory = new ItemRepositoryInMemory();
-    private final Item doritos = new Item("doritos", 1);
-    private final Item water = new Item("water", 2);
-    private final Inventory lukeInv = new Inventory(List.of(doritos));
-    private final Inventory leiaInv = new Inventory(List.of(water));
+    private final Item leftItem = new Item("doritos", 1);
+    private final Item rightItem = new Item("water", 2);
+    private final Inventory leftInventory = new Inventory(List.of(leftItem));
+    private final Inventory rightInventory = new Inventory(List.of(rightItem));
     private final TradeRules tradeRules = new TradeRules();
-    private Rebel luke;
-    private Rebel leia;
+    private Rebel leftRebel;
+    private Rebel rightRebel;
 
     @BeforeEach
     void setUp() {
-        luke = new Rebel("luke", 18, "male");
-        leia = new Rebel("leia", 30, "female");
-        luke.setId(1);
-        leia.setId(2);
-        rebelRepoInMem.saveAll(Arrays.asList(luke, leia));
+        leftRebel = new Rebel("luke", 18, "male");
+        rightRebel = new Rebel("leia", 30, "female");
+        leftRebel.setId(1);
+        rightRebel.setId(2);
+        rebelRepoInMem.saveAll(Arrays.asList(leftRebel, rightRebel));
 
-        lukeInv.setId(1);
-        leiaInv.setId(2);
-        luke.setInventory(lukeInv);
-        leia.setInventory(leiaInv);
+        leftInventory.setId(1);
+        rightInventory.setId(2);
+        leftRebel.setInventory(leftInventory);
+        rightRebel.setInventory(rightInventory);
 
-        inventoryRepoInMem.saveAll(Arrays.asList(lukeInv, leiaInv));
+        inventoryRepoInMem.saveAll(Arrays.asList(leftInventory, rightInventory));
 
-        doritos.setId(1);
-        water.setId(2);
-        itemRepositoryInMemory.saveAll(Arrays.asList(doritos, water));
+        leftItem.setId(1);
+        rightItem.setId(2);
+        itemRepositoryInMemory.saveAll(Arrays.asList(leftItem, rightItem));
     }
 
     @Test
-    void should_throw_ResistanceSocialNetworkException_when_no_such_item_source() {
+    void should_throw_ResistanceSocialNetworkException_when_no_such_left_item() {
         Exception e = assertThrows(ResistanceSocialNetworkException.class,
-                () -> tradeRules.handle(luke, leia, 0, 0)
+                () -> tradeRules.handle(leftRebel, rightRebel, 0, 0)
         );
-        assertTrue(e.getMessage().contains("item not found with rebel id " + luke.getId()));
+        assertTrue(e.getMessage().contains("item not found with rebel id " + leftRebel.getId()));
     }
 
     @Test
-    void should_throw_NoSuchElementException_when_no_such_item_target() {
+    void should_throw_ResistanceSocialNetworkException_when_no_such_right_item() {
         Exception e = assertThrows(ResistanceSocialNetworkException.class,
-                () -> tradeRules.handle(luke, leia, 1, 0)
+                () -> tradeRules.handle(leftRebel, rightRebel, 1, 0)
         );
         System.out.println(e.getMessage());
-        assertTrue(e.getMessage().contains("item not found with rebel id " + leia.getId()));
+        assertTrue(e.getMessage().contains("item not found with rebel id " + rightRebel.getId()));
     }
 
     @Test
-    void should_throw_TradeFailureException_when_source_traitor() {
-        IntStream.range(0, 3).forEach(i -> luke.setReportCounterUp());
+    void should_throw_TradeFailureException_when_leftRebel_traitor() {
+        IntStream.range(0, 3).forEach(i -> leftRebel.setReportCounterUp());
         Exception e = assertThrows(ResistanceSocialNetworkException.class,
-                () -> tradeRules.handle(luke, leia, 1, 2)
+                () -> tradeRules.handle(leftRebel, rightRebel, 1, 2)
         );
         assertTrue(e.getMessage().contains("left rebel is a traitor"));
     }
 
     @Test
-    void should_throw_TradeFailureException_when_target_traitor() {
-        IntStream.range(0, 3).forEach(i -> leia.setReportCounterUp());
+    void should_throw_TradeFailureException_when_rightRebel_traitor() {
+        IntStream.range(0, 3).forEach(i -> rightRebel.setReportCounterUp());
         Exception e = assertThrows(ResistanceSocialNetworkException.class,
-                () -> tradeRules.handle(luke, leia, 1, 2)
+                () -> tradeRules.handle(leftRebel, rightRebel, 1, 2)
         );
         assertTrue(e.getMessage().contains("right rebel is a traitor"));
     }
@@ -86,7 +86,7 @@ class TradeRulesTest {
     @Test
     void should_throw_TradeFailureException_when_points_do_not_match() {
         Exception e = assertThrows(ResistanceSocialNetworkException.class,
-                () -> tradeRules.handle(luke, leia, 1, 2)
+                () -> tradeRules.handle(leftRebel, rightRebel, 1, 2)
         );
         assertTrue(e.getMessage().contains("points do not match"));
     }

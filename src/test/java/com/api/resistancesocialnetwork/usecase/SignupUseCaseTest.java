@@ -34,7 +34,7 @@ class SignupUseCaseTest {
     private SignupFacade signupFacade;
 
     @Test
-    @DisplayName("should always save a rebel along with his location and inventory")
+    @DisplayName("should always save rebel along with his location and inventory")
     void should_save_rebel_with_location_and_inventory() {
         luke.setId(1);
         lukeLocation.setId(1);
@@ -122,7 +122,7 @@ class SignupUseCaseTest {
     }
 
     @Test
-    @DisplayName("should not save anything if item not provided")
+    @DisplayName("should not save anything if no items provided")
     void should_not_save_anything_if_item_null() {
         Item nullItem = null;
         lukeInv.setItems(Arrays.asList(nullItem));

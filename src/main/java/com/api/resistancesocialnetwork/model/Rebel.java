@@ -18,9 +18,9 @@ public class Rebel {
     private String gender;
     @Column(name = "report_counter")
     private Integer reportCounter = 0;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Location.class, cascade = CascadeType.ALL)
     private Location location;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Inventory.class, cascade = CascadeType.ALL)
     private Inventory inventory;
     @Column(name = "reported_ids")
     private final List<Integer> reportedRebels = new ArrayList<>();

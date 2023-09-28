@@ -20,10 +20,10 @@ class FormatDataTest {
     }
 
     @Test
-    @DisplayName("reduce any string to a substring of its first n characters if length > n")
-    void should_reduce_to_30char_string_when_string_over_30_char() throws ResistanceSocialNetworkException {
-        String expectedString = "a".repeat(30);
+    @DisplayName("should reduce string to a substring of its first n characters if length > n")
+    void should_reduce_string_when_string_over_char_limit() throws ResistanceSocialNetworkException {
         String actualString = formatData.formatString("a".repeat(31), 30, "rebel name");
+        String expectedString = "a".repeat(30);
         assertEquals(expectedString, actualString);
     }
 
@@ -36,25 +36,26 @@ class FormatDataTest {
     }
 
     @Test
-    @DisplayName("if n > symmetricLimit => format(n) = limit; else if n < symmetricLimit => format(n) => -limit")
+    @DisplayName("format(n > symmetricLimit) = limit; format(n < symmetricLimit) => -limit")
         // symmetricLimit = 90 => formatCoordinate(238.7) = 90.0 | formatCoordinate(-372.4426) = -90.0
     void should_round_coordinate_to_symmetric_limit() throws ResistanceSocialNetworkException {
         Integer symmetricLimit = 90;
-        Double expected_positive_output = 90.0;
-        Double actual_positive_output = formatData.formatCoordinate(122193.321, symmetricLimit);
 
-        Double expected_negative_output = -90.0;
+        Double actual_positive_output = formatData.formatCoordinate(122193.321, symmetricLimit);
+        Double expected_positive_output = 90.0;
+
         Double actual_negative_output = formatData.formatCoordinate(-122193.321, symmetricLimit);
+        Double expected_negative_output = -90.0;
 
         assertEquals(expected_positive_output, actual_positive_output);
         assertEquals(expected_negative_output, actual_negative_output);
     }
 
     @Test
-    @DisplayName("if integer > max => format(integer) = max; else if integer < 0 => format(integer) = 0")
+    @DisplayName("format(integer > max) = max; format(integer < 0) = 0")
     void should_round_integer_to_limit() {
-        Integer expectedInteger = 100;
         Integer actualInteger = formatData.formatInteger(2348, 100, "");
+        Integer expectedInteger = 100;
         assertEquals(expectedInteger, actualInteger);
     }
 }

@@ -11,7 +11,7 @@ import java.util.Optional;
 public class Inventory {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = Item.class, cascade = CascadeType.ALL)
     @JoinTable(
             name = "inventories_with_items",
             joinColumns = @JoinColumn(name = "inventory_id"),

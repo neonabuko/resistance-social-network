@@ -27,6 +27,7 @@ public class SignupRules {
     private void assert_facade_not_null(SignupFacade signupFacade) throws ResistanceSocialNetworkException {
         if (signupFacade == null) throw new ResistanceSocialNetworkException("must provide signup parameters");
     }
+
     private void assert_rebel_valid(Rebel rebel) throws ResistanceSocialNetworkException {
         formatEntities.formatRebel(rebel);
     }

@@ -12,12 +12,14 @@ public class ReportUseCaseTest {
     private final RebelRepositoryInMemory rebelRepoInMem = new RebelRepositoryInMemory();
 
     @Test
-    void reportCounter_of_reported_rebel_should_increase_by_one_after_report() {
+    void should_increase_reportCounter_of_reported_rebel_by_one() {
         Rebel zezinho = new Rebel("zezinho", 18, "masculino");
         Rebel pedrinho = new Rebel("pedrinho", 18, "feminino");
         zezinho.setId(1);
         pedrinho.setId(2);
         rebelRepoInMem.saveAll(Arrays.asList(zezinho, pedrinho));
+
+        Assertions.assertEquals(0, pedrinho.getReportCounter());
 
         ReportFacade reportFacade = new ReportFacade(1, 2);
         new ReportUseCase( rebelRepoInMem, new ReportRules() )
