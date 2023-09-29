@@ -12,7 +12,8 @@
 ### Implements:
 - [x] Spring Web
 - [x] Spring Data JPA
-- [x] Hibernate (H2)
+- [x] PostgreSQL
+- [x] Docker 
 
 ## Use Cases
 - Sign up
