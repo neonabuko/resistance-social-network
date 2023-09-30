@@ -1,14 +1,16 @@
-version: '3'
+version: '3.9'
 services:
   app:
-    build: .
+    build:
+      dockerfile: Dockerfile
+      context: .
     ports:
-      - "8080:8080"  # Map host port 8080 to container port 8080
+      - "8080:8080"
     depends_on:
       - postgres
 
   postgres:
-    image: postgres:latest
+    image: postgres
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: user
