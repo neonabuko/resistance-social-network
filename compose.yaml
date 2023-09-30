@@ -4,6 +4,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: .
+    restart: always
     ports:
       - "8080:8080"
     depends_on:
@@ -11,6 +12,7 @@ services:
 
   postgres:
     image: postgres
+    restart: always
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: user
