@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   app:
-    image: resistance-social-network:alpine3.12
+    image: resistance-social-network:alpine3
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
       interval: 20s
@@ -15,12 +15,14 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_started
 
   postgres:
-    image: postgres:10-alpine3.13
+    image: postgres:10-beta1-alpine
     restart: always
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
+    command: [ "postgres", "-c", "wal_level=logical" ]
