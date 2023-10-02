@@ -7,8 +7,17 @@
 > The empire continues its relentless struggle to conquer the galaxy. As a resistance soldier, I have been assigned to
 > develop a system for sharing resources among rebels.
 
-### Java Version: 21
+### Requirements:
+- Docker Compose V2
 
+## Installing:
+```shell
+    $ git clone https://https://github.com/neonabuko/resistance-social-network/
+    
+    $ cd resistance-social-network
+    
+    $ docker compose up
+```
 ### Implements:
 - [x] Spring Web
 - [x] Spring Data JPA
