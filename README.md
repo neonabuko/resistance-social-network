@@ -12,11 +12,11 @@
 
 ## Installing:
 ```shell
-    $ git clone https://github.com/neonabuko/resistance-social-network/
+    git clone https://github.com/neonabuko/resistance-social-network/
     
-    $ cd resistance-social-network
+    cd resistance-social-network
     
-    $ docker compose up
+    docker compose up
 ```
 ### Implements:
 - [x] Spring Web
