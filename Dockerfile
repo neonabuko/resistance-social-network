@@ -8,9 +8,11 @@ COPY /src ./src
 
 RUN mvn package
 
-FROM openjdk:17-alpine3.12 as final
+FROM alpine:3 as final
 
 WORKDIR /app
+
+RUN apk --no-cache add openjdk17-jre
 
 COPY --from=build /app/build/target/resistance-social-network-0.0.1.jar /app/app.jar
 
