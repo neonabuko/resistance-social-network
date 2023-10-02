@@ -12,7 +12,7 @@
 
 ## Installing:
 ```shell
-    $ git clone https://https://github.com/neonabuko/resistance-social-network/
+    $ git clone https://github.com/neonabuko/resistance-social-network/
     
     $ cd resistance-social-network
     
