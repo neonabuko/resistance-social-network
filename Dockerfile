@@ -12,11 +12,16 @@ FROM alpine:3 as final
 
 WORKDIR /app
 
-RUN apk --no-cache add openjdk17-jre
+RUN apk --no-cache add openjdk17-jre curl
 
 COPY --from=build /app/build/target/resistance-social-network-0.0.1.jar /app/app.jar
 
-RUN apk add curl
+RUN rm -rf /var/cache/apk/* \
+    && rm -rf /tmp/* \
+    && rm -rf /var/tmp/* \
+    && rm -rf /var/log/* \
+    && rm -rf /usr/share/man/* \
+    && rm -rf /usr/share/doc/*
 
 EXPOSE 8080
 
