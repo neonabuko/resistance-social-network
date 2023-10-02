@@ -1,6 +1,13 @@
 version: '3.9'
+
 services:
   app:
+    image: resistance-social-network:alpine3.12
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      interval: 20s
+      timeout: 10s
+      retries: 2
     build:
       dockerfile: Dockerfile
       context: .
@@ -11,7 +18,7 @@ services:
       - postgres
 
   postgres:
-    image: postgres
+    image: postgres:10-alpine3.13
     restart: always
     environment:
       POSTGRES_DB: postgres

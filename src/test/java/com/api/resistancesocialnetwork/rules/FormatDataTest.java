@@ -12,6 +12,7 @@ class FormatDataTest {
     private final FormatData formatData = new FormatData();
 
     @Test
+    @DisplayName("should throw exception when string null")
     void should_throw_ResistanceSocialNetworkException_when_string_null() {
         Exception e = assertThrows(ResistanceSocialNetworkException.class, () ->
                 formatData.formatString(null, 30, "rebel name")
@@ -20,7 +21,7 @@ class FormatDataTest {
     }
 
     @Test
-    @DisplayName("should reduce string to a substring of its first n characters if length > n")
+    @DisplayName("should reduce string length to limit")
     void should_reduce_string_when_string_over_char_limit() throws ResistanceSocialNetworkException {
         String actualString = formatData.formatString("a".repeat(31), 30, "rebel name");
         String expectedString = "a".repeat(30);
@@ -28,6 +29,7 @@ class FormatDataTest {
     }
 
     @Test
+    @DisplayName("should throw exception when coordinate null")
     void should_throw_ResistanceSocialNetworkException_when_coordinate_null() {
         Exception e = assertThrows(ResistanceSocialNetworkException.class,
                 () -> formatData.formatCoordinate(null, 180)
@@ -36,7 +38,7 @@ class FormatDataTest {
     }
 
     @Test
-    @DisplayName("format(n > symmetricLimit) = limit; format(n < symmetricLimit) => -limit")
+    @DisplayName("should output double inside symmetric limit")
         // symmetricLimit = 90 => formatCoordinate(238.7) = 90.0 | formatCoordinate(-372.4426) = -90.0
     void should_round_coordinate_to_symmetric_limit() throws ResistanceSocialNetworkException {
         Integer symmetricLimit = 90;
@@ -52,7 +54,7 @@ class FormatDataTest {
     }
 
     @Test
-    @DisplayName("format(integer > max) = max; format(integer < 0) = 0")
+    @DisplayName("should output integer inside limit")
     void should_round_integer_to_limit() {
         Integer actualInteger = formatData.formatInteger(2348, 100, "");
         Integer expectedInteger = 100;
