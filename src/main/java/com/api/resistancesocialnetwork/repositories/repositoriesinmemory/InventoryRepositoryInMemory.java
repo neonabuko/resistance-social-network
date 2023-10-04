@@ -1,6 +1,6 @@
 package com.api.resistancesocialnetwork.repositories.repositoriesinmemory;
 
-import com.api.resistancesocialnetwork.model.Inventory;
+import com.api.resistancesocialnetwork.entity.Inventory;
 import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.InventoryRepository;
 
 import java.util.ArrayList;

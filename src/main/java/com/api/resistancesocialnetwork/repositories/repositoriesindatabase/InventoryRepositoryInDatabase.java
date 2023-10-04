@@ -1,7 +1,7 @@
 package com.api.resistancesocialnetwork.repositories.repositoriesindatabase;
 
 
-import com.api.resistancesocialnetwork.model.Inventory;
+import com.api.resistancesocialnetwork.entity.Inventory;
 import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.InventoryRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;

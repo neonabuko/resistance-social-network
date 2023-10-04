@@ -1,6 +1,6 @@
 package com.api.resistancesocialnetwork.repositories.repositoriesindatabase;
 
-import com.api.resistancesocialnetwork.model.Item;
+import com.api.resistancesocialnetwork.entity.Item;
 import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.ItemRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;

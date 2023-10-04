@@ -1,8 +1,8 @@
 package com.api.resistancesocialnetwork.rules;
 
-import com.api.resistancesocialnetwork.model.Inventory;
-import com.api.resistancesocialnetwork.model.Item;
-import com.api.resistancesocialnetwork.model.Rebel;
+import com.api.resistancesocialnetwork.entity.Inventory;
+import com.api.resistancesocialnetwork.entity.Item;
+import com.api.resistancesocialnetwork.entity.Rebel;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.InventoryRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.ItemRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
@@ -14,7 +14,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TradeRulesTest {
     private final RebelRepositoryInMemory rebelRepoInMem = new RebelRepositoryInMemory();

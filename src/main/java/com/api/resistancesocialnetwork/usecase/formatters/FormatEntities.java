@@ -1,10 +1,10 @@
 package com.api.resistancesocialnetwork.usecase.formatters;
 
 
-import com.api.resistancesocialnetwork.model.Inventory;
-import com.api.resistancesocialnetwork.model.Item;
-import com.api.resistancesocialnetwork.model.Location;
-import com.api.resistancesocialnetwork.model.Rebel;
+import com.api.resistancesocialnetwork.entity.Inventory;
+import com.api.resistancesocialnetwork.entity.Item;
+import com.api.resistancesocialnetwork.entity.Location;
+import com.api.resistancesocialnetwork.entity.Rebel;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import org.springframework.stereotype.Component;
 

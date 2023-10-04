@@ -1,6 +1,6 @@
 package com.api.resistancesocialnetwork.rules;
 
-import com.api.resistancesocialnetwork.model.Rebel;
+import com.api.resistancesocialnetwork.entity.Rebel;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
 import com.api.resistancesocialnetwork.request.facade.ReportFacade;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;

@@ -1,7 +1,7 @@
 package com.api.resistancesocialnetwork.rules;
 
-import com.api.resistancesocialnetwork.usecase.formatters.FormatData;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
+import com.api.resistancesocialnetwork.usecase.formatters.FormatData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

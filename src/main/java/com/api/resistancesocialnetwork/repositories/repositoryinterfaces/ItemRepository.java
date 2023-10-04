@@ -1,6 +1,6 @@
 package com.api.resistancesocialnetwork.repositories.repositoryinterfaces;
 
-import com.api.resistancesocialnetwork.model.Item;
+import com.api.resistancesocialnetwork.entity.Item;
 
 import java.util.List;
 import java.util.Optional;

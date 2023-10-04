@@ -1,13 +1,13 @@
 package com.api.resistancesocialnetwork.usecase;
 
-import com.api.resistancesocialnetwork.model.Inventory;
-import com.api.resistancesocialnetwork.model.Item;
-import com.api.resistancesocialnetwork.model.Rebel;
+import com.api.resistancesocialnetwork.entity.Inventory;
+import com.api.resistancesocialnetwork.entity.Item;
+import com.api.resistancesocialnetwork.entity.Rebel;
 import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.InventoryRepository;
 import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.RebelRepository;
 import com.api.resistancesocialnetwork.request.facade.TradeFacade;
-import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import com.api.resistancesocialnetwork.rules.TradeRules;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 

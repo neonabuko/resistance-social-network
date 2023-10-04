@@ -1,6 +1,6 @@
 package com.api.resistancesocialnetwork.request.facade;
 
-import com.api.resistancesocialnetwork.model.Location;
+import com.api.resistancesocialnetwork.entity.Location;
 
 import java.util.Optional;
 

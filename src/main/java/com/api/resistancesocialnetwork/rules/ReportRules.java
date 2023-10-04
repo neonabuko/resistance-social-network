@@ -1,7 +1,7 @@
 package com.api.resistancesocialnetwork.rules;
 
 
-import com.api.resistancesocialnetwork.model.Rebel;
+import com.api.resistancesocialnetwork.entity.Rebel;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import org.springframework.stereotype.Component;
 

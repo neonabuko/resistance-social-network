@@ -1,6 +1,6 @@
 package com.api.resistancesocialnetwork.repositories.repositoriesinmemory;
 
-import com.api.resistancesocialnetwork.model.Location;
+import com.api.resistancesocialnetwork.entity.Location;
 import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.LocationRepository;
 
 import java.util.ArrayList;

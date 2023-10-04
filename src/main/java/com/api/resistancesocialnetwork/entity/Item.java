@@ -1,4 +1,4 @@
-package com.api.resistancesocialnetwork.model;
+package com.api.resistancesocialnetwork.entity;
 
 import jakarta.persistence.*;
 

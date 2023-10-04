@@ -1,13 +1,13 @@
 package com.api.resistancesocialnetwork.usecase;
 
-import com.api.resistancesocialnetwork.usecase.formatters.FormatData;
-import com.api.resistancesocialnetwork.usecase.formatters.FormatEntities;
-import com.api.resistancesocialnetwork.model.Location;
-import com.api.resistancesocialnetwork.model.Rebel;
+import com.api.resistancesocialnetwork.entity.Location;
+import com.api.resistancesocialnetwork.entity.Rebel;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.LocationRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
 import com.api.resistancesocialnetwork.request.facade.LocationUpdateFacade;
 import com.api.resistancesocialnetwork.rules.LocationUpdateRules;
+import com.api.resistancesocialnetwork.usecase.formatters.FormatData;
+import com.api.resistancesocialnetwork.usecase.formatters.FormatEntities;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

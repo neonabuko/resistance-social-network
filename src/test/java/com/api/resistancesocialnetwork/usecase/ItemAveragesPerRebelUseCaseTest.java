@@ -1,7 +1,7 @@
 package com.api.resistancesocialnetwork.usecase;
 
-import com.api.resistancesocialnetwork.model.Inventory;
-import com.api.resistancesocialnetwork.model.Item;
+import com.api.resistancesocialnetwork.entity.Inventory;
+import com.api.resistancesocialnetwork.entity.Item;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.InventoryRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.ItemRepositoryInMemory;
 import com.api.resistancesocialnetwork.usecase.statistics.ItemAveragesPerRebelUseCase;
