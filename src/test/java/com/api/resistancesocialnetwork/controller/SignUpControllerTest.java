@@ -3,29 +3,49 @@ package com.api.resistancesocialnetwork.controller;
 import com.api.resistancesocialnetwork.usecase.SignupUseCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(SignUpController.class)
+@SpringBootTest
 @AutoConfigureMockMvc
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 class SignUpControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @Autowired
     private SignupUseCase signupUseCase;
 
     @Test
-    void get_home_page_should_return_200() throws Exception {
+    void should_return_200() throws Exception {
         mockMvc.perform(get("/")).andExpect(status().isOk());
+    }
+
+    @Test
+    void should_return_405_when_POST_main_page() throws Exception {
+        String requestBody = "";
+        mockMvc.perform(post("/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+        ).andExpect(status().is(405));
+    }
+
+    @Test
+    void should_return_405_when_PATCH_main_page() throws Exception {
+        String requestBody = "";
+        mockMvc.perform(patch("/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+        ).andExpect(status().is(405));
     }
 
     @Test
