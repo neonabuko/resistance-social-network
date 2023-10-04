@@ -13,7 +13,7 @@ public class Inventory {
     private Integer id;
     @ManyToMany(targetEntity = Item.class, cascade = CascadeType.ALL)
     @JoinTable(
-            name = "inventories_with_items",
+            name = "inventories_items",
             joinColumns = @JoinColumn(name = "inventory_id"),
             inverseJoinColumns = @JoinColumn(name = "item_id")
     )

@@ -1,33 +1,62 @@
 package com.api.resistancesocialnetwork.controller;
 
-import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.RebelRepository;
+import com.api.resistancesocialnetwork.usecase.SignupUseCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ComponentScan(basePackages = {"com.api.resistancesocialnetwork" })
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
+@WebMvcTest(SignUpController.class)
+@AutoConfigureMockMvc
 class SignUpControllerTest {
 
     @Autowired
-    private RebelRepository rebelRepository;
-    @Autowired
-    private RestTemplate restTemplate;
+    private MockMvc mockMvc;
+
+    @MockBean
+    private SignupUseCase signupUseCase;
 
     @Test
-    void should_return_status_200_when_hit_main_page() {
-        String url = "http://localhost:8080/";
-        ResponseEntity<String> actualResponse = restTemplate.getForEntity(url, String.class);
-        boolean isOk = actualResponse.getStatusCode().isSameCodeAs(HttpStatus.valueOf(200));
-        assertTrue(isOk);
+    void get_home_page_should_return_200() throws Exception {
+        mockMvc.perform(get("/")).andExpect(status().isOk());
+    }
+
+    @Test
+    void should_return_201_when_signup_ok() throws Exception {
+        String requestBody =
+                "{" +
+                    "\"signup\": {" +
+                        "\"rebel\": {" +
+                            "\"name\": \"marcio\"," +
+                            "\"age\":45," +
+                            "\"gender\":\"male\"" +
+                            "}," +
+                        "\"location\": {" +
+                            "\"latitude\":12.2," +
+                            "\"longitude\":40.2," +
+                            "\"base\":\"base\"" +
+                            "}," +
+                        "\"inventory\": {" +
+                            "\"items\": [" +
+                                "{" +
+                                    "\"name\": \"doritos\"," +
+                                    "\"price\":2" +
+                                "}" +
+                            "]" +
+                        "}" +
+                    "}" +
+                "}";
+        mockMvc.perform(MockMvcRequestBuilders
+                .post("/signup")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+        ).andExpect(status().isCreated());
     }
 }
