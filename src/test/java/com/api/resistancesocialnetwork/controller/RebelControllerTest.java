@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -125,4 +126,14 @@ class RebelControllerTest {
                 .content(requestBody)
         ).andExpect(status().isOk());
     }
+
+    @Test
+    void should_return_405_when_POST_report() throws Exception {
+        String requestBody = "";
+        mockMvc.perform(post("/report")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+        ).andExpect(status().is(404));
+    }
+
 }

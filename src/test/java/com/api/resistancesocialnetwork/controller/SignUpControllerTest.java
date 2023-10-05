@@ -48,6 +48,25 @@ class SignUpControllerTest {
         ).andExpect(status().is(405));
     }
 
+
+    @Test
+    void should_return_405_when_PATCH_signup() throws Exception {
+        String requestBody = "";
+        mockMvc.perform(patch("/signup")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+        ).andExpect(status().is(405));
+    }
+
+    @Test
+    void should_return_405_when_GET_signup() throws Exception {
+        String requestBody = "";
+        mockMvc.perform(get("/signup")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+        ).andExpect(status().is(405));
+    }
+
     @Test
     void should_return_201_when_signup_ok() throws Exception {
         String requestBody =
