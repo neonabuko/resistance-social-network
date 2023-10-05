@@ -63,4 +63,5 @@ public class AllianceStatsController {
 
         return ResponseEntity.status(200).body(response);
     }
+
 }

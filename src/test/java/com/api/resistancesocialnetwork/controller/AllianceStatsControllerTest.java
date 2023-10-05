@@ -87,4 +87,62 @@ class AllianceStatsControllerTest {
     void should_return_200_when_hit_average_number_items() throws Exception{
         mockMvc.perform(get("/stats/show-average-number-items")).andExpect(status().isOk());
     }
+
+
+
+    @Test
+    void should_return_405_when_POST_average_number_items() throws Exception {
+        String requestBody = "";
+        mockMvc.perform(post("/stats/show-average-number-items")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+        ).andExpect(status().is(405));
+    }
+
+    @Test
+    void should_return_405_when_PATCH_average_number_items() throws Exception {
+        String requestBody = "";
+        mockMvc.perform(patch("/stats/show-average-number-items")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+        ).andExpect(status().is(405));
+    }
+
+    @Test
+    void should_return_405_when_POST_show_allies_percentages() throws Exception {
+        String requestBody = "";
+        mockMvc.perform(post("/stats/show-allies-traitors-percentages")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+        ).andExpect(status().is(405));
+    }
+
+    @Test
+    void should_return_405_when_patch_show_allies_percentages() throws Exception {
+        String requestBody = "";
+        mockMvc.perform(patch("/stats/show-allies-traitors-percentages")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+        ).andExpect(status().is(405));
+    }
+
+    @Test
+    void should_return_405_when_POST_show_allies() throws Exception {
+        String requestBody = "";
+        mockMvc.perform(post("/stats/show-allies")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+        ).andExpect(status().is(405));
+    }
+
+    @Test
+    void should_return_405_when_PATCH_show_allies() throws Exception {
+        String requestBody = "";
+        mockMvc.perform(patch("/stats/show-allies")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+        ).andExpect(status().is(405));
+    }
+
+
 }
