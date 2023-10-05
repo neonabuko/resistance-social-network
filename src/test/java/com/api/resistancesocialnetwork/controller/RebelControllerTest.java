@@ -19,20 +19,20 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class RebelControllerTest {
-
     @Autowired
     private MockMvc mockMvc;
 
@@ -57,6 +57,18 @@ class RebelControllerTest {
     @Autowired
     private ItemRepository itemRepository;
 
+    Rebel rebelLeft = new Rebel("jooj", 18, "male");
+    Rebel rebelRight = new Rebel("jeej", 81, "maam");
+    Location locationLeft = new Location(22.1, 22.1, "base");
+    Item food = new Item("food", 1);
+    Item water = new Item("water", 1);
+    Inventory inventoryLeft = new Inventory(new ArrayList<>(Arrays.asList(food)));
+    Inventory inventoryRight = new Inventory(new ArrayList<>(Arrays.asList(water)));
+
+
+    /* ------------------------------- 200 OK ---------------------------------*/
+
+//    REPORT:
     @Test
     void should_return_200_when_report_ok() throws Exception {
         rebelRepository.save(new Rebel());
@@ -75,9 +87,14 @@ class RebelControllerTest {
         ).andExpect(status().isOk());
     }
 
+//    UPDATE LOCATION:
     @Test
+    @Transactional
     void should_return_200_when_location_update_ok() throws Exception {
-        locationRepository.save(new Location(22.2, 22.2, "base"));
+        rebelRepository.save(rebelLeft);
+        locationRepository.save(locationLeft);
+        rebelLeft.setLocation(locationLeft);
+
         String requestBody = "{" +
                                 "\"locationUpdate\": {" +
                                     "\"location\": {" +
@@ -95,16 +112,10 @@ class RebelControllerTest {
         ).andExpect(status().isOk());
     }
 
+//    TRADE:
     @Test
     @Transactional
     void should_return_200_when_trade_ok() throws Exception {
-        Rebel rebelLeft = new Rebel("jooj", 18, "male");
-        Rebel rebelRight = new Rebel("jeej", 81, "maam");
-        Item food = new Item("food", 1);
-        Item water = new Item("water", 1);
-        Inventory inventoryLeft = new Inventory(new ArrayList<>(Arrays.asList(food)));
-        Inventory inventoryRight = new Inventory(new ArrayList<>(Arrays.asList(water)));
-
         rebelRepository.saveAll(Arrays.asList(rebelLeft, rebelRight));
         rebelLeft.setInventory(inventoryLeft);
         rebelRight.setInventory(inventoryRight);
@@ -127,13 +138,77 @@ class RebelControllerTest {
         ).andExpect(status().isOk());
     }
 
+    /* ------------------------------- 405 METHOD NOT ALLOWED ---------------------------------*/
+
+//    REPORT:
     @Test
     void should_return_405_when_POST_report() throws Exception {
         String requestBody = "";
-        mockMvc.perform(post("/report")
+        mockMvc.perform(post("/rebel/report")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
-        ).andExpect(status().is(404));
+        ).andExpect(status().is(405));
     }
 
+    @Test
+    void should_return_405_when_GET_report() throws Exception {
+        String requestBody = "";
+        mockMvc.perform(get("/rebel/report")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+        ).andExpect(status().is(405));
+    }
+
+
+//    UPDATE LOCATION:
+    @Test
+    void should_return_405_when_POST_location_update() throws Exception {
+        String requestBody = "";
+        mockMvc.perform(post("/rebel/update-location")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+        ).andExpect(status().is(405));
+    }
+
+    @Test
+    void should_return_405_when_GET_location_update() throws Exception {
+        mockMvc.perform(get("/rebel/update-location")).andExpect(status().is(405));
+    }
+
+
+//    TRADE:
+    @Test
+    void should_return_405_when_POST_trade() throws Exception {
+        String requestBody = "";
+        mockMvc.perform(post("/rebel/trade")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+        ).andExpect(status().is(405));
+    }
+
+    @Test
+    void should_return_405_when_GET_trade() throws Exception {
+        mockMvc.perform(get("/rebel/trade")).andExpect(status().is(405));
+    }
+
+
+    /* ------------------------------- 400 BAD REQUEST ---------------------------------*/
+
+//    REPORT:
+    @Test
+    void should_return_400_when_invalid_report() throws Exception {
+        mockMvc.perform(patch("/rebel/report")).andExpect(status().is(400));
+    }
+
+//    UPDATE LOCATION:
+    @Test
+    void should_return_400_when_invalid_location_update() throws Exception {
+        mockMvc.perform(patch("/rebel/update-location")).andExpect(status().is(400));
+    }
+
+//    TRADE:
+    @Test
+    void should_return_400_when_invalid_trade() throws Exception {
+        mockMvc.perform(patch("/rebel/trade")).andExpect(status().is(400));
+    }
 }
