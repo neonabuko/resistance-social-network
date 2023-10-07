@@ -1,6 +1,7 @@
 package com.api.resistancesocialnetwork.controller;
 
 import com.api.resistancesocialnetwork.usecase.SignupUseCase;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
@@ -10,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -27,12 +29,38 @@ class SignUpControllerTest {
     @Autowired
     private SignupUseCase signupUseCase;
 
+    private String token;
+
+    @BeforeEach
+    void setUp() throws Exception {
+        login();
+    }
+
+    void login() throws Exception {
+        String requestBody = "{\"login\":\"JuuJ\",\"password\":\"soos\",\"role\":\"ADMIN\"}";
+
+        mockMvc.perform(post("/auth/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+        );
+
+        String loginBody = "{\"login\":\"JuuJ\",\"password\":\"soos\"}";
+
+        MvcResult mvcResult = mockMvc.perform(post("/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(loginBody)).andReturn();
+        token = mvcResult.getResponse().getContentAsString();
+        System.out.println(token);
+    }
+
 
     /* ----------------------------  200 OK  -------------------------------*/
 
     @Test
     void should_return_200() throws Exception {
-        mockMvc.perform(get("/")).andExpect(status().isOk());
+        mockMvc.perform(get("/")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk());
     }
 
 
@@ -64,6 +92,7 @@ class SignUpControllerTest {
                 "}";
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/signup")
+                .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         ).andExpect(status().isCreated());
@@ -73,7 +102,9 @@ class SignUpControllerTest {
     /* ----------------------------  400 BAD REQUEST  -------------------------------*/
     @Test
     void should_should_return_400_when_invalid_signup() throws Exception {
-        mockMvc.perform(post("/signup")).andExpect(status().is(400));
+        mockMvc.perform(post("/signup")
+                .header("Authorization", "Bearer " + token))
+                .andExpect(status().is(400));
     }
 
 
@@ -82,6 +113,7 @@ class SignUpControllerTest {
     void should_return_405_when_PATCH_main_page() throws Exception {
         String requestBody = "";
         mockMvc.perform(patch("/")
+                .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         ).andExpect(status().is(405));
@@ -92,6 +124,7 @@ class SignUpControllerTest {
     void should_return_405_when_POST_main_page() throws Exception {
         String requestBody = "";
         mockMvc.perform(post("/")
+                .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         ).andExpect(status().is(405));
@@ -102,6 +135,7 @@ class SignUpControllerTest {
     void should_return_405_when_PATCH_signup() throws Exception {
         String requestBody = "";
         mockMvc.perform(patch("/signup")
+                .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         ).andExpect(status().is(405));
@@ -111,6 +145,7 @@ class SignUpControllerTest {
     void should_return_405_when_GET_signup() throws Exception {
         String requestBody = "";
         mockMvc.perform(get("/signup")
+                .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         ).andExpect(status().is(405));

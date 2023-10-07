@@ -122,6 +122,7 @@ class AllianceStatsControllerTest {
     void should_return_405_when_POST_average_number_items() throws Exception {
         String requestBody = "";
         mockMvc.perform(post("/stats/show-average-number-items")
+                .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         ).andExpect(status().is(405));
@@ -131,6 +132,7 @@ class AllianceStatsControllerTest {
     void should_return_405_when_PATCH_average_number_items() throws Exception {
         String requestBody = "";
         mockMvc.perform(patch("/stats/show-average-number-items")
+                .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         ).andExpect(status().is(405));
@@ -140,6 +142,7 @@ class AllianceStatsControllerTest {
     void should_return_405_when_POST_show_allies_percentages() throws Exception {
         String requestBody = "";
         mockMvc.perform(post("/stats/show-allies-traitors-percentages")
+                .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         ).andExpect(status().is(405));
@@ -149,6 +152,7 @@ class AllianceStatsControllerTest {
     void should_return_405_when_patch_show_allies_percentages() throws Exception {
         String requestBody = "";
         mockMvc.perform(patch("/stats/show-allies-traitors-percentages")
+                .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         ).andExpect(status().is(405));
@@ -158,6 +162,7 @@ class AllianceStatsControllerTest {
     void should_return_405_when_POST_show_allies() throws Exception {
         String requestBody = "";
         mockMvc.perform(post("/stats/show-allies")
+                .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         ).andExpect(status().is(405));
@@ -167,6 +172,7 @@ class AllianceStatsControllerTest {
     void should_return_405_when_PATCH_show_allies() throws Exception {
         String requestBody = "";
         mockMvc.perform(patch("/stats/show-allies")
+                .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         ).andExpect(status().is(405));
