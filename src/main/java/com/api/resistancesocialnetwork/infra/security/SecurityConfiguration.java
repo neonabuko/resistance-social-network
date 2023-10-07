@@ -13,8 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
-import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @SuppressWarnings("ALL")
 @Configuration
@@ -28,17 +26,7 @@ public class SecurityConfiguration {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(new MvcRequestMatcher(new HandlerMappingIntrospector(), "/auth/login")).permitAll()
-                        .requestMatchers(new MvcRequestMatcher(new HandlerMappingIntrospector(), "/auth/register")).permitAll()
-                        .requestMatchers(new MvcRequestMatcher(new HandlerMappingIntrospector(), "/")).permitAll()
-                        .requestMatchers(
-                                new MvcRequestMatcher(new HandlerMappingIntrospector(), "/stats/show-allies")).hasRole("USER")
-                        .requestMatchers(new MvcRequestMatcher(
-                                new HandlerMappingIntrospector(), "/stats/show-allies-traitors-percentages")).hasRole("USER")
-                        .requestMatchers(new MvcRequestMatcher(
-                                new HandlerMappingIntrospector(), "/stats/show-average-number-items")).hasRole("USER")
-                        .anyRequest().authenticated()
+                .authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
