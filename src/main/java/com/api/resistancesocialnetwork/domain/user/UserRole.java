@@ -2,9 +2,9 @@ package com.api.resistancesocialnetwork.domain.user;
 
 public enum UserRole {
 
-    ADMIN("admin"),
+    ADMIN("ADMIN"),
 
-    USER("user");
+    USER("USER");
 
     private String role;
 
