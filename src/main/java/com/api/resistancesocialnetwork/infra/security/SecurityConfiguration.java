@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
+@SuppressWarnings("ALL")
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
@@ -31,7 +32,12 @@ public class SecurityConfiguration {
                         .requestMatchers(new MvcRequestMatcher(new HandlerMappingIntrospector(), "/auth/login")).permitAll()
                         .requestMatchers(new MvcRequestMatcher(new HandlerMappingIntrospector(), "/auth/register")).permitAll()
                         .requestMatchers(new MvcRequestMatcher(new HandlerMappingIntrospector(), "/")).permitAll()
-                        .requestMatchers(new MvcRequestMatcher(new HandlerMappingIntrospector(), "/stats/show-allies")).permitAll()
+                        .requestMatchers(
+                                new MvcRequestMatcher(new HandlerMappingIntrospector(), "/stats/show-allies")).hasRole("USER")
+                        .requestMatchers(new MvcRequestMatcher(
+                                new HandlerMappingIntrospector(), "/stats/show-allies-traitors-percentages")).hasRole("USER")
+                        .requestMatchers(new MvcRequestMatcher(
+                                new HandlerMappingIntrospector(), "/stats/show-average-number-items")).hasRole("USER")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
