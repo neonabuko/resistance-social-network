@@ -1,7 +1,7 @@
 package com.api.resistancesocialnetwork.controller;
 
-import com.api.resistancesocialnetwork.domain.user.AuthFacade;
-import com.api.resistancesocialnetwork.domain.user.RegisterFacade;
+import com.api.resistancesocialnetwork.domain.user.facade.AuthFacade;
+import com.api.resistancesocialnetwork.domain.user.facade.RegisterFacade;
 import com.api.resistancesocialnetwork.domain.user.User;
 import com.api.resistancesocialnetwork.infra.security.TokenService;
 import com.api.resistancesocialnetwork.repositories.repositoriesindatabase.UserRepository;

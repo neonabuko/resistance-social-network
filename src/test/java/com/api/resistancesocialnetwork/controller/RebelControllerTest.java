@@ -12,6 +12,7 @@ import com.api.resistancesocialnetwork.usecase.LocationUpdateUseCase;
 import com.api.resistancesocialnetwork.usecase.ReportUseCase;
 import com.api.resistancesocialnetwork.usecase.TradeUseCase;
 import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
@@ -21,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,6 +67,28 @@ class RebelControllerTest {
     Inventory inventoryLeft = new Inventory(new ArrayList<>(Arrays.asList(food)));
     Inventory inventoryRight = new Inventory(new ArrayList<>(Arrays.asList(water)));
 
+    private String token;
+
+    @BeforeEach
+    void setUp() throws Exception {
+        login();
+    }
+
+    void login() throws Exception {
+        String requestBody = "{\"login\":\"JuuJ\",\"password\":\"soos\",\"role\":\"ADMIN\"}";
+
+        mockMvc.perform(post("/auth/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+        );
+
+        String loginBody = "{\"login\":\"JuuJ\",\"password\":\"soos\"}";
+
+        MvcResult mvcResult = mockMvc.perform(post("/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(loginBody)).andReturn();
+        token = mvcResult.getResponse().getContentAsString();
+    }
 
     /* ------------------------------- 200 OK ---------------------------------*/
 
@@ -84,6 +108,7 @@ class RebelControllerTest {
         mockMvc.perform(patch("/rebel/report")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
+                .header("Authorization", "Bearer " + token)
         ).andExpect(status().isOk());
     }
 
@@ -107,8 +132,9 @@ class RebelControllerTest {
                              "}";
         mockMvc.perform(
                 patch("/rebel/update-location")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody)
+                        .header("Authorization", "Bearer " + token)
         ).andExpect(status().isOk());
     }
 
@@ -135,6 +161,7 @@ class RebelControllerTest {
         mockMvc.perform(patch("/rebel/trade")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
+                .header("Authorization", "Bearer " + token)
         ).andExpect(status().isOk());
     }
 
@@ -147,6 +174,7 @@ class RebelControllerTest {
         mockMvc.perform(post("/rebel/report")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
+                .header("Authorization", "Bearer " + token)
         ).andExpect(status().is(405));
     }
 
@@ -156,6 +184,7 @@ class RebelControllerTest {
         mockMvc.perform(get("/rebel/report")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
+                .header("Authorization", "Bearer " + token)
         ).andExpect(status().is(405));
     }
 
@@ -167,12 +196,15 @@ class RebelControllerTest {
         mockMvc.perform(post("/rebel/update-location")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
+                .header("Authorization", "Bearer " + token)
         ).andExpect(status().is(405));
     }
 
     @Test
     void should_return_405_when_GET_location_update() throws Exception {
-        mockMvc.perform(get("/rebel/update-location")).andExpect(status().is(405));
+        mockMvc.perform(get("/rebel/update-location")
+                        .header("Authorization", "Bearer " + token)
+                ).andExpect(status().is(405));
     }
 
 
@@ -183,12 +215,15 @@ class RebelControllerTest {
         mockMvc.perform(post("/rebel/trade")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
+                .header("Authorization", "Bearer " + token)
         ).andExpect(status().is(405));
     }
 
     @Test
     void should_return_405_when_GET_trade() throws Exception {
-        mockMvc.perform(get("/rebel/trade")).andExpect(status().is(405));
+        mockMvc.perform(get("/rebel/trade")
+                .header("Authorization", "Bearer " + token)
+        ).andExpect(status().is(405));
     }
 
 
@@ -197,18 +232,24 @@ class RebelControllerTest {
 //    REPORT:
     @Test
     void should_return_400_when_invalid_report() throws Exception {
-        mockMvc.perform(patch("/rebel/report")).andExpect(status().is(400));
+        mockMvc.perform(patch("/rebel/report")
+                .header("Authorization", "Bearer " + token)
+        ).andExpect(status().is(400));
     }
 
 //    UPDATE LOCATION:
     @Test
     void should_return_400_when_invalid_location_update() throws Exception {
-        mockMvc.perform(patch("/rebel/update-location")).andExpect(status().is(400));
+        mockMvc.perform(patch("/rebel/update-location")
+                .header("Authorization", "Bearer " + token)
+        ).andExpect(status().is(400));
     }
 
 //    TRADE:
     @Test
     void should_return_400_when_invalid_trade() throws Exception {
-        mockMvc.perform(patch("/rebel/trade")).andExpect(status().is(400));
+        mockMvc.perform(patch("/rebel/trade")
+                .header("Authorization", "Bearer " + token)
+        ).andExpect(status().is(400));
     }
 }

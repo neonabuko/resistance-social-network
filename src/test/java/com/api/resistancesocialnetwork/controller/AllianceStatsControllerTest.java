@@ -20,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,28 +65,55 @@ class AllianceStatsControllerTest {
     Inventory inventoryLeft = new Inventory(new ArrayList<>(Arrays.asList(food)));
     Inventory inventoryRight = new Inventory(new ArrayList<>(Arrays.asList(water)));
 
+    private String token;
+
     @BeforeEach
-    void setUp() {
+    void setUp() throws Exception {
         rebelLeft.setInventory(inventoryLeft);
         rebelRight.setInventory(inventoryRight);
         rebelLeft.setLocation(location1);
         rebelRight.setLocation(location2);
         rebelRepository.saveAll(Arrays.asList(rebelLeft, rebelRight));
+        login();
+    }
+
+
+    void login() throws Exception {
+        String requestBody = "{\"login\":\"JuuJ\",\"password\":\"soos\",\"role\":\"ADMIN\"}";
+
+        mockMvc.perform(post("/auth/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+        );
+
+        String loginBody = "{\"login\":\"JuuJ\",\"password\":\"soos\"}";
+
+        MvcResult mvcResult = mockMvc.perform(post("/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(loginBody)).andReturn();
+        token = mvcResult.getResponse().getContentAsString();
+        System.out.println(token);
     }
 
     @Test
     void should_return_200_when_hit_show_allies() throws Exception{
-        mockMvc.perform(get("/stats/show-allies")).andExpect(status().isOk());
+        mockMvc.perform(get("/stats/show-allies")
+                        .header("Authorization", "Bearer " + token)
+                ).andExpect(status().isOk());
     }
 
     @Test
     void should_return_200_when_hit_allies_traitors_percentages() throws Exception{
-        mockMvc.perform(get("/stats/show-allies-traitors-percentages")).andExpect(status().isOk());
+        mockMvc.perform(get("/stats/show-allies-traitors-percentages")
+                        .header("Authorization", "Bearer " + token)
+                ).andExpect(status().isOk());
     }
 
     @Test
     void should_return_200_when_hit_average_number_items() throws Exception{
-        mockMvc.perform(get("/stats/show-average-number-items")).andExpect(status().isOk());
+        mockMvc.perform(get("/stats/show-average-number-items")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk());
     }
 
 
