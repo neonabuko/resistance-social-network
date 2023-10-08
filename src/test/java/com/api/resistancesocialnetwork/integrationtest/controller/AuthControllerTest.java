@@ -26,11 +26,9 @@ class AuthControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    private String token;
-
     @Autowired
     private UserRepository userRepository;
+    private String token;
 
     void register() throws Exception {
         String requestBody = "{\"login\":\"LeeL\"," +
@@ -41,7 +39,6 @@ class AuthControllerTest {
                 .content(requestBody)
         );
     }
-
 
     @Test
     @DisplayName("should return status 200 when register ok")
@@ -91,12 +88,45 @@ class AuthControllerTest {
         register();
 
         String requestBody = "{\"login\":\"LeeL\"," +
-                                "\"password\":\"alberto\"}";
+                             "\"password\":\"alberto\"}";
         mockMvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         ).andExpect(status().isOk());
     }
 
+    @Test
+    @DisplayName("should return status 403 when login password not provided")
+    void should_return_403_when_password_not_provided_in_login() throws Exception {
+        register();
 
+        String requestBody = "{\"login\":\"LeeL\"}";
+        mockMvc.perform(post("/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+        ).andExpect(status().isForbidden());
+    }
+
+    @Test
+    @DisplayName("should return status 403 when login not provided")
+    void should_return_403_when_login_not_provided() throws Exception {
+        register();
+
+        String requestBody = "{\"password\":\"alberto\"}";
+        mockMvc.perform(post("/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+        ).andExpect(status().isForbidden());
+    }
+
+    @Test
+    @DisplayName("should return status 400 when login invalid")
+    void should_return_400_when_login_invalid() throws Exception {
+        String requestBody = "{\"login\":\"LeeL\"," +
+                             "\"password\":\"alberto\"";
+        mockMvc.perform(post("/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+        ).andExpect(status().isBadRequest());
+    }
 }
