@@ -1,8 +1,9 @@
-package com.api.resistancesocialnetwork.rules;
+package com.api.resistancesocialnetwork.unittest.rules;
 
 import com.api.resistancesocialnetwork.entity.Rebel;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
 import com.api.resistancesocialnetwork.request.facade.ReportFacade;
+import com.api.resistancesocialnetwork.rules.ReportRules;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import com.api.resistancesocialnetwork.usecase.ReportUseCase;
 import org.junit.jupiter.api.DisplayName;

@@ -1,4 +1,4 @@
-package com.api.resistancesocialnetwork.rules;
+package com.api.resistancesocialnetwork.unittest.rules;
 
 import com.api.resistancesocialnetwork.entity.Inventory;
 import com.api.resistancesocialnetwork.entity.Item;
@@ -6,6 +6,7 @@ import com.api.resistancesocialnetwork.entity.Rebel;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.InventoryRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.ItemRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
+import com.api.resistancesocialnetwork.rules.TradeRules;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

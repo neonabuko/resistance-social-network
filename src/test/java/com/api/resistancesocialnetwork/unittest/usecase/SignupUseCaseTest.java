@@ -1,4 +1,4 @@
-package com.api.resistancesocialnetwork.usecase;
+package com.api.resistancesocialnetwork.unittest.usecase;
 
 import com.api.resistancesocialnetwork.entity.Inventory;
 import com.api.resistancesocialnetwork.entity.Item;
@@ -10,6 +10,7 @@ import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRe
 import com.api.resistancesocialnetwork.request.facade.SignupFacade;
 import com.api.resistancesocialnetwork.rules.SignupRules;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
+import com.api.resistancesocialnetwork.usecase.SignupUseCase;
 import com.api.resistancesocialnetwork.usecase.formatters.FormatData;
 import com.api.resistancesocialnetwork.usecase.formatters.FormatEntities;
 import org.junit.jupiter.api.DisplayName;

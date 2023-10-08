@@ -1,4 +1,4 @@
-package com.api.resistancesocialnetwork.usecase;
+package com.api.resistancesocialnetwork.unittest.usecase;
 
 import com.api.resistancesocialnetwork.entity.Inventory;
 import com.api.resistancesocialnetwork.entity.Item;
@@ -10,6 +10,7 @@ import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.Invento
 import com.api.resistancesocialnetwork.request.facade.TradeFacade;
 import com.api.resistancesocialnetwork.rules.TradeRules;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
+import com.api.resistancesocialnetwork.usecase.TradeUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

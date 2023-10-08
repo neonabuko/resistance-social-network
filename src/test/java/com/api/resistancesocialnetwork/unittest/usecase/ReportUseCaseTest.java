@@ -1,9 +1,10 @@
-package com.api.resistancesocialnetwork.usecase;
+package com.api.resistancesocialnetwork.unittest.usecase;
 
 import com.api.resistancesocialnetwork.entity.Rebel;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
 import com.api.resistancesocialnetwork.request.facade.ReportFacade;
 import com.api.resistancesocialnetwork.rules.ReportRules;
+import com.api.resistancesocialnetwork.usecase.ReportUseCase;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

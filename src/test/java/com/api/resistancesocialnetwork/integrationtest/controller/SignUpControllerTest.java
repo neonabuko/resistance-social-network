@@ -1,4 +1,4 @@
-package com.api.resistancesocialnetwork.controller;
+package com.api.resistancesocialnetwork.integrationtest.controller;
 
 import com.api.resistancesocialnetwork.usecase.SignupUseCase;
 import org.junit.jupiter.api.BeforeEach;

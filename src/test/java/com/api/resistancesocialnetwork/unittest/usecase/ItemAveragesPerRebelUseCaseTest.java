@@ -1,4 +1,4 @@
-package com.api.resistancesocialnetwork.usecase;
+package com.api.resistancesocialnetwork.unittest.usecase;
 
 import com.api.resistancesocialnetwork.entity.Inventory;
 import com.api.resistancesocialnetwork.entity.Item;
