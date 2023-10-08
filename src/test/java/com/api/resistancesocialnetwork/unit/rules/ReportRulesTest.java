@@ -1,4 +1,4 @@
-package com.api.resistancesocialnetwork.unittest.rules;
+package com.api.resistancesocialnetwork.unit.rules;
 
 import com.api.resistancesocialnetwork.entity.Rebel;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;

@@ -36,10 +36,6 @@ public class User implements UserDetails {
         else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
-    public UserRole getRole() {
-        return role;
-    }
-
     @Override
     public String getPassword() {
         return password;

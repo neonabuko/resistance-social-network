@@ -1,4 +1,4 @@
-package com.api.resistancesocialnetwork.unittest.usecase;
+package com.api.resistancesocialnetwork.unit.usecase;
 
 import com.api.resistancesocialnetwork.entity.Inventory;
 import com.api.resistancesocialnetwork.entity.Item;
@@ -17,8 +17,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class TradeUseCaseTest {
     private final RebelRepositoryInMemory rebelRepoInMem = new RebelRepositoryInMemory();
@@ -87,5 +86,23 @@ class TradeUseCaseTest {
 
         assertEquals(leftInventory.toString(), expectedLeftInventory.toString());
         assertEquals(rightInventory.toString(), expectedRightInventory.toString());
+    }
+
+    @Test
+    void should_throw_exception_when_trade_parameters_not_provided() {
+        tradeFacade = null;
+        Exception e = assertThrows(ResistanceSocialNetworkException.class, () ->
+                tradeUseCase.handle(tradeFacade)
+                );
+        assertTrue(e.getMessage().contains("must provide trade parameters"));
+    }
+
+
+    @Test
+    void should_throw_exception_when_right_rebel_not_found(){
+        tradeFacade = new TradeFacade(1, 1, 20, 2);
+        Exception e = assertThrows(ResistanceSocialNetworkException.class, () ->
+                tradeUseCase.handle(tradeFacade));
+        assertTrue(e.getMessage().contains("right rebel not found"));
     }
 }

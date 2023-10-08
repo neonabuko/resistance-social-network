@@ -1,4 +1,4 @@
-package com.api.resistancesocialnetwork.unittest.usecase;
+package com.api.resistancesocialnetwork.unit.usecase;
 
 import com.api.resistancesocialnetwork.entity.Rebel;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;

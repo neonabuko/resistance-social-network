@@ -1,4 +1,4 @@
-package com.api.resistancesocialnetwork.unittest.rules;
+package com.api.resistancesocialnetwork.unit.rules;
 
 import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import com.api.resistancesocialnetwork.usecase.formatters.FormatData;

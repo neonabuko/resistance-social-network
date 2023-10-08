@@ -31,6 +31,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(new MvcRequestMatcher(new HandlerMappingIntrospector(), "/auth/login")).permitAll()
                         .requestMatchers(new MvcRequestMatcher(new HandlerMappingIntrospector(), "/auth/register")).permitAll()
+                        .requestMatchers(new MvcRequestMatcher(new HandlerMappingIntrospector(), "/")).permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

@@ -1,9 +1,8 @@
-package com.api.resistancesocialnetwork.integrationtest.infra.security;
+package com.api.resistancesocialnetwork.integration.infra.security;
 
 import com.api.resistancesocialnetwork.domain.user.User;
 import com.api.resistancesocialnetwork.domain.user.UserRole;
 import com.api.resistancesocialnetwork.infra.security.TokenService;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
@@ -12,6 +11,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -28,8 +29,29 @@ class TokenServiceTest {
         String encryptedPassword = new BCryptPasswordEncoder().encode("sees");
         User user = new User("JooJ", encryptedPassword, UserRole.ADMIN);
         String token = tokenService.generateToken(user);
+        String decryptedToken = tokenService.validateToken(token);
 
-        Assertions.assertNotNull(token);
+        assertNotNull(token);
     }
 
+    @Test
+    void should_contain_username_in_validate_token() {
+        String encryptedPassword = new BCryptPasswordEncoder().encode("sees");
+        User user = new User("JooJ", encryptedPassword, UserRole.ADMIN);
+        String token = tokenService.generateToken(user);
+
+        String validateToken = tokenService.validateToken(token);
+
+        assertEquals("JooJ", validateToken);
+    }
+
+    @Test
+    void should_contain_null_username_in_validate_token_if_username_null() {
+        String encryptedPassword = new BCryptPasswordEncoder().encode("sees");
+        User user = new User(null, encryptedPassword, UserRole.ADMIN);
+        String token = tokenService.generateToken(user);
+
+        String validateToken = tokenService.validateToken(token);
+        assertNull(validateToken);
+    }
 }

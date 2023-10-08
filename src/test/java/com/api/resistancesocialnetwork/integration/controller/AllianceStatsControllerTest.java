@@ -1,4 +1,4 @@
-package com.api.resistancesocialnetwork.integrationtest.controller;
+package com.api.resistancesocialnetwork.integration.controller;
 
 import com.api.resistancesocialnetwork.entity.Inventory;
 import com.api.resistancesocialnetwork.entity.Item;

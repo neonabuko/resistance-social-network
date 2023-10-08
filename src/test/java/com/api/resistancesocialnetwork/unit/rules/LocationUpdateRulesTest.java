@@ -1,4 +1,4 @@
-package com.api.resistancesocialnetwork.unittest.rules;
+package com.api.resistancesocialnetwork.unit.rules;
 
 import com.api.resistancesocialnetwork.entity.Location;
 import com.api.resistancesocialnetwork.request.facade.LocationUpdateFacade;
