@@ -3,12 +3,10 @@ package com.api.resistancesocialnetwork.controller;
 import com.api.resistancesocialnetwork.request.SignupRequest;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import com.api.resistancesocialnetwork.usecase.SignupUseCase;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class SignUpController {
@@ -24,8 +22,10 @@ public class SignUpController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<Void> handleSignUp(@RequestBody SignupRequest signupRequest) throws ResistanceSocialNetworkException {
-        signupUseCase.handle(signupRequest.signup());
+    public ResponseEntity<Void> handleSignUp(@RequestBody SignupRequest signupRequest,
+                                             @RequestHeader HttpServletRequest httpServletRequest) throws ResistanceSocialNetworkException {
+        String header = httpServletRequest.getHeader("Authorization");
+        signupUseCase.handle(signupRequest.signup(), header);
         return new ResponseEntity<>(HttpStatus.valueOf(201));
     }
 }

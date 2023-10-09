@@ -1,5 +1,8 @@
 package com.api.resistancesocialnetwork.domain.user;
 
+import com.api.resistancesocialnetwork.entity.Inventory;
+import com.api.resistancesocialnetwork.entity.Location;
+import com.api.resistancesocialnetwork.entity.Rebel;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,6 +20,13 @@ public class User implements UserDetails {
     private String password;
     private UserRole role;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Rebel rebel;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Location location;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Inventory inventory;
+
     public User(String login, String password, UserRole role) {
         this.login = login;
         this.password = password;
@@ -24,6 +34,18 @@ public class User implements UserDetails {
     }
 
     public User() {}
+
+    public void setRebel(Rebel rebel) {
+        this.rebel = rebel;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
 
     public String getLogin() {
         return login;

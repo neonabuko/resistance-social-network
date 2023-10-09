@@ -4,15 +4,40 @@ import com.api.resistancesocialnetwork.domain.user.User;
 import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.UserRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
-interface UserRepositoryJpa extends JpaRepository<User, String> {
-    UserDetails findByLogin(String login);
+import java.util.Optional;
+
+interface UserRepositoryJpa extends JpaRepository<User, Integer> {
+    Optional<UserDetails> findByLogin(String login);
 }
 
-class UserRepositoryInDatabase implements UserRepository {
+@Component
+public class UserRepositoryInDatabase implements UserRepository {
+
+    private final UserRepositoryJpa adapter;
+
+    public UserRepositoryInDatabase(UserRepositoryJpa userRepositoryJpa) {
+        this.adapter = userRepositoryJpa;
+    }
 
     @Override
-    public User findById() {
-        return null;
+    public Optional<User> findById(Integer id) {
+        return adapter.findById(id);
+    }
+
+    @Override
+    public Optional<UserDetails> findByLogin(String login) {
+        return adapter.findByLogin(login);
+    }
+
+    @Override
+    public Optional<User> findUserByLogin(String login) {
+        return adapter.findAll().stream().filter(user -> user.getLogin().equals(login)).findFirst();
+    }
+
+    @Override
+    public void save(User user) {
+        adapter.save(user);
     }
 }

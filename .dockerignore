@@ -7,7 +7,7 @@ target/maven-archiver
 target/maven-status
 target/surefire-reports
 target/test-classes
-target/resistance-social-network-0.0.1-SNAPSHOT.jar.original
+target/resistance-social-network-0.0.1.jar.original
 
 /src/test
 

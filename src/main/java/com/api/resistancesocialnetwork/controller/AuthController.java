@@ -4,7 +4,7 @@ import com.api.resistancesocialnetwork.domain.user.User;
 import com.api.resistancesocialnetwork.domain.user.facade.AuthFacade;
 import com.api.resistancesocialnetwork.domain.user.facade.RegisterFacade;
 import com.api.resistancesocialnetwork.infra.security.TokenService;
-import com.api.resistancesocialnetwork.repositories.repositoriesindatabase.UserRepository;
+import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +39,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterFacade data) {
-        if (userRepository.findByLogin(data.login()) != null) return ResponseEntity.badRequest().build();
+        if ( userRepository.findByLogin(data.login()).isPresent() ) return ResponseEntity.badRequest().build();
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
         User user = new User(data.login(), encryptedPassword, data.role());

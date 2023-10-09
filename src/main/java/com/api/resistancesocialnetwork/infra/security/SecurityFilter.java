@@ -1,6 +1,6 @@
 package com.api.resistancesocialnetwork.infra.security;
 
-import com.api.resistancesocialnetwork.repositories.repositoriesindatabase.UserRepository;
+import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,11 +24,13 @@ public class SecurityFilter extends OncePerRequestFilter {
     private UserRepository userRepository;
 
     @Override
-    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest request,
+                                    @NonNull HttpServletResponse response,
+                                    @NonNull FilterChain filterChain) throws ServletException, IOException {
         var token = recoverToken(request);
         if (token.isPresent()) {
             var login = tokenService.validateToken(token.get());
-            Optional<UserDetails> userDetails = Optional.ofNullable(userRepository.findByLogin(login));
+            Optional<UserDetails> userDetails = userRepository.findByLogin(login);
             if (userDetails.isPresent()) {
                 var auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.get().getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(auth);

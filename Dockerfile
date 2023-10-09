@@ -1,12 +1,14 @@
-FROM maven:3.8 as build
-
-WORKDIR /app/build
-
-COPY pom.xml .
-
-COPY /src ./src
-
-RUN mvn package
+#FROM maven:3.8 as build
+#
+#WORKDIR /app/build
+#
+#COPY pom.xml .
+#
+#COPY /src/main ./src/main
+#
+#RUN mvn dependency:go-offline
+#
+#RUN mvn package -DskipTests
 
 FROM alpine:3 as final
 
@@ -14,7 +16,7 @@ WORKDIR /app
 
 RUN apk --no-cache add openjdk17-jre curl
 
-COPY --from=build /app/build/target/resistance-social-network-0.0.1.jar /app/app.jar
+COPY /target/resistance-social-network-0.0.1.jar /app/app.jar
 
 EXPOSE 8080
 
