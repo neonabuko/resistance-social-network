@@ -1,6 +1,7 @@
 package com.api.resistancesocialnetwork.integration.controller;
 
 
+import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.UserRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -62,7 +63,7 @@ class AuthControllerTest {
                 .content(requestBody)
         ).andExpect(status().isOk());
         Assertions.assertTrue(
-                userRepository.findByLogin("LeeL2").orElseThrow().getAuthorities()
+                userRepository.findUserByLogin("LeeL2").orElseThrow().getAuthorities()
                         .contains(new SimpleGrantedAuthority("ROLE_USER"))
         );
     }
@@ -77,7 +78,7 @@ class AuthControllerTest {
                 .content(requestBody)
         ).andExpect(status().isOk());
         Assertions.assertFalse(
-                userRepository.findByLogin("LeeL2").orElseThrow().getAuthorities()
+                userRepository.findUserByLogin("LeeL2").orElseThrow().getAuthorities()
                         .contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
         );
     }

@@ -4,7 +4,7 @@ import com.api.resistancesocialnetwork.entity.Location;
 import com.api.resistancesocialnetwork.entity.Rebel;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.LocationRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
-import com.api.resistancesocialnetwork.request.facade.LocationUpdateFacade;
+import com.api.resistancesocialnetwork.facade.LocationUpdateFacade;
 import com.api.resistancesocialnetwork.rules.LocationUpdateRules;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import com.api.resistancesocialnetwork.usecase.LocationUpdateUseCase;

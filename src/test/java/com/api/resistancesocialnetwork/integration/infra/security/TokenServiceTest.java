@@ -1,7 +1,7 @@
 package com.api.resistancesocialnetwork.integration.infra.security;
 
-import com.api.resistancesocialnetwork.domain.user.User;
-import com.api.resistancesocialnetwork.domain.user.UserRole;
+import com.api.resistancesocialnetwork.entity.User;
+import com.api.resistancesocialnetwork.enums.UserRole;
 import com.api.resistancesocialnetwork.infra.security.TokenService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

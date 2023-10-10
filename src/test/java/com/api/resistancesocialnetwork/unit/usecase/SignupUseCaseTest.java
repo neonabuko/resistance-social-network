@@ -1,15 +1,16 @@
 package com.api.resistancesocialnetwork.unit.usecase;
 
+import com.api.resistancesocialnetwork.entity.User;
+import com.api.resistancesocialnetwork.enums.UserRole;
 import com.api.resistancesocialnetwork.entity.Inventory;
 import com.api.resistancesocialnetwork.entity.Item;
 import com.api.resistancesocialnetwork.entity.Location;
 import com.api.resistancesocialnetwork.entity.Rebel;
-import com.api.resistancesocialnetwork.infra.security.TokenService;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.InventoryRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.LocationRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
-import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.UserRepository;
-import com.api.resistancesocialnetwork.request.facade.SignupFacade;
+import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.UserRepositoryInMemory;
+import com.api.resistancesocialnetwork.facade.SignupFacade;
 import com.api.resistancesocialnetwork.rules.SignupRules;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import com.api.resistancesocialnetwork.usecase.SignupUseCase;
@@ -29,28 +30,30 @@ class SignupUseCaseTest {
     private final LocationRepositoryInMemory locationRepoInMem = new LocationRepositoryInMemory();
     private final FormatEntities formatEntities = new FormatEntities(new FormatData());
     private final SignupRules signUpRules = new SignupRules(formatEntities);
-    private UserRepository userRepository;
-    private TokenService tokenService;
-    private final SignupUseCase signupUseCase =
-            new SignupUseCase(rebelRepoInMem, signUpRules, userRepository, tokenService);
+    private final UserRepositoryInMemory userRepositoryInMem = new UserRepositoryInMemory();
+    private final SignupUseCase signupUseCase = new SignupUseCase(signUpRules, userRepositoryInMem);
     private Rebel luke = new Rebel("luke", 18, "male");
     private Location lukeLocation = new Location(0.2, 21.3, "base/galaxy");
     private Inventory lukeInv = new Inventory(Arrays.asList(new Item("doritos", 1)));
     private SignupFacade signupFacade;
-    private String header;
-
-//    TODO: separar uso de token da SignupUseCase
+    private final String login = "jooj";
 
     @Test
     @DisplayName("should always save rebel along with his location and inventory")
     void should_save_rebel_with_location_and_inventory() {
+        User jooj = new User("jooj", "123", UserRole.USER);
+        userRepositoryInMem.saveInMem(jooj);
+        jooj.setId(1);
+
         luke.setId(1);
         lukeLocation.setId(1);
         lukeInv.setId(1);
 
+        rebelRepoInMem.saveInMem(luke);
         signupFacade = new SignupFacade(luke, lukeLocation, lukeInv);
-        signupUseCase.handle(signupFacade, header);
-        System.out.println(luke.getLocation());
+        signupUseCase.handle(signupFacade, login);
+
+        assertNotEquals(Optional.empty(), userRepositoryInMem.findUserByLogin(login));
         assertNotEquals(Optional.empty(), rebelRepoInMem.findById(luke.getId()));
         assertNotEquals(null, luke.getLocation());
         assertNotEquals(null, luke.getInventory());
@@ -62,7 +65,7 @@ class SignupUseCaseTest {
         luke = null;
         signupFacade = new SignupFacade(luke, lukeLocation, lukeInv);
         try {
-            signupUseCase.handle(signupFacade, header);
+            signupUseCase.handle(signupFacade, login);
         } catch (Exception ignored) {}
 
         assertTrue(rebelRepoInMem.findAll().isEmpty());
@@ -76,7 +79,7 @@ class SignupUseCaseTest {
         lukeLocation = null;
         signupFacade = new SignupFacade(luke, lukeLocation, lukeInv);
         try {
-            signupUseCase.handle(signupFacade, header);
+            signupUseCase.handle(signupFacade, login);
         } catch (Exception ignored) {}
 
         assertTrue(rebelRepoInMem.findAll().isEmpty());
@@ -86,12 +89,12 @@ class SignupUseCaseTest {
 
     @Test
     @DisplayName("should not save anything if inventory not provided")
-    void should_not_save_anything_if_inventor_null() {
+    void should_not_save_anything_if_inventory_null() {
         lukeInv = null;
         signupFacade = new SignupFacade(luke, lukeLocation, lukeInv);
 
         try {
-            signupUseCase.handle(signupFacade, header);
+            signupUseCase.handle(signupFacade, login);
         } catch (Exception ignored) {}
 
         assertTrue(rebelRepoInMem.findAll().isEmpty());
@@ -106,7 +109,7 @@ class SignupUseCaseTest {
         signupFacade = new SignupFacade(luke, lukeLocation, lukeInv);
 
         try {
-            signupUseCase.handle(signupFacade, header);
+            signupUseCase.handle(signupFacade, login);
         } catch (Exception ignored) {}
 
         assertTrue(rebelRepoInMem.findAll().isEmpty());
@@ -121,7 +124,7 @@ class SignupUseCaseTest {
         signupFacade = new SignupFacade(luke, lukeLocation, lukeInv);
 
         try {
-            signupUseCase.handle(signupFacade, header);
+            signupUseCase.handle(signupFacade, login);
         } catch (Exception ignored) {}
 
         assertTrue(rebelRepoInMem.findAll().isEmpty());
@@ -137,7 +140,7 @@ class SignupUseCaseTest {
         signupFacade = new SignupFacade(luke, lukeLocation, lukeInv);
 
         Exception e = assertThrows(ResistanceSocialNetworkException.class, () ->
-                signupUseCase.handle(signupFacade, header)
+                signupUseCase.handle(signupFacade, login)
         );
 
         assertTrue(rebelRepoInMem.findAll().isEmpty());

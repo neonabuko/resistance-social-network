@@ -1,6 +1,6 @@
 package com.api.resistancesocialnetwork.request;
 
-import com.api.resistancesocialnetwork.request.facade.TradeFacade;
+import com.api.resistancesocialnetwork.facade.TradeFacade;
 
 public record TradeRequest(TradeFacade trade) {
 }

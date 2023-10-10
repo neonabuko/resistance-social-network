@@ -4,7 +4,7 @@ import com.api.resistancesocialnetwork.entity.Inventory;
 import com.api.resistancesocialnetwork.entity.Item;
 import com.api.resistancesocialnetwork.entity.Location;
 import com.api.resistancesocialnetwork.entity.Rebel;
-import com.api.resistancesocialnetwork.request.facade.SignupFacade;
+import com.api.resistancesocialnetwork.facade.SignupFacade;
 import com.api.resistancesocialnetwork.rules.SignupRules;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import com.api.resistancesocialnetwork.usecase.formatters.FormatData;

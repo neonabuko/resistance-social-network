@@ -1,8 +1,6 @@
-package com.api.resistancesocialnetwork.domain.user;
+package com.api.resistancesocialnetwork.entity;
 
-import com.api.resistancesocialnetwork.entity.Inventory;
-import com.api.resistancesocialnetwork.entity.Location;
-import com.api.resistancesocialnetwork.entity.Rebel;
+import com.api.resistancesocialnetwork.enums.UserRole;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -34,6 +32,15 @@ public class User implements UserDetails {
     }
 
     public User() {}
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public void setRebel(Rebel rebel) {
         this.rebel = rebel;

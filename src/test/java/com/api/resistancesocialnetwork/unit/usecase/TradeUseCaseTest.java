@@ -7,7 +7,7 @@ import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.Invento
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.ItemRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.InventoryRepository;
-import com.api.resistancesocialnetwork.request.facade.TradeFacade;
+import com.api.resistancesocialnetwork.facade.TradeFacade;
 import com.api.resistancesocialnetwork.rules.TradeRules;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import com.api.resistancesocialnetwork.usecase.TradeUseCase;

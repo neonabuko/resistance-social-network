@@ -1,8 +1,8 @@
 package com.api.resistancesocialnetwork.controller;
 
-import com.api.resistancesocialnetwork.domain.user.User;
-import com.api.resistancesocialnetwork.domain.user.facade.AuthFacade;
-import com.api.resistancesocialnetwork.domain.user.facade.RegisterFacade;
+import com.api.resistancesocialnetwork.entity.User;
+import com.api.resistancesocialnetwork.facade.AuthFacade;
+import com.api.resistancesocialnetwork.facade.RegisterFacade;
 import com.api.resistancesocialnetwork.infra.security.TokenService;
 import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.api.resistancesocialnetwork.request;
 
-import com.api.resistancesocialnetwork.request.facade.SignupFacade;
+import com.api.resistancesocialnetwork.facade.SignupFacade;
 
 public record SignupRequest(SignupFacade signup) {
 }

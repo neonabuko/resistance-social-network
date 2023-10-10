@@ -1,6 +1,6 @@
 package com.api.resistancesocialnetwork.infra.security;
 
-import com.api.resistancesocialnetwork.domain.user.User;
+import com.api.resistancesocialnetwork.entity.User;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;

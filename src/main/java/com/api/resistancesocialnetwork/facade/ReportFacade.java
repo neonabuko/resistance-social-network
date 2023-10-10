@@ -1,4 +1,4 @@
-package com.api.resistancesocialnetwork.request.facade;
+package com.api.resistancesocialnetwork.facade;
 
 import java.util.Optional;
 

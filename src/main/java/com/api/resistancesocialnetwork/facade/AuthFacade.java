@@ -1,4 +1,4 @@
-package com.api.resistancesocialnetwork.domain.user.facade;
+package com.api.resistancesocialnetwork.facade;
 
 public record AuthFacade(String login, String password) {
 
