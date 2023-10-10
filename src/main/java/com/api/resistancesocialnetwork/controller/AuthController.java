@@ -5,7 +5,6 @@ import com.api.resistancesocialnetwork.facade.AuthFacade;
 import com.api.resistancesocialnetwork.facade.RegisterFacade;
 import com.api.resistancesocialnetwork.infra.security.TokenService;
 import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,13 +18,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("auth")
 public class AuthController {
+    private final AuthenticationManager authenticationManager;
+    private final UserRepository userRepository;
+    private final TokenService tokenService;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private TokenService tokenService;
+    public AuthController(AuthenticationManager authenticationManager,
+                          UserRepository userRepository,
+                          TokenService tokenService) {
+        this.authenticationManager = authenticationManager;
+        this.userRepository = userRepository;
+        this.tokenService = tokenService;
+    }
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody AuthFacade data) {
