@@ -21,8 +21,10 @@ docker compose up
 ### Implements:
 - [x] Spring Web
 - [x] Spring Data JPA
+- [x] Spring Security
 - [x] PostgreSQL
-- [x] Docker 
+- [x] Docker
+- [ ] Liquibase
 
 ## Use Cases
 - Sign up
