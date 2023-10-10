@@ -11,7 +11,6 @@ import com.api.resistancesocialnetwork.request.facade.SignupFacade;
 import com.api.resistancesocialnetwork.rules.SignupRules;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import jakarta.transaction.Transactional;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,7 +21,10 @@ public class SignupUseCase {
     private final UserRepository userRepository;
     private final TokenService tokenService;
 
-    public SignupUseCase(RebelRepository rebelRepo, SignupRules signUpRules, UserRepository userRepository, TokenService tokenService) {
+    public SignupUseCase(RebelRepository rebelRepo,
+                         SignupRules signUpRules,
+                         UserRepository userRepository,
+                         TokenService tokenService) {
         this.rebelRepo = rebelRepo;
         this.signUpRules = signUpRules;
         this.userRepository = userRepository;
