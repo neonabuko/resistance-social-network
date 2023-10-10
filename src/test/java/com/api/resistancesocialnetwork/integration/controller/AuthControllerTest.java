@@ -31,7 +31,7 @@ class AuthControllerTest {
     private String token;
 
     void register() throws Exception {
-        String requestBody = "{\"login\":\"LeeL\"," +
+        String requestBody = "{\"username\":\"LeeL\"," +
                 "\"password\":\"alberto\"}";
 
         mockMvc.perform(post("/auth/register")
@@ -43,7 +43,7 @@ class AuthControllerTest {
     @Test
     @DisplayName("should return status 200 when register ok")
     void should_return_200_when_register_user() throws Exception {
-        String requestBody = "{\"login\":\"LeeL2\"," +
+        String requestBody = "{\"username\":\"LeeL2\"," +
                             "\"password\":\"alberto\"," +
                                 "\"role\":\"ADMIN\"}";
         mockMvc.perform(post("/auth/register")
@@ -55,7 +55,7 @@ class AuthControllerTest {
     @Test
     @DisplayName("should assign role USER if role not provided")
     void should_assign_USER_if_role_not_provided() throws Exception {
-        String requestBody = "{\"login\":\"LeeL2\"," +
+        String requestBody = "{\"username\":\"LeeL2\"," +
                              "\"password\":\"alberto\"}";
         mockMvc.perform(post("/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -70,7 +70,7 @@ class AuthControllerTest {
     @Test
     @DisplayName("should not assign role ADMIN if role not provided")
     void should_not_assign_ADMIN_if_role_not_provided() throws Exception {
-        String requestBody = "{\"login\":\"LeeL2\"," +
+        String requestBody = "{\"username\":\"LeeL2\"," +
                              "\"password\":\"alberto\"}";
         mockMvc.perform(post("/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -83,48 +83,48 @@ class AuthControllerTest {
     }
 
     @Test
-    @DisplayName("should return status 200 when login ok")
+    @DisplayName("should return status 200 when username ok")
     void should_return_200_when_login_user() throws Exception {
         register();
 
-        String requestBody = "{\"login\":\"LeeL\"," +
+        String requestBody = "{\"username\":\"LeeL\"," +
                              "\"password\":\"alberto\"}";
-        mockMvc.perform(post("/auth/login")
+        mockMvc.perform(post("/auth/username")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         ).andExpect(status().isOk());
     }
 
     @Test
-    @DisplayName("should return status 403 when login password not provided")
+    @DisplayName("should return status 403 when username password not provided")
     void should_return_403_when_password_not_provided_in_login() throws Exception {
         register();
 
-        String requestBody = "{\"login\":\"LeeL\"}";
-        mockMvc.perform(post("/auth/login")
+        String requestBody = "{\"username\":\"LeeL\"}";
+        mockMvc.perform(post("/auth/username")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         ).andExpect(status().isForbidden());
     }
 
     @Test
-    @DisplayName("should return status 403 when login not provided")
+    @DisplayName("should return status 403 when username not provided")
     void should_return_403_when_login_not_provided() throws Exception {
         register();
 
         String requestBody = "{\"password\":\"alberto\"}";
-        mockMvc.perform(post("/auth/login")
+        mockMvc.perform(post("/auth/username")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         ).andExpect(status().isForbidden());
     }
 
     @Test
-    @DisplayName("should return status 400 when login invalid")
+    @DisplayName("should return status 400 when username invalid")
     void should_return_400_when_login_invalid() throws Exception {
-        String requestBody = "{\"login\":\"LeeL\"," +
+        String requestBody = "{\"username\":\"LeeL\"," +
                              "\"password\":\"alberto\"";
-        mockMvc.perform(post("/auth/login")
+        mockMvc.perform(post("/auth/username")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         ).andExpect(status().isBadRequest());

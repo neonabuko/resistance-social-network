@@ -34,16 +34,16 @@ class SignUpControllerTest {
     }
 
     void login() throws Exception {
-        String requestBody = "{\"login\":\"JuuJ\",\"password\":\"soos\",\"role\":\"ADMIN\"}";
+        String requestBody = "{\"username\":\"JuuJ\",\"password\":\"soos\",\"role\":\"ADMIN\"}";
 
         mockMvc.perform(post("/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         );
 
-        String loginBody = "{\"login\":\"JuuJ\",\"password\":\"soos\"}";
+        String loginBody = "{\"username\":\"JuuJ\",\"password\":\"soos\"}";
 
-        MvcResult mvcResult = mockMvc.perform(post("/auth/login")
+        MvcResult mvcResult = mockMvc.perform(post("/auth/username")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(loginBody)).andReturn();
         token = mvcResult.getResponse().getContentAsString();

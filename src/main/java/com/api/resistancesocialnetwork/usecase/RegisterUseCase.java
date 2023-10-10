@@ -16,10 +16,19 @@ public class RegisterUseCase {
     }
 
     public void handle(RegisterFacade data) {
-        if ( userRepository.findByLogin(data.login()).isPresent() )
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "username '" + data.login() + "' already taken");
-        String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        User user = new User(data.login(), encryptedPassword, data.role());
+        var username = data.getUsername().orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "must provide a username")
+        );
+        var password = data.getPassword().orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "must provide a password")
+        );
+        var role = data.getRole();
+
+        if (userRepository.findByLogin(username).isPresent())
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "username '" + username + "' already taken");
+
+        String encryptedPassword = new BCryptPasswordEncoder().encode(password);
+        User user = new User(username, encryptedPassword, role);
         userRepository.save(user);
     }
 }

@@ -3,9 +3,11 @@ package com.api.resistancesocialnetwork.usecase;
 import com.api.resistancesocialnetwork.entity.User;
 import com.api.resistancesocialnetwork.facade.AuthFacade;
 import com.api.resistancesocialnetwork.infra.security.TokenService;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class LoginUseCase {
@@ -18,7 +20,14 @@ public class LoginUseCase {
     }
 
     public String handle(AuthFacade data) {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
+        var username = data.getUsername().orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "must provide username")
+        );
+        var password = data.getPassword().orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "must provide password")
+        );
+
+        var usernamePassword = new UsernamePasswordAuthenticationToken(data.getUsername(), data.getPassword());
         var auth = authenticationManager.authenticate(usernamePassword);
         return tokenService.generateToken((User) auth.getPrincipal());
     }

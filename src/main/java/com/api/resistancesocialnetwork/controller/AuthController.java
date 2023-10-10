@@ -22,7 +22,7 @@ public class AuthController {
         this.registerUseCase = registerUseCase;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/username")
     public ResponseEntity<String> login(@RequestBody AuthFacade data) {
         var token = loginUseCase.handle(data);
         return ResponseEntity.ok().body(token);
