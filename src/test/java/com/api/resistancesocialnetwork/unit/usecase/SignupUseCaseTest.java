@@ -53,7 +53,7 @@ class SignupUseCaseTest {
         signupFacade = new SignupFacade(luke, lukeLocation, lukeInv);
         signupUseCase.handle(signupFacade, login);
 
-        assertNotEquals(Optional.empty(), userRepositoryInMem.findUserByLogin(login));
+        assertNotEquals(Optional.empty(), userRepositoryInMem.findUserBy(login));
         assertNotEquals(Optional.empty(), rebelRepoInMem.findById(luke.getId()));
         assertNotEquals(null, luke.getLocation());
         assertNotEquals(null, luke.getInventory());

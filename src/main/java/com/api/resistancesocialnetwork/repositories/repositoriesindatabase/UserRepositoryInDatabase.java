@@ -22,17 +22,17 @@ public class UserRepositoryInDatabase implements UserRepository {
     }
 
     @Override
-    public Optional<User> findById(Integer id) {
+    public Optional<User> findUserBy(Integer id) {
         return adapter.findById(id);
     }
 
     @Override
-    public Optional<UserDetails> findByLogin(String login) {
+    public Optional<UserDetails> findUserDetailsBy(String login) {
         return adapter.findByLogin(login);
     }
 
     @Override
-    public Optional<User> findUserByLogin(String login) {
+    public Optional<User> findUserBy(String login) {
         return adapter.findAll().stream().filter(user -> user.getLogin().equals(login)).findFirst();
     }
 

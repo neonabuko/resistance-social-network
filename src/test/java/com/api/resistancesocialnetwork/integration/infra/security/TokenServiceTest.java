@@ -29,7 +29,7 @@ class TokenServiceTest {
         String encryptedPassword = new BCryptPasswordEncoder().encode("sees");
         User user = new User("JooJ", encryptedPassword, UserRole.ADMIN);
         String token = tokenService.generateToken(user);
-        String decryptedToken = tokenService.validateToken(token);
+        String decryptedToken = tokenService.getUsernameFromToken(token);
 
         assertNotNull(token);
     }
@@ -40,7 +40,7 @@ class TokenServiceTest {
         User user = new User("JooJ", encryptedPassword, UserRole.ADMIN);
         String token = tokenService.generateToken(user);
 
-        String validateToken = tokenService.validateToken(token);
+        String validateToken = tokenService.getUsernameFromToken(token);
 
         assertEquals("JooJ", validateToken);
     }
@@ -51,7 +51,7 @@ class TokenServiceTest {
         User user = new User(null, encryptedPassword, UserRole.ADMIN);
         String token = tokenService.generateToken(user);
 
-        String validateToken = tokenService.validateToken(token);
+        String validateToken = tokenService.getUsernameFromToken(token);
         assertNull(validateToken);
     }
 }

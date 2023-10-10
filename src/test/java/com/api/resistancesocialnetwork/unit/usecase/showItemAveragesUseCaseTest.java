@@ -4,7 +4,7 @@ import com.api.resistancesocialnetwork.entity.Inventory;
 import com.api.resistancesocialnetwork.entity.Item;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.InventoryRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.ItemRepositoryInMemory;
-import com.api.resistancesocialnetwork.usecase.statistics.ItemAveragesPerRebelUseCase;
+import com.api.resistancesocialnetwork.usecase.statistics.ItemAveragesUseCase;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -14,10 +14,10 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ItemAveragesPerRebelUseCaseTest {
+class showItemAveragesUseCaseTest {
     private final InventoryRepositoryInMemory inventoryRepoInMem = new InventoryRepositoryInMemory();
     private final ItemRepositoryInMemory itemRepositoryInMem = new ItemRepositoryInMemory();
-    private final ItemAveragesPerRebelUseCase itemAveragesPerRebelUseCase = new ItemAveragesPerRebelUseCase(inventoryRepoInMem, itemRepositoryInMem);
+    private final ItemAveragesUseCase itemAveragesUseCase = new ItemAveragesUseCase(inventoryRepoInMem, itemRepositoryInMem);
 
     private final Item doritos = new Item("doritos", 1);
     private final Item water = new Item("water", 2);
@@ -36,7 +36,7 @@ class ItemAveragesPerRebelUseCaseTest {
         expectedAverages.put("water", 1.0);
         expectedAverages.put("fandango", 0.5);
 
-        Map<String, Double> actualAverages = itemAveragesPerRebelUseCase.handle();
+        Map<String, Double> actualAverages = itemAveragesUseCase.handle();
 
         assertEquals(expectedAverages, actualAverages);
     }

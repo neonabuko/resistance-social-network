@@ -9,10 +9,10 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class ShowAlliesUseCase {
+public class AlliesUseCase {
     private final RebelRepository rebelRepo;
 
-    public ShowAlliesUseCase(RebelRepository rebelRepo) {
+    public AlliesUseCase(RebelRepository rebelRepo) {
         this.rebelRepo = rebelRepo;
     }
 

@@ -14,23 +14,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("auth")
 public class AuthController {
-    private final LoginUseCase loginUseCase;
-    private final RegisterUseCase registerUseCase;
+    private final LoginUseCase login;
+    private final RegisterUseCase register;
 
-    public AuthController(LoginUseCase loginUseCase, RegisterUseCase registerUseCase) {
-        this.loginUseCase = loginUseCase;
-        this.registerUseCase = registerUseCase;
+    public AuthController(LoginUseCase login, RegisterUseCase register) {
+        this.login = login;
+        this.register = register;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginFacade data) {
-        var token = loginUseCase.handle(data);
+    public ResponseEntity<String> login(@RequestBody LoginFacade login) {
+        var token = this.login.handle(login);
         return ResponseEntity.ok().body(token);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterFacade data) {
-        registerUseCase.handle(data);
+    public ResponseEntity<String> register(@RequestBody RegisterFacade register) {
+        this.register.handle(register);
         return new ResponseEntity<>(HttpStatus.valueOf(200));
     }
 }

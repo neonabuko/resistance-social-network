@@ -5,28 +5,30 @@ import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRe
 import com.api.resistancesocialnetwork.usecase.statistics.AlliesTraitorsPercentagesUseCase;
 import org.junit.jupiter.api.Test;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AlliesTraitorsPercentagesUseCaseTest {
-    private final RebelRepositoryInMemory rebelRepoInMem = new RebelRepositoryInMemory();
-    private final AlliesTraitorsPercentagesUseCase alliesTraitorsPercentagesUseCase = new AlliesTraitorsPercentagesUseCase(rebelRepoInMem);
+    private final RebelRepositoryInMemory repository = new RebelRepositoryInMemory();
+    private final AlliesTraitorsPercentagesUseCase alliesTraitorsPercentages = new AlliesTraitorsPercentagesUseCase(repository);
 
     @Test
-    void should_return_percentages_string() {
+    void should_return_percentages() {
         Rebel luke = new Rebel("luke", 28, "male");
-        rebelRepoInMem.save(luke);
+        repository.save(luke);
 
-        List<Double> actualDecimals = alliesTraitorsPercentagesUseCase.handle();
+        List<String> actualPercents = alliesTraitorsPercentages.handle();
+        NumberFormat toPercent = NumberFormat.getPercentInstance();
 
-        Double expectedAlliesDecimal = 1.0;
-        Double expectedTraitorsDecimal = 0.0;
+        String expectedAlliesPercents = toPercent.format(1.0);
+        String expectedTraitorsPercents = toPercent.format(0.0);
 
-        Double actualAlliesDecimal = actualDecimals.get(0);
-        Double actualTraitorsDecimal = actualDecimals.get(1);
+        String actualAlliesPercents = actualPercents.get(0);
+        String actualTraitorsPercents = actualPercents.get(1);
 
-        assertEquals(expectedAlliesDecimal, actualAlliesDecimal);
-        assertEquals(expectedTraitorsDecimal, actualTraitorsDecimal);
+        assertEquals(expectedAlliesPercents, actualAlliesPercents);
+        assertEquals(expectedTraitorsPercents, actualTraitorsPercents);
     }
 }

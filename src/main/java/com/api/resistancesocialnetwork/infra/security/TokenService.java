@@ -26,7 +26,7 @@ public class TokenService {
                     .sign(algorithm);
     }
 
-    public String validateToken(String token) throws JWTVerificationException {
+    public String getUsernameFromToken(String token) throws JWTVerificationException {
         Algorithm algorithm = Algorithm.HMAC256(secret);
         return JWT.require(algorithm)
                 .withIssuer("auth-api")

@@ -62,7 +62,7 @@ class AuthControllerTest {
                 .content(requestBody)
         ).andExpect(status().isOk());
         Assertions.assertTrue(
-                userRepository.findUserByLogin("LeeL2").orElseThrow().getAuthorities()
+                userRepository.findUserBy("LeeL2").orElseThrow().getAuthorities()
                         .contains(new SimpleGrantedAuthority("ROLE_USER"))
         );
     }
@@ -77,7 +77,7 @@ class AuthControllerTest {
                 .content(requestBody)
         ).andExpect(status().isOk());
         Assertions.assertFalse(
-                userRepository.findUserByLogin("LeeL2").orElseThrow().getAuthorities()
+                userRepository.findUserBy("LeeL2").orElseThrow().getAuthorities()
                         .contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
         );
     }

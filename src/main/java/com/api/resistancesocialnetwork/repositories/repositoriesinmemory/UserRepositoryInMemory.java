@@ -16,17 +16,17 @@ public class UserRepositoryInMemory implements UserRepository {
     }
 
     @Override
-    public Optional<User> findById(Integer id) {
+    public Optional<User> findUserBy(Integer id) {
         return users.stream().filter(user -> user.getId().equals(id)).findFirst();
     }
 
     @Override
-    public Optional<UserDetails> findByLogin(String login) {
+    public Optional<UserDetails> findUserDetailsBy(String login) {
         return Optional.empty();
     }
 
     @Override
-    public Optional<User> findUserByLogin(String login) {
+    public Optional<User> findUserBy(String login) {
         return users.stream().filter(user -> user.getLogin().equals(login)).findFirst();
     }
 

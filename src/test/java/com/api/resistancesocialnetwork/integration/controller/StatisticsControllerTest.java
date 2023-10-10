@@ -8,8 +8,8 @@ import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.Invento
 import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.LocationRepository;
 import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.RebelRepository;
 import com.api.resistancesocialnetwork.usecase.statistics.AlliesTraitorsPercentagesUseCase;
-import com.api.resistancesocialnetwork.usecase.statistics.ItemAveragesPerRebelUseCase;
-import com.api.resistancesocialnetwork.usecase.statistics.ShowAlliesUseCase;
+import com.api.resistancesocialnetwork.usecase.statistics.ItemAveragesUseCase;
+import com.api.resistancesocialnetwork.usecase.statistics.AlliesUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,19 +33,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-class AllianceStatsControllerTest {
+class StatisticsControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    private ShowAlliesUseCase showAlliesUseCase;
+    private AlliesUseCase alliesUseCase;
 
     @Autowired
     private AlliesTraitorsPercentagesUseCase alliesTraitorsPercentagesUseCase;
 
     @Autowired
-    private ItemAveragesPerRebelUseCase itemAveragesPerRebelUseCase;
+    private ItemAveragesUseCase itemAveragesUseCase;
 
     @Autowired
     private RebelRepository rebelRepository;

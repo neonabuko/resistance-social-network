@@ -12,11 +12,11 @@ import java.util.Map;
 
 @Service
 @Transactional
-public class ItemAveragesPerRebelUseCase {
+public class ItemAveragesUseCase {
     private final InventoryRepository inventoryRepository;
     private final ItemRepository itemRepository;
 
-    public ItemAveragesPerRebelUseCase(InventoryRepository inventoryRepository, ItemRepository itemRepository) {
+    public ItemAveragesUseCase(InventoryRepository inventoryRepository, ItemRepository itemRepository) {
         this.inventoryRepository = inventoryRepository;
         this.itemRepository = itemRepository;
     }

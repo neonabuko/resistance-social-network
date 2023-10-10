@@ -15,27 +15,17 @@ public class ControllerAdvice {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
-        String mostSpecificCause = e.getMostSpecificCause().getMessage();
-        String localizedErrorInJSON = "";
-        if (mostSpecificCause.contains("line")) {
-            localizedErrorInJSON = mostSpecificCause
-                    .substring(mostSpecificCause.indexOf("line")).replace("]", "");
-        }
-
-        if (mostSpecificCause.contains("Numeric value") && mostSpecificCause.contains("out of range"))
-            return ResponseEntity.status(400).body("Value out of range\n" + localizedErrorInJSON);
-
-        else return ResponseEntity.status(400).body(mostSpecificCause);
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 
     @ExceptionHandler(InvalidDataAccessApiUsageException.class)
     public ResponseEntity<String> handleInvalidDataAccessApiUsageException(InvalidDataAccessApiUsageException e) {
-        return ResponseEntity.status(400).body(e.getMessage());
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 
     @ExceptionHandler(ResistanceSocialNetworkException.class)
     public ResponseEntity<String> handleResistanceSocialNetworkException(ResistanceSocialNetworkException e) {
-        return ResponseEntity.status(400).body(e.getMessage());
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 
     @ExceptionHandler(ResponseStatusException.class)
@@ -45,6 +35,6 @@ public class ControllerAdvice {
 
     @ExceptionHandler
     public ResponseEntity<String> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
-        return new ResponseEntity<>(HttpStatus.valueOf(405));
+        return new ResponseEntity<>(e.getStatusCode());
     }
 }

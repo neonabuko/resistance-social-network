@@ -9,7 +9,10 @@ import com.api.resistancesocialnetwork.facade.SignupFacade;
 import com.api.resistancesocialnetwork.rules.SignupRules;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import jakarta.transaction.Transactional;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @Transactional
@@ -17,8 +20,7 @@ public class SignupUseCase {
     private final SignupRules signUpRules;
     private final UserRepository userRepository;
 
-    public SignupUseCase(SignupRules signUpRules,
-                         UserRepository userRepository) {
+    public SignupUseCase(SignupRules signUpRules, UserRepository userRepository) {
         this.signUpRules = signUpRules;
         this.userRepository = userRepository;
     }
@@ -26,19 +28,20 @@ public class SignupUseCase {
     public void handle(SignupFacade signup, String login) throws ResistanceSocialNetworkException {
         signUpRules.handle(signup);
 
-        Location formattedLocation = signup.location();
-        Rebel formattedRebel = signup.rebel();
-        Inventory formattedInventory = signup.inventory();
+        Rebel rebel = signup.rebel();
+        Location location = signup.location();
+        Inventory inventory = signup.inventory();
 
-        formattedRebel.setLocation(formattedLocation);
-        formattedRebel.setInventory(formattedInventory);
+        rebel.setLocation(location);
+        rebel.setInventory(inventory);
 
-        User relatedUser = userRepository.findUserByLogin(login).get();
+        User user = userRepository.findUserBy(login).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "user not found")
+        );
+        user.setRebel(rebel);
+        user.setLocation(location);
+        user.setInventory(inventory);
 
-        relatedUser.setRebel(formattedRebel);
-        relatedUser.setLocation(formattedLocation);
-        relatedUser.setInventory(formattedInventory);
-
-        userRepository.save(relatedUser);
+        userRepository.save(user);
     }
 }

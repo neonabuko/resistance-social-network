@@ -25,14 +25,14 @@ class SecurityConfigurationTest {
 
     @Test
     void should_return_PasswordEncoder() {
-        PasswordEncoder passwordEncoder = securityConfiguration.passwordEncoder();
+        PasswordEncoder passwordEncoder = securityConfiguration.getPasswordEncoder();
 
         assertNotNull(passwordEncoder);
     }
 
     @Test
     void should_return_AuthenticationManager() throws Exception {
-        AuthenticationManager authenticationManager = securityConfiguration.authManager(
+        AuthenticationManager authenticationManager = securityConfiguration.getAuthManager(
                 new AuthenticationConfiguration()
         );
 
