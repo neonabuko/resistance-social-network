@@ -22,13 +22,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class SignUpControllerTest {
-
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private SignupUseCase signupUseCase;
-
     private String token;
 
     @BeforeEach
@@ -50,7 +47,6 @@ class SignUpControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(loginBody)).andReturn();
         token = mvcResult.getResponse().getContentAsString();
-        System.out.println(token);
     }
 
 

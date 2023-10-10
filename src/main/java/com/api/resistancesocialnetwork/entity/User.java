@@ -9,8 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+@Entity(name = "user")
 @Table(name = "users")
-@Entity(name = "users")
 public class User implements UserDetails {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -32,7 +32,6 @@ public class User implements UserDetails {
     }
 
     public User() {}
-
 
     public Integer getId() {
         return id;
@@ -95,3 +94,5 @@ public class User implements UserDetails {
         return true;
     }
 }
+
+

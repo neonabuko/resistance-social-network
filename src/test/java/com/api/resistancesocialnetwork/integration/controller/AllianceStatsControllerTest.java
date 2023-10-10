@@ -92,7 +92,6 @@ class AllianceStatsControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(loginBody)).andReturn();
         token = mvcResult.getResponse().getContentAsString();
-        System.out.println(token);
     }
 
     @Test

@@ -62,7 +62,6 @@ class TradeRulesTest {
         Exception e = assertThrows(ResistanceSocialNetworkException.class,
                 () -> tradeRules.handle(leftRebel, rightRebel, 1, 0)
         );
-        System.out.println(e.getMessage());
         assertTrue(e.getMessage().contains("item not found with rebel id " + rightRebel.getId()));
     }
 

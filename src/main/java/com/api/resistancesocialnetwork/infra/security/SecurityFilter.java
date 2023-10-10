@@ -5,11 +5,9 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -18,10 +16,13 @@ import java.util.Optional;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
-    @Autowired
-    private TokenService tokenService;
-    @Autowired
-    private UserRepository userRepository;
+    private final TokenService tokenService;
+    private final UserRepository userRepository;
+
+    public SecurityFilter(TokenService tokenService, UserRepository userRepository) {
+        this.tokenService = tokenService;
+        this.userRepository = userRepository;
+    }
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
@@ -30,18 +31,15 @@ public class SecurityFilter extends OncePerRequestFilter {
         var token = recoverToken(request);
         if (token.isPresent()) {
             var login = tokenService.validateToken(token.get());
-            Optional<UserDetails> userDetails = userRepository.findByLogin(login);
-            if (userDetails.isPresent()) {
-                var auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.get().getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(auth);
-            }
+            var userDetails = userRepository.findByLogin(login).get();
+            var auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(auth);
         }
         filterChain.doFilter(request, response);
     }
 
     private Optional<String> recoverToken(HttpServletRequest request) {
-        var authHeader = request.getHeader("Authorization");
-        if (authHeader == null) return Optional.empty();
-        return Optional.of(authHeader.replace("Bearer ", ""));
+        Optional<String> authHeader = Optional.ofNullable(request.getHeader("Authorization"));
+        return authHeader.map(s -> s.replace("Bearer ", ""));
     }
 }

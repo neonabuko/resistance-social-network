@@ -18,7 +18,7 @@ public class TokenService {
     private String secret;
 
     public String generateToken(User user) throws JWTCreationException {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
+        Algorithm algorithm = Algorithm.HMAC256(secret);
         return JWT.create()
                     .withIssuer("auth-api")
                     .withSubject(user.getLogin())

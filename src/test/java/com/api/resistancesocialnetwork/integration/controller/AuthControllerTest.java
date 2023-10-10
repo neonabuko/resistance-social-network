@@ -1,7 +1,6 @@
 package com.api.resistancesocialnetwork.integration.controller;
 
 
-import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.UserRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

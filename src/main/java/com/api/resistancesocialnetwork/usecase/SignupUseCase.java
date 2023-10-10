@@ -33,7 +33,7 @@ public class SignupUseCase {
         formattedRebel.setLocation(formattedLocation);
         formattedRebel.setInventory(formattedInventory);
 
-        User relatedUser = userRepository.findUserByLogin(login).orElseThrow();
+        User relatedUser = userRepository.findUserByLogin(login).get();
 
         relatedUser.setRebel(formattedRebel);
         relatedUser.setLocation(formattedLocation);

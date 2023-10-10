@@ -32,7 +32,7 @@ class SecurityConfigurationTest {
 
     @Test
     void should_return_AuthenticationManager() throws Exception {
-        AuthenticationManager authenticationManager = securityConfiguration.authenticationManager(
+        AuthenticationManager authenticationManager = securityConfiguration.authManager(
                 new AuthenticationConfiguration()
         );
 
