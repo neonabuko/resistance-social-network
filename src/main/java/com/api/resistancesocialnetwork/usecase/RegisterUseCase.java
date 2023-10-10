@@ -26,7 +26,6 @@ public class RegisterUseCase {
 
         if (userRepository.findByLogin(username).isPresent())
             throw new ResponseStatusException(HttpStatus.CONFLICT, "username '" + username + "' already taken");
-
         String encryptedPassword = new BCryptPasswordEncoder().encode(password);
         User user = new User(username, encryptedPassword, role);
         userRepository.save(user);

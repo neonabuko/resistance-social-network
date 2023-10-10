@@ -33,8 +33,8 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(new MvcRequestMatcher(new HandlerMappingIntrospector(), "/auth/username")).permitAll()
                         .requestMatchers(new MvcRequestMatcher(new HandlerMappingIntrospector(), "/auth/register")).permitAll()
+                        .requestMatchers(new MvcRequestMatcher(new HandlerMappingIntrospector(), "/auth/login")).permitAll()
                         .requestMatchers(new MvcRequestMatcher(new HandlerMappingIntrospector(), "/")).permitAll()
                         .anyRequest().authenticated()
                 )

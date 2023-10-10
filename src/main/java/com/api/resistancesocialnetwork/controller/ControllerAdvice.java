@@ -40,7 +40,7 @@ public class ControllerAdvice {
 
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<String> handleResponseStatusException(ResponseStatusException e) {
-        return ResponseEntity.status(409).body(e.getReason());
+        return ResponseEntity.status(e.getStatusCode()).body(e.getReason());
     }
 
     @ExceptionHandler

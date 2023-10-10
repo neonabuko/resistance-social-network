@@ -1,6 +1,6 @@
 package com.api.resistancesocialnetwork.controller;
 
-import com.api.resistancesocialnetwork.facade.AuthFacade;
+import com.api.resistancesocialnetwork.facade.LoginFacade;
 import com.api.resistancesocialnetwork.facade.RegisterFacade;
 import com.api.resistancesocialnetwork.usecase.LoginUseCase;
 import com.api.resistancesocialnetwork.usecase.RegisterUseCase;
@@ -22,8 +22,8 @@ public class AuthController {
         this.registerUseCase = registerUseCase;
     }
 
-    @PostMapping("/username")
-    public ResponseEntity<String> login(@RequestBody AuthFacade data) {
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginFacade data) {
         var token = loginUseCase.handle(data);
         return ResponseEntity.ok().body(token);
     }
