@@ -1,13 +1,12 @@
 package com.api.resistancesocialnetwork.controller;
 
-import com.api.resistancesocialnetwork.request.LocationUpdateRequest;
-import com.api.resistancesocialnetwork.request.ReportRequest;
-import com.api.resistancesocialnetwork.request.TradeRequest;
+import com.api.resistancesocialnetwork.facade.LocationUpdateFacade;
+import com.api.resistancesocialnetwork.facade.ReportFacade;
+import com.api.resistancesocialnetwork.facade.TradeFacade;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import com.api.resistancesocialnetwork.usecase.LocationUpdateUseCase;
 import com.api.resistancesocialnetwork.usecase.ReportUseCase;
 import com.api.resistancesocialnetwork.usecase.TradeUseCase;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,20 +29,20 @@ public class RebelController {
     }
 
     @PatchMapping("/report")
-    public ResponseEntity<String> report(@RequestBody ReportRequest report) {
-        this.report.handle(report.report());
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+    public ResponseEntity<String> report(@RequestBody ReportFacade report) {
+        this.report.handle(report);
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/update-location")
-    public ResponseEntity<String> updateLocation(@RequestBody LocationUpdateRequest locationUpdate) throws ResistanceSocialNetworkException {
-        this.locationUpdate.handle(locationUpdate.locationUpdate());
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+    public ResponseEntity<String> updateLocation(@RequestBody LocationUpdateFacade locationUpdate) throws ResistanceSocialNetworkException {
+        this.locationUpdate.handle(locationUpdate);
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/trade")
-    public ResponseEntity<String> trade(@RequestBody TradeRequest trade) throws ResistanceSocialNetworkException {
-        this.trade.handle(trade.trade());
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+    public ResponseEntity<String> trade(@RequestBody TradeFacade trade) throws ResistanceSocialNetworkException {
+        this.trade.handle(trade);
+        return ResponseEntity.ok().build();
     }
 }

@@ -27,8 +27,7 @@ public class AlliesUseCase {
                 allies.addAll(Arrays.asList(
                         rebel.toString(),
                         rebel.getLocation().toString(),
-                        rebel.getInventory().toString(),
-                        "\n" + "─".repeat(50) + "\n"
+                        rebel.getInventory().toString()
                 ));
             }
         }

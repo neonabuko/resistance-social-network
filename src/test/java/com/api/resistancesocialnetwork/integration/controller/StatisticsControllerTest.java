@@ -32,7 +32,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class StatisticsControllerTest {
 
     @Autowired
@@ -88,7 +87,7 @@ class StatisticsControllerTest {
 
         String loginBody = "{\"username\":\"JuuJ\",\"password\":\"soos\"}";
 
-        MvcResult mvcResult = mockMvc.perform(post("/auth/username")
+        MvcResult mvcResult = mockMvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(loginBody)).andReturn();
         token = mvcResult.getResponse().getContentAsString();
@@ -96,21 +95,21 @@ class StatisticsControllerTest {
 
     @Test
     void should_return_200_when_hit_show_allies() throws Exception{
-        mockMvc.perform(get("/stats/show-allies")
+        mockMvc.perform(get("/stats/allies")
                         .header("Authorization", "Bearer " + token)
                 ).andExpect(status().isOk());
     }
 
     @Test
     void should_return_200_when_hit_allies_traitors_percentages() throws Exception{
-        mockMvc.perform(get("/stats/show-allies-traitors-percentages")
+        mockMvc.perform(get("/stats/allies-traitors-percentages")
                         .header("Authorization", "Bearer " + token)
                 ).andExpect(status().isOk());
     }
 
     @Test
     void should_return_200_when_hit_average_number_items() throws Exception{
-        mockMvc.perform(get("/stats/show-average-number-items")
+        mockMvc.perform(get("/stats/item-averages")
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk());
     }
@@ -120,62 +119,60 @@ class StatisticsControllerTest {
     @Test
     void should_return_405_when_POST_average_number_items() throws Exception {
         String requestBody = "";
-        mockMvc.perform(post("/stats/show-average-number-items")
+        mockMvc.perform(post("/stats/item-averages")
                 .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
-        ).andExpect(status().is(405));
+        ).andExpect(status().isMethodNotAllowed());
     }
 
     @Test
     void should_return_405_when_PATCH_average_number_items() throws Exception {
         String requestBody = "";
-        mockMvc.perform(patch("/stats/show-average-number-items")
+        mockMvc.perform(patch("/stats/item-averages")
                 .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
-        ).andExpect(status().is(405));
+        ).andExpect(status().isMethodNotAllowed());
     }
 
     @Test
     void should_return_405_when_POST_show_allies_percentages() throws Exception {
         String requestBody = "";
-        mockMvc.perform(post("/stats/show-allies-traitors-percentages")
+        mockMvc.perform(post("/stats/allies-traitors-percentages")
                 .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
-        ).andExpect(status().is(405));
+        ).andExpect(status().isMethodNotAllowed());
     }
 
     @Test
     void should_return_405_when_patch_show_allies_percentages() throws Exception {
         String requestBody = "";
-        mockMvc.perform(patch("/stats/show-allies-traitors-percentages")
+        mockMvc.perform(patch("/stats/allies-traitors-percentages")
                 .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
-        ).andExpect(status().is(405));
+        ).andExpect(status().isMethodNotAllowed());
     }
 
     @Test
     void should_return_405_when_POST_show_allies() throws Exception {
         String requestBody = "";
-        mockMvc.perform(post("/stats/show-allies")
+        mockMvc.perform(post("/stats/allies")
                 .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
-        ).andExpect(status().is(405));
+        ).andExpect(status().isMethodNotAllowed());
     }
 
     @Test
     void should_return_405_when_PATCH_show_allies() throws Exception {
         String requestBody = "";
-        mockMvc.perform(patch("/stats/show-allies")
+        mockMvc.perform(patch("/stats/allies")
                 .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
-        ).andExpect(status().is(405));
+        ).andExpect(status().isMethodNotAllowed());
     }
-
-
 }

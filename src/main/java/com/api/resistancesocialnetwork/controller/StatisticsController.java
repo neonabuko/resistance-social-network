@@ -29,23 +29,23 @@ public class StatisticsController {
     @GetMapping("/allies")
     public ResponseEntity<String> allies() {
         List<String> allies = this.allies.handle();
-        if (allies.isEmpty()) return ResponseEntity.status(204).body("No rebels to show");
-        return ResponseEntity.status(200).body(String.join("\n", allies));
+        if (allies.isEmpty()) return ResponseEntity.status(204).build();
+        return ResponseEntity.ok().body(String.join("─".repeat(20) + "\n", allies));
     }
 
     @GetMapping("/allies-traitors-percentages")
     public ResponseEntity<String> alliesTraitorsPercentages() {
         List<String> percentages = alliesTraitorsPercentages.handle();
-        if (percentages.isEmpty()) return ResponseEntity.status(204).body("No percentages to show");
-        return ResponseEntity.status(200).body("Allies: " + percentages.get(0) + " Traitors: " + percentages.get(1));
+        if (percentages.isEmpty()) return ResponseEntity.status(204).build();
+        return ResponseEntity.ok().body("Allies: " + percentages.get(0) + " Traitors: " + percentages.get(1));
     }
 
     @GetMapping("/item-averages")
     public ResponseEntity<String> itemAverages() {
         Map<String, Double> averages = itemAverages.handle();
-        if (averages.isEmpty()) return ResponseEntity.status(204).body("No averages to show");
+        if (averages.isEmpty()) return ResponseEntity.status(204).build();
         String response = averages.toString().replace(", ", "\n");
-        return ResponseEntity.status(200).body(response);
+        return ResponseEntity.ok().body(response);
     }
 
 }

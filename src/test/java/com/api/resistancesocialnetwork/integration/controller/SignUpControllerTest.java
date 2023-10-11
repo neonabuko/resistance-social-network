@@ -25,7 +25,7 @@ class SignUpControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
-    private SignupUseCase signupUseCase;
+    private SignupUseCase signup;
     private String token;
 
     @BeforeEach
@@ -43,7 +43,7 @@ class SignUpControllerTest {
 
         String loginBody = "{\"username\":\"JuuJ\",\"password\":\"soos\"}";
 
-        MvcResult mvcResult = mockMvc.perform(post("/auth/username")
+        MvcResult mvcResult = mockMvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(loginBody)).andReturn();
         token = mvcResult.getResponse().getContentAsString();
@@ -53,9 +53,8 @@ class SignUpControllerTest {
     /* ----------------------------  200 OK  -------------------------------*/
 
     @Test
-    void should_return_200() throws Exception {
-        mockMvc.perform(get("/")
-                        .header("Authorization", "Bearer " + token))
+    void should_return_200_when_get_homePage() throws Exception {
+        mockMvc.perform(get("/"))
                 .andExpect(status().isOk());
     }
 
@@ -65,25 +64,23 @@ class SignUpControllerTest {
     void should_return_201_when_signup_ok() throws Exception {
         String requestBody =
                 "{" +
-                    "\"signup\": {" +
-                        "\"rebel\": {" +
-                            "\"name\": \"marcio\"," +
-                            "\"age\":45," +
-                            "\"gender\":\"male\"" +
-                        "}," +
-                        "\"location\": {" +
-                            "\"latitude\":12.2," +
-                            "\"longitude\":40.2," +
-                            "\"base\":\"base\"" +
-                        "}," +
-                        "\"inventory\": {" +
-                            "\"items\": [" +
-                                "{" +
-                                    "\"name\": \"doritos\"," +
-                                    "\"price\":2" +
-                                "}" +
-                            "]" +
-                        "}" +
+                    "\"rebel\": {" +
+                        "\"name\": \"marcio\"," +
+                        "\"age\":45," +
+                        "\"gender\":\"male\"" +
+                    "}," +
+                    "\"location\": {" +
+                        "\"latitude\":12.2," +
+                        "\"longitude\":40.2," +
+                        "\"base\":\"base\"" +
+                    "}," +
+                    "\"inventory\": {" +
+                        "\"items\": [" +
+                            "{" +
+                                "\"name\": \"doritos\"," +
+                                "\"price\":2" +
+                            "}" +
+                        "]" +
                     "}" +
                 "}";
         mockMvc.perform(MockMvcRequestBuilders
@@ -99,8 +96,8 @@ class SignUpControllerTest {
     @Test
     void should_should_return_400_when_invalid_signup() throws Exception {
         mockMvc.perform(post("/signup")
-                .header("Authorization", "Bearer " + token))
-                .andExpect(status().is(400));
+                .header("Authorization", "Bearer " + token)
+        ).andExpect(status().isBadRequest());
     }
 
 
@@ -109,10 +106,9 @@ class SignUpControllerTest {
     void should_return_405_when_PATCH_main_page() throws Exception {
         String requestBody = "";
         mockMvc.perform(patch("/")
-                .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
-        ).andExpect(status().is(405));
+        ).andExpect(status().isMethodNotAllowed());
     }
 
 
@@ -120,10 +116,9 @@ class SignUpControllerTest {
     void should_return_405_when_POST_main_page() throws Exception {
         String requestBody = "";
         mockMvc.perform(post("/")
-                .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
-        ).andExpect(status().is(405));
+        ).andExpect(status().isMethodNotAllowed());
     }
 
 
@@ -134,7 +129,7 @@ class SignUpControllerTest {
                 .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
-        ).andExpect(status().is(405));
+        ).andExpect(status().isMethodNotAllowed());
     }
 
     @Test
@@ -144,6 +139,6 @@ class SignUpControllerTest {
                 .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
-        ).andExpect(status().is(405));
+        ).andExpect(status().isMethodNotAllowed());
     }
 }

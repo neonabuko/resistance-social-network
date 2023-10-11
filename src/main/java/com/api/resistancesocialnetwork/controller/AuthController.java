@@ -29,8 +29,8 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterFacade register) {
+    public ResponseEntity<Void> register(@RequestBody RegisterFacade register) {
         this.register.handle(register);
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return ResponseEntity.ok().build();
     }
 }

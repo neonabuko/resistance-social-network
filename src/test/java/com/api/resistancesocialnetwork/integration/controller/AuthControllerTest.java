@@ -1,6 +1,8 @@
 package com.api.resistancesocialnetwork.integration.controller;
 
 
+import com.api.resistancesocialnetwork.entity.User;
+import com.api.resistancesocialnetwork.enums.UserRole;
 import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -23,11 +25,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class AuthControllerTest {
-
     @Autowired
     private MockMvc mockMvc;
     @Autowired
-    private UserRepository userRepository;
+    private UserRepository repository;
     private String token;
 
     void register() throws Exception {
@@ -44,8 +45,8 @@ class AuthControllerTest {
     @DisplayName("should return status 200 when register ok")
     void should_return_200_when_register_user() throws Exception {
         String requestBody = "{\"username\":\"LeeL2\"," +
-                            "\"password\":\"alberto\"," +
-                                "\"role\":\"ADMIN\"}";
+                             "\"password\":\"alberto\"," +
+                             "\"role\":\"ADMIN\"}";
         mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
@@ -53,7 +54,21 @@ class AuthControllerTest {
     }
 
     @Test
-    @DisplayName("should assign role USER if role not provided")
+    @DisplayName("should return status 409 (CONFLICT) when username already taken")
+    void should_return_409_when_username_taken() throws Exception {
+        repository.save(new User("LeeL", "alberto", UserRole.USER));
+
+        String requestBody = "{\"username\":\"LeeL\"," +
+                             "\"password\":\"alberto\"," +
+                             "\"role\":\"ADMIN\"}";
+        mockMvc.perform(post("/auth/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+        ).andExpect(status().isConflict());
+    }
+
+    @Test
+    @DisplayName("should assign USER if role not provided")
     void should_assign_USER_if_role_not_provided() throws Exception {
         String requestBody = "{\"username\":\"LeeL2\"," +
                              "\"password\":\"alberto\"}";
@@ -61,14 +76,15 @@ class AuthControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         ).andExpect(status().isOk());
+
         Assertions.assertTrue(
-                userRepository.findUserBy("LeeL2").orElseThrow().getAuthorities()
+                repository.findUserBy("LeeL2").orElseThrow().getAuthorities()
                         .contains(new SimpleGrantedAuthority("ROLE_USER"))
         );
     }
 
     @Test
-    @DisplayName("should not assign role ADMIN if role not provided")
+    @DisplayName("should return status 200 and not assign ADMIN if role not provided")
     void should_not_assign_ADMIN_if_role_not_provided() throws Exception {
         String requestBody = "{\"username\":\"LeeL2\"," +
                              "\"password\":\"alberto\"}";
@@ -76,8 +92,9 @@ class AuthControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         ).andExpect(status().isOk());
+
         Assertions.assertFalse(
-                userRepository.findUserBy("LeeL2").orElseThrow().getAuthorities()
+                repository.findUserBy("LeeL2").orElseThrow().getAuthorities()
                         .contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
         );
     }
@@ -89,42 +106,42 @@ class AuthControllerTest {
 
         String requestBody = "{\"username\":\"LeeL\"," +
                              "\"password\":\"alberto\"}";
-        mockMvc.perform(post("/auth/username")
+        mockMvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         ).andExpect(status().isOk());
     }
 
     @Test
-    @DisplayName("should return status 403 when username password not provided")
-    void should_return_403_when_password_not_provided_in_login() throws Exception {
+    @DisplayName("should return status 400 when password not provided")
+    void should_return_400_when_password_not_provided_in_login() throws Exception {
         register();
 
         String requestBody = "{\"username\":\"LeeL\"}";
-        mockMvc.perform(post("/auth/username")
+        mockMvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
-        ).andExpect(status().isForbidden());
+        ).andExpect(status().isBadRequest());
     }
 
     @Test
-    @DisplayName("should return status 403 when username not provided")
-    void should_return_403_when_login_not_provided() throws Exception {
+    @DisplayName("should return status 400 when username not provided")
+    void should_return_400_when_login_not_provided() throws Exception {
         register();
 
         String requestBody = "{\"password\":\"alberto\"}";
-        mockMvc.perform(post("/auth/username")
+        mockMvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
-        ).andExpect(status().isForbidden());
+        ).andExpect(status().isBadRequest());
     }
 
     @Test
-    @DisplayName("should return status 400 when username invalid")
+    @DisplayName("should return status 400 when login format invalid")
     void should_return_400_when_login_invalid() throws Exception {
         String requestBody = "{\"username\":\"LeeL\"," +
                              "\"password\":\"alberto\"";
-        mockMvc.perform(post("/auth/username")
+        mockMvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         ).andExpect(status().isBadRequest());

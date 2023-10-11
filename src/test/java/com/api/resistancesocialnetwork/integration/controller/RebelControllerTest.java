@@ -37,27 +37,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class RebelControllerTest {
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
-    private ReportUseCase reportUseCase;
-
+    private ReportUseCase report;
     @Autowired
-    private LocationUpdateUseCase locationUpdateUseCase;
-
+    private LocationUpdateUseCase locationUpdate;
     @Autowired
-    private TradeUseCase tradeUseCase;
-
+    private TradeUseCase trade;
     @Autowired
     private RebelRepository rebelRepository;
-
     @Autowired
     private LocationRepository locationRepository;
-
     @Autowired
     private InventoryRepository inventoryRepository;
-
     @Autowired
     private ItemRepository itemRepository;
+    private String token;
 
     Rebel rebelLeft = new Rebel("jooj", 18, "male");
     Rebel rebelRight = new Rebel("jeej", 81, "maam");
@@ -67,14 +61,13 @@ class RebelControllerTest {
     Inventory inventoryLeft = new Inventory(new ArrayList<>(Arrays.asList(food)));
     Inventory inventoryRight = new Inventory(new ArrayList<>(Arrays.asList(water)));
 
-    private String token;
 
     @BeforeEach
     void setUp() throws Exception {
-        login();
+        register_and_login();
     }
 
-    void login() throws Exception {
+    void register_and_login() throws Exception {
         String requestBody = "{\"username\":\"JuuJ\",\"password\":\"soos\",\"role\":\"ADMIN\"}";
 
         mockMvc.perform(post("/auth/register")
@@ -84,7 +77,7 @@ class RebelControllerTest {
 
         String loginBody = "{\"username\":\"JuuJ\",\"password\":\"soos\"}";
 
-        MvcResult mvcResult = mockMvc.perform(post("/auth/username")
+        MvcResult mvcResult = mockMvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(loginBody)).andReturn();
         token = mvcResult.getResponse().getContentAsString();
@@ -99,10 +92,8 @@ class RebelControllerTest {
         rebelRepository.save(new Rebel());
 
         String requestBody = "{" +
-                                "\"report\": {" +
-                                    "\"reportingId\":1," +
-                                    "\"reportedId\":2" +
-                                "}" +
+                                "\"reportingId\":1," +
+                                "\"reportedId\":2" +
                               "}";
 
         mockMvc.perform(patch("/rebel/report")
@@ -121,13 +112,11 @@ class RebelControllerTest {
         rebelLeft.setLocation(locationLeft);
 
         String requestBody = "{" +
-                                "\"locationUpdate\": {" +
-                                    "\"location\": {" +
-                                        "\"id\":1," +
-                                        "\"latitude\":109.23," +
-                                        "\"longitude\":-2346," +
-                                        "\"base\":\"new-base\"" +
-                                    "}" +
+                                "\"location\": {" +
+                                    "\"id\":1," +
+                                    "\"latitude\":109.23," +
+                                    "\"longitude\":-2346," +
+                                    "\"base\":\"new-base\"" +
                                 "}" +
                              "}";
         mockMvc.perform(
@@ -142,20 +131,18 @@ class RebelControllerTest {
     @Test
     @Transactional
     void should_return_200_when_trade_ok() throws Exception {
-        rebelRepository.saveAll(Arrays.asList(rebelLeft, rebelRight));
         rebelLeft.setInventory(inventoryLeft);
         rebelRight.setInventory(inventoryRight);
         inventoryRepository.save(inventoryLeft);
         inventoryRepository.save(inventoryRight);
-
         itemRepository.saveAll(Arrays.asList(food, water));
+        rebelRepository.saveAll(Arrays.asList(rebelLeft, rebelRight));
+
         String requestBody = "{" +
-                                "\"trade\": {" +
-                                    "\"leftRebelId\":1," +
-                                    "\"leftItemId\":1," +
-                                    "\"rightRebelId\":2," +
-                                    "\"rightItemId\":2" +
-                                "}" +
+                                "\"leftRebelId\":1," +
+                                "\"leftItemId\":1," +
+                                "\"rightRebelId\":2," +
+                                "\"rightItemId\":2" +
                              "}";
 
         mockMvc.perform(patch("/rebel/trade")
@@ -175,7 +162,7 @@ class RebelControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
                 .header("Authorization", "Bearer " + token)
-        ).andExpect(status().is(405));
+        ).andExpect(status().isMethodNotAllowed());
     }
 
     @Test
@@ -185,7 +172,7 @@ class RebelControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
                 .header("Authorization", "Bearer " + token)
-        ).andExpect(status().is(405));
+        ).andExpect(status().isMethodNotAllowed());
     }
 
 
@@ -197,14 +184,14 @@ class RebelControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
                 .header("Authorization", "Bearer " + token)
-        ).andExpect(status().is(405));
+        ).andExpect(status().isMethodNotAllowed());
     }
 
     @Test
     void should_return_405_when_GET_location_update() throws Exception {
         mockMvc.perform(get("/rebel/update-location")
                         .header("Authorization", "Bearer " + token)
-                ).andExpect(status().is(405));
+                ).andExpect(status().isMethodNotAllowed());
     }
 
 
@@ -216,14 +203,14 @@ class RebelControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
                 .header("Authorization", "Bearer " + token)
-        ).andExpect(status().is(405));
+        ).andExpect(status().isMethodNotAllowed());
     }
 
     @Test
     void should_return_405_when_GET_trade() throws Exception {
         mockMvc.perform(get("/rebel/trade")
                 .header("Authorization", "Bearer " + token)
-        ).andExpect(status().is(405));
+        ).andExpect(status().isMethodNotAllowed());
     }
 
 
@@ -234,7 +221,7 @@ class RebelControllerTest {
     void should_return_400_when_invalid_report() throws Exception {
         mockMvc.perform(patch("/rebel/report")
                 .header("Authorization", "Bearer " + token)
-        ).andExpect(status().is(400));
+        ).andExpect(status().isBadRequest());
     }
 
 //    UPDATE LOCATION:
@@ -242,7 +229,7 @@ class RebelControllerTest {
     void should_return_400_when_invalid_location_update() throws Exception {
         mockMvc.perform(patch("/rebel/update-location")
                 .header("Authorization", "Bearer " + token)
-        ).andExpect(status().is(400));
+        ).andExpect(status().isBadRequest());
     }
 
 //    TRADE:
@@ -250,6 +237,6 @@ class RebelControllerTest {
     void should_return_400_when_invalid_trade() throws Exception {
         mockMvc.perform(patch("/rebel/trade")
                 .header("Authorization", "Bearer " + token)
-        ).andExpect(status().is(400));
+        ).andExpect(status().isBadRequest());
     }
 }
