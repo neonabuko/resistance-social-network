@@ -31,13 +31,14 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         var register = createMvcRequestMatcher("/auth/register");
         var login = createMvcRequestMatcher("/auth/login");
+        var health = createMvcRequestMatcher("/actuator/health");
         var home = createMvcRequestMatcher("/");
 
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(register, login, home).permitAll()
+                        .requestMatchers(register, login, home, health).permitAll()
                         .anyRequest().authenticated()
                 ).addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
