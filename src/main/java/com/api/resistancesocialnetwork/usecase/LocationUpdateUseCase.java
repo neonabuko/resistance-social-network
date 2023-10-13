@@ -2,9 +2,9 @@ package com.api.resistancesocialnetwork.usecase;
 
 import com.api.resistancesocialnetwork.entity.Location;
 import com.api.resistancesocialnetwork.entity.Rebel;
+import com.api.resistancesocialnetwork.facade.LocationUpdateFacade;
 import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.LocationRepository;
 import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.RebelRepository;
-import com.api.resistancesocialnetwork.facade.LocationUpdateFacade;
 import com.api.resistancesocialnetwork.rules.LocationUpdateRules;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import org.springframework.stereotype.Service;

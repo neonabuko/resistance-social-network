@@ -1,16 +1,15 @@
 package com.api.resistancesocialnetwork.usecase;
 
-import com.api.resistancesocialnetwork.entity.User;
 import com.api.resistancesocialnetwork.entity.Inventory;
 import com.api.resistancesocialnetwork.entity.Location;
 import com.api.resistancesocialnetwork.entity.Rebel;
-import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.UserRepository;
+import com.api.resistancesocialnetwork.entity.User;
 import com.api.resistancesocialnetwork.facade.SignupFacade;
+import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.UserRepository;
 import com.api.resistancesocialnetwork.rules.SignupRules;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 

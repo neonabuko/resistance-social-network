@@ -1,16 +1,12 @@
 package com.api.resistancesocialnetwork.unit.usecase;
 
-import com.api.resistancesocialnetwork.entity.User;
+import com.api.resistancesocialnetwork.entity.*;
 import com.api.resistancesocialnetwork.enums.UserRole;
-import com.api.resistancesocialnetwork.entity.Inventory;
-import com.api.resistancesocialnetwork.entity.Item;
-import com.api.resistancesocialnetwork.entity.Location;
-import com.api.resistancesocialnetwork.entity.Rebel;
+import com.api.resistancesocialnetwork.facade.SignupFacade;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.InventoryRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.LocationRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
 import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.UserRepositoryInMemory;
-import com.api.resistancesocialnetwork.facade.SignupFacade;
 import com.api.resistancesocialnetwork.rules.SignupRules;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import com.api.resistancesocialnetwork.usecase.SignupUseCase;

@@ -4,7 +4,6 @@ import com.api.resistancesocialnetwork.facade.LoginFacade;
 import com.api.resistancesocialnetwork.facade.RegisterFacade;
 import com.api.resistancesocialnetwork.usecase.LoginUseCase;
 import com.api.resistancesocialnetwork.usecase.RegisterUseCase;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +24,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginFacade login) {
         var token = this.login.handle(login);
+        
         return ResponseEntity.ok().body(token);
     }
 
