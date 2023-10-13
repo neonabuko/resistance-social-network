@@ -1,0 +1,176 @@
+openapi: 3.0.0
+
+info: Star Wars Resistance Social Network - uma API para gerenciar rebeldes.
+
+paths:
+  /register:
+    POST:
+      description: Rebeldes se cadastram no sistema, providenciando
+				   username, password e role (USER ou ADMIN).
+	  responses:
+	    200:
+	      description: Rebelde cadastrado com sucesso.
+	    400:
+	      description: JSON não legível; dados inválidos.
+
+  /login: 
+    POST:
+      description: Rebeldes fazem login após registrarem-se com sucesso.
+      responses:
+        200:
+          description: Rebelde autenticado com sucesso.
+        400:
+          description: JSON não legível; dados inválidos.
+        403:
+          description: Dados de Rebelde não cadastrados.
+
+  /signup:
+    POST:
+      description: Rebeldes cadastram seus dados com nome, idade, gênero,
+           		   localização e inventário.
+    responses:
+      201:
+        description: Dados do rebelde cadastrados com sucesso.
+      400:
+        description: JSON não legível; dados inválidos.
+      403:
+        description: Rebelde não autenticado.
+
+  /report:
+    PATCH:
+      description: Rebeldes reportam uns aos outros como traidores.
+    responses:
+      200:
+        description: Rebelde reportado com sucesso.
+      400:
+        description: JSON não legível; dados inválidos; rebelde(s) não
+                     encontrado(s).
+      403:
+        description: Rebelde não autenticado.
+
+  /update-location:
+  	PATCH:
+      description: Rebeldes atualizam suas localizações.
+      responses:
+        200:
+          description: Localização atualizada com sucesso.
+        400:
+          description: JSON não legível; dados inválidos; rebelde não
+                       encontrado.
+        403:
+          description: Rebelde não autenticado.
+
+  /trade: 
+    post:
+      description: Rebeldes negociam itens entre eles.
+      responses:
+        200:
+          description: Itens negociados com sucesso.
+        400:
+          description: JSON não legível; dados inválidos; rebelde(s) não
+                       encontrado(s); fundos insuficientes; item(s) não
+                       encontrado(s); rebelde(s) traidor(es); pontos não
+                       batem.
+        403:
+          description: Rebelde não autenticado.
+
+  /allies:
+    GET:
+      description: Mostra todos os rebeldes cadastrados (que não são traidores).
+      responses:
+        200:
+          description: Informações recebidas com sucesso.
+        204:
+          description: Nenhuma informação para mostrar.
+        403:
+          description: Rebelde não autenticado.
+
+  /allies-traitors-percentages:
+  	GET:
+      description: Mostra a porcentagem de aliados vs. 
+                   a porcentagem de traidores.
+      responses:
+        200:
+          description: Informações recebidas com sucesso.
+        204:
+          description: Nenhuma informação para mostrar.
+        403:
+          description: Rebelde não autenticado.
+
+  /average-number-items: 
+    GET:
+      description: Mostra a média de cada item por rebelde.
+      responses:
+        200:
+          description: Informações recebidas com sucesso.
+        204:
+          description: Nenhuma informação para mostrar.
+        403:
+          description: Rebelde não autenticado.
+
+servers:
+  - http://localhost:8080
+  
+components (JSON):
+	/auth:
+		/register:
+				{
+				 "username": "username",
+				 "password": "password",
+				 "role": "ROLE"
+				}
+				
+		login:
+				{
+				 "username": "username",
+				 "password": "password"
+				}
+
+	/:
+		/signup:
+				{
+				  "rebel": {
+				    "name": "name",
+				    "age": int,
+				    "gender": "gender"
+				  },
+				  "location": {
+				    "latitude": double,
+				    "longitude": double,
+				    "base": "base"
+				  },
+				  "inventory": {
+				    "items": [
+				      {
+				        "name": "name",
+				        "price": int
+				      }
+				    ]
+				  }
+				}
+
+	/rebel:
+		/report:
+				{
+				  "reportingId": int,
+				  "reportedId": int
+				}
+
+		/update-location:
+				{
+				   "location": {
+				     "id": int,
+				     "latitude": double,
+				     "longitude": double,
+				     "base": "base"
+				    }
+				 }
+
+		/trade:
+				{
+				  "leftRebelId": int,
+				  "leftItemId": int,
+				  "rightRebelId": int,
+				  "rightItemId": int
+				}
+
