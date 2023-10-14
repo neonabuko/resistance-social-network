@@ -19,8 +19,7 @@ cd resistance-social-network
 docker compose up
 ```
 ### Implementações:
-- [x] Spring Web
-- [x] Spring Data JPA
+- [x] Spring Boot
 - [x] Spring Security
 - [x] PostgreSQL
 - [x] Docker
@@ -28,8 +27,8 @@ docker compose up
 
 ## Casos de Uso
 - Cadastrar
-- Atualizar sua localização
-- Reportar rebelde
+- Atualizar localização
+- Reportar
 - Negociar
 - Mostrar:
     1. Porcentagens de traidores vs. aliados
