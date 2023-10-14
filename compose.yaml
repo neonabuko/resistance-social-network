@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   app:
-    image: resistance-social-network
+    image: resistance
     container_name: resistance
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]

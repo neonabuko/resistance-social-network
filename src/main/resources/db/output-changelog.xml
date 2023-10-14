@@ -1,0 +1,109 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="neo (generated)" id="1697307005971-1">
+        <createTable tableName="inventories">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="inventories_pkey"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="neo (generated)" id="1697307005971-2">
+        <createTable tableName="items">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="items_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="price" type="INTEGER"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="neo (generated)" id="1697307005971-3">
+        <createTable tableName="locations">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="locations_pkey"/>
+            </column>
+            <column name="base" type="VARCHAR(255)"/>
+            <column name="latitude" type="FLOAT8"/>
+            <column name="longitude" type="FLOAT8"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="neo (generated)" id="1697307005971-4">
+        <createTable tableName="rebels">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="rebels_pkey"/>
+            </column>
+            <column name="age" type="INTEGER"/>
+            <column name="gender" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="report_counter" type="INTEGER"/>
+            <column name="reported_ids" type="INT4[]"/>
+            <column name="inventory_id" type="INTEGER"/>
+            <column name="location_id" type="INTEGER"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="neo (generated)" id="1697307005971-5">
+        <createTable tableName="users">
+            <column name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="users_pkey"/>
+            </column>
+            <column name="username" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="SMALLINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="login" type="VARCHAR(255)"/>
+            <column name="inventory_id" type="INTEGER"/>
+            <column name="location_id" type="INTEGER"/>
+            <column name="rebel_id" type="INTEGER"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="neo (generated)" id="1697307005971-6">
+        <addUniqueConstraint columnNames="location_id" constraintName="uk_3mlfbdvsfoxkhp4p1p9hxypm8" tableName="rebels"/>
+    </changeSet>
+    <changeSet author="neo (generated)" id="1697307005971-7">
+        <addUniqueConstraint columnNames="inventory_id" constraintName="uk_p9xuyc70w3b897e2um96w4aj6" tableName="rebels"/>
+    </changeSet>
+    <changeSet author="neo (generated)" id="1697307005971-8">
+        <addUniqueConstraint columnNames="inventory_id" constraintName="uk_2xxiwpnv2q8dpspnnbg4eqc5d" tableName="users"/>
+    </changeSet>
+    <changeSet author="neo (generated)" id="1697307005971-9">
+        <addUniqueConstraint columnNames="location_id" constraintName="uk_5qip1tpogjwqlc96pdbdvyctf" tableName="users"/>
+    </changeSet>
+    <changeSet author="neo (generated)" id="1697307005971-10">
+        <addUniqueConstraint columnNames="rebel_id" constraintName="uk_a30kiqsas52jhco4ryl4rmf3t" tableName="users"/>
+    </changeSet>
+    <changeSet author="neo (generated)" id="1697307005971-11">
+        <createTable tableName="inventories_items">
+            <column name="inventory_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="item_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="neo (generated)" id="1697307005971-12">
+        <addForeignKeyConstraint baseColumnNames="rebel_id" baseTableName="users" constraintName="fk46nf4uh0jcr6r21w27v9x0arl" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="rebels" validate="true"/>
+    </changeSet>
+    <changeSet author="neo (generated)" id="1697307005971-13">
+        <addForeignKeyConstraint baseColumnNames="item_id" baseTableName="inventories_items" constraintName="fkdjvqr0f7wrva7vhl1c5btuv3q" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="items" validate="true"/>
+    </changeSet>
+    <changeSet author="neo (generated)" id="1697307005971-14">
+        <addForeignKeyConstraint baseColumnNames="location_id" baseTableName="users" constraintName="fkdk0xfnnthbj8afp1ira6sndte" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="locations" validate="true"/>
+    </changeSet>
+    <changeSet author="neo (generated)" id="1697307005971-15">
+        <addForeignKeyConstraint baseColumnNames="inventory_id" baseTableName="users" constraintName="fkib6gql87lks7wohbng5ditt10" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="inventories" validate="true"/>
+    </changeSet>
+    <changeSet author="neo (generated)" id="1697307005971-16">
+        <addForeignKeyConstraint baseColumnNames="inventory_id" baseTableName="inventories_items" constraintName="fkmoubucofwupld7em8jwuw8pqp" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="inventories" validate="true"/>
+    </changeSet>
+    <changeSet author="neo (generated)" id="1697307005971-17">
+        <addForeignKeyConstraint baseColumnNames="location_id" baseTableName="rebels" constraintName="fkrx39g81pbqwljq8y1kdn9vwb1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="locations" validate="true"/>
+    </changeSet>
+    <changeSet author="neo (generated)" id="1697307005971-18">
+        <addForeignKeyConstraint baseColumnNames="inventory_id" baseTableName="rebels" constraintName="fks8lfb658pkkd39xm3ibia7lto" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="inventories" validate="true"/>
+    </changeSet>
+</databaseChangeLog>
