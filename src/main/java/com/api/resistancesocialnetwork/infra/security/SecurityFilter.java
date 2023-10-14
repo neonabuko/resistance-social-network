@@ -1,6 +1,6 @@
 package com.api.resistancesocialnetwork.infra.security;
 
-import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.UserRepository;
+import com.api.resistancesocialnetwork.repository.repositoryinterfaces.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

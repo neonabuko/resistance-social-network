@@ -1,7 +1,7 @@
 package com.api.resistancesocialnetwork.unit.usecase;
 
 import com.api.resistancesocialnetwork.entity.Rebel;
-import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.RebelRepositoryInMemory;
+import com.api.resistancesocialnetwork.repository.repositoriesinmemory.RebelRepositoryInMemory;
 import com.api.resistancesocialnetwork.usecase.statistics.AlliesTraitorsPercentagesUseCase;
 import org.junit.jupiter.api.Test;
 

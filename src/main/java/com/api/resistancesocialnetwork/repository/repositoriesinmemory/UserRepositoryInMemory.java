@@ -1,7 +1,7 @@
-package com.api.resistancesocialnetwork.repositories.repositoriesinmemory;
+package com.api.resistancesocialnetwork.repository.repositoriesinmemory;
 
 import com.api.resistancesocialnetwork.entity.User;
-import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.UserRepository;
+import com.api.resistancesocialnetwork.repository.repositoryinterfaces.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
@@ -33,6 +33,11 @@ public class UserRepositoryInMemory implements UserRepository {
     @Override
     public void save(User user) {
         users.add(user);
+    }
+
+    @Override
+    public void delete(User user) {
+        users.remove(user);
     }
 
     public void saveInMem(User user) {

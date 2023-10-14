@@ -1,8 +1,8 @@
 package com.api.resistancesocialnetwork.usecase.statistics;
 
 import com.api.resistancesocialnetwork.entity.Item;
-import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.InventoryRepository;
-import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.ItemRepository;
+import com.api.resistancesocialnetwork.repository.repositoryinterfaces.InventoryRepository;
+import com.api.resistancesocialnetwork.repository.repositoryinterfaces.ItemRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 

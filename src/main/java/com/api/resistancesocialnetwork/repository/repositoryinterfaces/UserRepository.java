@@ -1,4 +1,4 @@
-package com.api.resistancesocialnetwork.repositories.repositoryinterfaces;
+package com.api.resistancesocialnetwork.repository.repositoryinterfaces;
 
 import com.api.resistancesocialnetwork.entity.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,4 +10,5 @@ public interface UserRepository {
     Optional<User> findUserBy(String login);
     Optional<UserDetails> findUserDetailsBy(String login);
     void save(User user);
+    void delete(User user);
 }

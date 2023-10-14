@@ -5,7 +5,7 @@ import com.api.resistancesocialnetwork.entity.Location;
 import com.api.resistancesocialnetwork.entity.Rebel;
 import com.api.resistancesocialnetwork.entity.User;
 import com.api.resistancesocialnetwork.facade.SignupFacade;
-import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.UserRepository;
+import com.api.resistancesocialnetwork.repository.repositoryinterfaces.UserRepository;
 import com.api.resistancesocialnetwork.rules.SignupRules;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import jakarta.transaction.Transactional;

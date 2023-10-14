@@ -31,6 +31,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         var register = createMvcRequestMatcher("/auth/register");
         var login = createMvcRequestMatcher("/auth/login");
+        var delete = createMvcRequestMatcher("/rebel/delete");
         var health = createMvcRequestMatcher("/actuator/health");
         var home = createMvcRequestMatcher("/");
 
@@ -39,6 +40,7 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(register, login, home, health).permitAll()
+                        .requestMatchers(delete).hasRole("ADMIN")
                         .anyRequest().authenticated()
                 ).addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

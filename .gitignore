@@ -3,6 +3,10 @@ target/
 /.mvn/
 !**/src/main/**/target/
 !**/src/test/**/target/
+src/main/resources/application.properties
+src/main/resources/liquibase.properties
+mvnw
+mvnw.cmd
 
 ### STS ###
 .apt_generated

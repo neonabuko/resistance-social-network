@@ -2,8 +2,8 @@ package com.api.resistancesocialnetwork.unit.usecase;
 
 import com.api.resistancesocialnetwork.entity.Inventory;
 import com.api.resistancesocialnetwork.entity.Item;
-import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.InventoryRepositoryInMemory;
-import com.api.resistancesocialnetwork.repositories.repositoriesinmemory.ItemRepositoryInMemory;
+import com.api.resistancesocialnetwork.repository.repositoriesinmemory.InventoryRepositoryInMemory;
+import com.api.resistancesocialnetwork.repository.repositoriesinmemory.ItemRepositoryInMemory;
 import com.api.resistancesocialnetwork.usecase.statistics.ItemAveragesUseCase;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
