@@ -43,4 +43,8 @@ public class UserRepositoryInMemory implements UserRepository {
     public void saveInMem(User user) {
         users.add(user);
     }
+
+    public void saveAllInMem(List<User> newUsers) {
+        users.addAll(newUsers);
+    }
 }

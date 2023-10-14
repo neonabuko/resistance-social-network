@@ -14,7 +14,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class showItemAveragesUseCaseTest {
+class ItemAveragesUseCaseTest {
     private final InventoryRepositoryInMemory inventoryRepoInMem = new InventoryRepositoryInMemory();
     private final ItemRepositoryInMemory itemRepositoryInMem = new ItemRepositoryInMemory();
     private final ItemAveragesUseCase itemAveragesUseCase = new ItemAveragesUseCase(inventoryRepoInMem, itemRepositoryInMem);

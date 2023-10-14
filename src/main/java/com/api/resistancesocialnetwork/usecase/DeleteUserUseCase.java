@@ -5,7 +5,6 @@ import com.api.resistancesocialnetwork.facade.DeleteUserFacade;
 import com.api.resistancesocialnetwork.repository.repositoryinterfaces.UserRepository;
 import com.api.resistancesocialnetwork.rules.DeleteUserRules;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

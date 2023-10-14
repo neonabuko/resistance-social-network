@@ -10,6 +10,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -24,7 +26,7 @@ class TokenServiceTest {
         String encryptedPassword = new BCryptPasswordEncoder().encode("sees");
         User user = new User("JooJ", encryptedPassword, UserRole.ADMIN);
         String token = tokenService.generateToken(user);
-        String decryptedToken = tokenService.getUsernameFromToken(token);
+        String decryptedToken = tokenService.getUsernameFromToken(token).orElseThrow();
 
         assertNotNull(token);
     }
@@ -34,18 +36,18 @@ class TokenServiceTest {
         String encryptedPassword = new BCryptPasswordEncoder().encode("sees");
         User user = new User("JooJ", encryptedPassword, UserRole.ADMIN);
         String token = tokenService.generateToken(user);
-        String validateToken = tokenService.getUsernameFromToken(token);
+        String validateToken = tokenService.getUsernameFromToken(token).orElseThrow();
 
         assertEquals("JooJ", validateToken);
     }
 
     @Test
-    void should_contain_null_username_in_validate_token_if_username_null() {
+    void should_return_OptionalEmpty_when_username_null() {
         String encryptedPassword = new BCryptPasswordEncoder().encode("sees");
         User user = new User(null, encryptedPassword, UserRole.ADMIN);
         String token = tokenService.generateToken(user);
-        String validateToken = tokenService.getUsernameFromToken(token);
+        Optional<String> validateToken = tokenService.getUsernameFromToken(token);
 
-        assertNull(validateToken);
+        assertEquals(Optional.empty(), validateToken);
     }
 }
