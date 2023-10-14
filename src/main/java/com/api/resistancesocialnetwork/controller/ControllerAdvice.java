@@ -1,6 +1,7 @@
 package com.api.resistancesocialnetwork.controller;
 
 import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -17,6 +18,11 @@ public class ControllerAdvice {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<String> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
+        return new ResponseEntity<>(e.getStatusCode());
+    }
+
     @ExceptionHandler(InvalidDataAccessApiUsageException.class)
     public ResponseEntity<String> handleInvalidDataAccessApiUsageException(InvalidDataAccessApiUsageException e) {
         return ResponseEntity.badRequest().body(e.getMessage());
@@ -30,10 +36,5 @@ public class ControllerAdvice {
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<String> handleResponseStatusException(ResponseStatusException e) {
         return ResponseEntity.status(e.getStatusCode()).body(e.getReason());
-    }
-
-    @ExceptionHandler
-    public ResponseEntity<String> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
-        return new ResponseEntity<>(e.getStatusCode());
     }
 }
