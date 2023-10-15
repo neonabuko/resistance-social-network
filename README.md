@@ -27,6 +27,7 @@ docker compose up
 
 ## Casos de Uso
 - Cadastrar
+- Deletar usuários
 - Atualizar localização
 - Reportar
 - Negociar
