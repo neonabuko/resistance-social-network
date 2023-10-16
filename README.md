@@ -7,6 +7,10 @@
 > O império continua seus esforços incessantes para dominar a galáxia. Sendo um soldado da resistência, fui escolhido para
 > desenvolver um sistema para compartilhar recursos entre rebeldes.
 
+## Coverage Report 16/10/2023
+![Screenshot from 2023-10-16 03-45-49](https://github.com/neonabuko/resistance-social-network/assets/83613676/9ee1d88a-5e3e-42e7-9d57-171cfc8f6210)
+
+
 ### Requerimentos:
 - Docker Compose V2
 
