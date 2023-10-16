@@ -75,9 +75,9 @@
 <code class="sourceCode" id="sourceCode">&nbsp;package com.api.resistancesocialnetwork.controller;
 &nbsp;
 &nbsp;import com.api.resistancesocialnetwork.entity.User;
-&nbsp;import com.api.resistancesocialnetwork.facade.SignupFacade;
+&nbsp;import com.api.resistancesocialnetwork.facade.ProfileFacade;
 &nbsp;import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
-&nbsp;import com.api.resistancesocialnetwork.usecase.SignupUseCase;
+&nbsp;import com.api.resistancesocialnetwork.usecase.ProfileUseCase;
 &nbsp;import org.springframework.http.HttpStatus;
 &nbsp;import org.springframework.http.ResponseEntity;
 &nbsp;import org.springframework.security.core.context.SecurityContextHolder;
@@ -87,10 +87,10 @@
 &nbsp;
 &nbsp;@RestController
 &nbsp;public class SignUpController {
-&nbsp;    private final SignupUseCase signupUseCase;
+&nbsp;    private final SignupUseCase profileUseCase;
 &nbsp;
-<b class="fc">&nbsp;    public SignUpController(SignupUseCase signupUseCase) {</b>
-<b class="fc">&nbsp;        this.signupUseCase = signupUseCase;</b>
+<b class="fc">&nbsp;    public SignUpController(SignupUseCase profileUseCase) {</b>
+<b class="fc">&nbsp;        this.profileUseCase = profileUseCase;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    @GetMapping(&quot;/&quot;)
@@ -102,7 +102,7 @@
 &nbsp;    public ResponseEntity&lt;Void&gt; signup(@RequestBody SignupFacade signup,
 &nbsp;                                       @RequestHeader(&quot;Authorization&quot;) String header) throws ResistanceSocialNetworkException {
 <b class="fc">&nbsp;        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();</b>
-<b class="fc">&nbsp;        signupUseCase.handle(signup, user.getLogin());</b>
+<b class="fc">&nbsp;        profileUseCase.handle(signup, user.getLogin());</b>
 <b class="fc">&nbsp;        return ResponseEntity.created(URI.create(&quot;/signup&quot;)).build();</b>
 &nbsp;    }
 &nbsp;}

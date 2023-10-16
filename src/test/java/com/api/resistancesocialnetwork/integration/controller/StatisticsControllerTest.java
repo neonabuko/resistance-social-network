@@ -73,14 +73,14 @@ class StatisticsControllerTest {
         rebelLeft.setLocation(location1);
         rebelRight.setLocation(location2);
         rebelRepository.saveAll(Arrays.asList(rebelLeft, rebelRight));
-        login();
+        signup_then_login();
     }
 
 
-    void login() throws Exception {
+    void signup_then_login() throws Exception {
         String requestBody = "{\"username\":\"JuuJ\",\"password\":\"soos\",\"role\":\"ADMIN\"}";
 
-        mockMvc.perform(post("/auth/register")
+        mockMvc.perform(post("/auth/signup")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         );

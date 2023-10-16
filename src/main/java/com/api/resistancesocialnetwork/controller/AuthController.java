@@ -1,9 +1,9 @@
 package com.api.resistancesocialnetwork.controller;
 
 import com.api.resistancesocialnetwork.facade.LoginFacade;
-import com.api.resistancesocialnetwork.facade.RegisterFacade;
+import com.api.resistancesocialnetwork.facade.SignupFacade;
 import com.api.resistancesocialnetwork.usecase.LoginUseCase;
-import com.api.resistancesocialnetwork.usecase.RegisterUseCase;
+import com.api.resistancesocialnetwork.usecase.SignupUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("auth")
 public class AuthController {
     private final LoginUseCase login;
-    private final RegisterUseCase register;
+    private final SignupUseCase signup;
 
-    public AuthController(LoginUseCase login, RegisterUseCase register) {
+    public AuthController(LoginUseCase login, SignupUseCase signup) {
         this.login = login;
-        this.register = register;
+        this.signup = signup;
     }
 
     @PostMapping("/login")
@@ -28,9 +28,9 @@ public class AuthController {
         return ResponseEntity.ok().body(token);
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<Void> register(@RequestBody RegisterFacade register) {
-        this.register.handle(register);
+    @PostMapping("/signup")
+    public ResponseEntity<Void> register(@RequestBody SignupFacade signupFacade) {
+        signup.handle(signupFacade);
         return ResponseEntity.ok().build();
     }
 }

@@ -30,14 +30,14 @@ class AuthControllerTest {
     private UserRepository repository;
     private String token;
 
-    private void register(String username, String password, String role) throws Exception {
+    private void signup(String username, String password, String role) throws Exception {
         String requestBody = "{" +
                                  "\"username\":\"" + username + "\"," +
                                  "\"password\":\"" + password + "\"," +
                                  "\"role\":\"" + role + "\"" +
                              "}";
 
-        mockMvc.perform(post("/auth/register")
+        mockMvc.perform(post("/auth/signup")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         );
@@ -49,7 +49,7 @@ class AuthControllerTest {
         String requestBody = "{\"username\":\"ok\"," +
                              "\"password\":\"alberto\"," +
                              "\"role\":\"ADMIN\"}";
-        mockMvc.perform(post("/auth/register")
+        mockMvc.perform(post("/auth/signup")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                 ).andExpect(status().isOk());
@@ -63,7 +63,7 @@ class AuthControllerTest {
         String requestBody = "{\"username\":\"LeeL\"," +
                              "\"password\":\"alberto\"," +
                              "\"role\":\"ADMIN\"}";
-        mockMvc.perform(post("/auth/register")
+        mockMvc.perform(post("/auth/signup")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         ).andExpect(status().isConflict());
@@ -74,7 +74,7 @@ class AuthControllerTest {
     void should_assign_USER_if_role_not_provided() throws Exception {
         String requestBody = "{\"username\":\"LeeL2\"," +
                              "\"password\":\"alberto\"}";
-        mockMvc.perform(post("/auth/register")
+        mockMvc.perform(post("/auth/signup")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         ).andExpect(status().isOk());
@@ -90,7 +90,7 @@ class AuthControllerTest {
     void should_not_assign_ADMIN_if_role_not_provided() throws Exception {
         String requestBody = "{\"username\":\"not admin\"," +
                              "\"password\":\"alberto\"}";
-        mockMvc.perform(post("/auth/register")
+        mockMvc.perform(post("/auth/signup")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         ).andExpect(status().isOk());
@@ -104,7 +104,7 @@ class AuthControllerTest {
     @Test
     @DisplayName("should return status 200 when username valid")
     void should_return_200_when_login_user() throws Exception {
-        register("valid", "123", "USER");
+        signup("valid", "123", "USER");
 
         String requestBody = "{\"username\":\"valid\"," +
                              "\"password\":\"123\"}";
@@ -117,7 +117,7 @@ class AuthControllerTest {
     @Test
     @DisplayName("should return status 400 when password not provided")
     void should_return_400_when_password_not_provided_in_login() throws Exception {
-        register("not provided", "", "ADMIN");
+        signup("not provided", "", "ADMIN");
 
         String requestBody = "{\"username\":\"LeeL\"}";
         mockMvc.perform(post("/auth/login")
@@ -129,7 +129,7 @@ class AuthControllerTest {
     @Test
     @DisplayName("should return status 400 when username not provided")
     void should_return_400_when_login_not_provided() throws Exception {
-        register("", "123", "ADMIN");
+        signup("", "123", "ADMIN");
 
         String requestBody = "{\"password\":\"alberto\"}";
         mockMvc.perform(post("/auth/login")

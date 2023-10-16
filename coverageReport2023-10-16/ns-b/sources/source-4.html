@@ -78,7 +78,7 @@
 &nbsp;import com.api.resistancesocialnetwork.entity.Item;
 &nbsp;import com.api.resistancesocialnetwork.entity.Location;
 &nbsp;import com.api.resistancesocialnetwork.entity.Rebel;
-&nbsp;import com.api.resistancesocialnetwork.facade.SignupFacade;
+&nbsp;import com.api.resistancesocialnetwork.facade.ProfileFacade;
 &nbsp;import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 &nbsp;import com.api.resistancesocialnetwork.usecase.formatters.FormatEntities;
 &nbsp;import org.springframework.stereotype.Component;
@@ -91,15 +91,15 @@
 <b class="fc">&nbsp;        this.formatEntities = formatEntities;</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public void handle(SignupFacade signupFacade) throws ResistanceSocialNetworkException {
-<b class="fc">&nbsp;        assert_facade_not_null(signupFacade);</b>
-<b class="fc">&nbsp;        assert_rebel_valid(signupFacade.rebel());</b>
-<b class="fc">&nbsp;        assert_coordinates_valid(signupFacade.location());</b>
-<b class="fc">&nbsp;        assert_inventory_valid(signupFacade.inventory());</b>
+&nbsp;    public void handle(SignupFacade profileFacade) throws ResistanceSocialNetworkException {
+<b class="fc">&nbsp;        assert_facade_not_null(profileFacade);</b>
+<b class="fc">&nbsp;        assert_rebel_valid(profileFacade.rebel());</b>
+<b class="fc">&nbsp;        assert_coordinates_valid(profileFacade.location());</b>
+<b class="fc">&nbsp;        assert_inventory_valid(profileFacade.inventory());</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    private void assert_facade_not_null(SignupFacade signupFacade) throws ResistanceSocialNetworkException {
-<b class="fc">&nbsp;        if (signupFacade == null) throw new ResistanceSocialNetworkException(&quot;must provide signup parameters&quot;);</b>
+&nbsp;    private void assert_facade_not_null(SignupFacade profileFacade) throws ResistanceSocialNetworkException {
+<b class="fc">&nbsp;        if (profileFacade == null) throw new ResistanceSocialNetworkException(&quot;must provide signup parameters&quot;);</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    private void assert_rebel_valid(Rebel rebel) throws ResistanceSocialNetworkException {

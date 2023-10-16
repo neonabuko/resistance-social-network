@@ -7,7 +7,6 @@ import com.api.resistancesocialnetwork.usecase.LocationUpdateUseCase;
 import com.api.resistancesocialnetwork.usecase.ReportUseCase;
 import com.api.resistancesocialnetwork.usecase.TradeUseCase;
 import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,14 +57,14 @@ class RebelControllerTest {
     Inventory inventoryLeft = new Inventory(new ArrayList<>(Arrays.asList(food)));
     Inventory inventoryRight = new Inventory(new ArrayList<>(Arrays.asList(water)));
 
-    private void register_and_login(String username, String password, String role) throws Exception {
+    private void signup_then_login(String username, String password, String role) throws Exception {
         String requestBody = "{" +
                                 "\"username\":\"" + username + "\"," +
                                 "\"password\":\"" + password + "\"," +
                                 "\"role\":\"" + role + "\"" +
                              "}";
 
-        mockMvc.perform(post("/auth/register")
+        mockMvc.perform(post("/auth/signup")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         );
@@ -83,7 +82,7 @@ class RebelControllerTest {
 //    REPORT:
     @Test
     void should_return_200_when_report_ok() throws Exception {
-        register_and_login("admin", "123", "ADMIN");
+        signup_then_login("admin", "123", "ADMIN");
         rebelRepository.save(new Rebel());
         rebelRepository.save(new Rebel());
 
@@ -103,7 +102,7 @@ class RebelControllerTest {
     @Test
     @Transactional
     void should_return_200_when_location_update_ok() throws Exception {
-        register_and_login("admin", "123", "ADMIN");
+        signup_then_login("admin", "123", "ADMIN");
         rebelRepository.save(rebelLeft);
         locationRepository.save(locationLeft);
         rebelLeft.setLocation(locationLeft);
@@ -128,7 +127,7 @@ class RebelControllerTest {
     @Test
     @Transactional
     void should_return_200_when_trade_ok() throws Exception {
-        register_and_login("admin", "123", "ADMIN");
+        signup_then_login("admin", "123", "ADMIN");
         rebelLeft.setInventory(inventoryLeft);
         rebelRight.setInventory(inventoryRight);
         inventoryRepository.save(inventoryLeft);
@@ -155,7 +154,7 @@ class RebelControllerTest {
 //    REPORT:
     @Test
     void should_return_405_when_POST_report() throws Exception {
-        register_and_login("admin", "123", "ADMIN");
+        signup_then_login("admin", "123", "ADMIN");
         String requestBody = "";
         mockMvc.perform(post("/rebel/report")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -166,7 +165,7 @@ class RebelControllerTest {
 
     @Test
     void should_return_405_when_GET_report() throws Exception {
-        register_and_login("admin", "123", "ADMIN");
+        signup_then_login("admin", "123", "ADMIN");
         String requestBody = "";
         mockMvc.perform(get("/rebel/report")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -179,7 +178,7 @@ class RebelControllerTest {
 //    UPDATE LOCATION:
     @Test
     void should_return_405_when_POST_location_update() throws Exception {
-        register_and_login("admin", "123", "ADMIN");
+        signup_then_login("admin", "123", "ADMIN");
         String requestBody = "";
         mockMvc.perform(post("/rebel/update-location")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -190,7 +189,7 @@ class RebelControllerTest {
 
     @Test
     void should_return_405_when_GET_location_update() throws Exception {
-        register_and_login("admin", "123", "ADMIN");
+        signup_then_login("admin", "123", "ADMIN");
         mockMvc.perform(get("/rebel/update-location")
                         .header("Authorization", "Bearer " + token)
                 ).andExpect(status().isMethodNotAllowed());
@@ -200,7 +199,7 @@ class RebelControllerTest {
 //    TRADE:
     @Test
     void should_return_405_when_POST_trade() throws Exception {
-        register_and_login("admin", "123", "ADMIN");
+        signup_then_login("admin", "123", "ADMIN");
         String requestBody = "";
         mockMvc.perform(post("/rebel/trade")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -211,7 +210,7 @@ class RebelControllerTest {
 
     @Test
     void should_return_405_when_GET_trade() throws Exception {
-        register_and_login("admin", "123", "ADMIN");
+        signup_then_login("admin", "123", "ADMIN");
         mockMvc.perform(get("/rebel/trade")
                 .header("Authorization", "Bearer " + token)
         ).andExpect(status().isMethodNotAllowed());
@@ -223,7 +222,7 @@ class RebelControllerTest {
 //    REPORT:
     @Test
     void should_return_400_when_invalid_report() throws Exception {
-        register_and_login("admin", "123", "ADMIN");
+        signup_then_login("admin", "123", "ADMIN");
         mockMvc.perform(patch("/rebel/report")
                 .header("Authorization", "Bearer " + token)
         ).andExpect(status().isBadRequest());
@@ -232,7 +231,7 @@ class RebelControllerTest {
 //    UPDATE LOCATION:
     @Test
     void should_return_400_when_invalid_location_update() throws Exception {
-        register_and_login("admin", "123", "ADMIN");
+        signup_then_login("admin", "123", "ADMIN");
         mockMvc.perform(patch("/rebel/update-location")
                 .header("Authorization", "Bearer " + token)
         ).andExpect(status().isBadRequest());
@@ -241,7 +240,7 @@ class RebelControllerTest {
 //    TRADE:
     @Test
     void should_return_400_when_invalid_trade() throws Exception {
-        register_and_login("admin", "123", "ADMIN");
+        signup_then_login("admin", "123", "ADMIN");
         mockMvc.perform(patch("/rebel/trade")
                 .header("Authorization", "Bearer " + token)
         ).andExpect(status().isBadRequest());
@@ -250,7 +249,7 @@ class RebelControllerTest {
     @Test
     @DisplayName("ADMIN should be able to delete users")
     void should_delete_user() throws Exception {
-        register_and_login("admin", "123", "ADMIN");
+        signup_then_login("admin", "123", "ADMIN");
         User toDelete = new User("username", "123", UserRole.USER);
         userRepository.save(toDelete);
 
@@ -267,7 +266,7 @@ class RebelControllerTest {
     @Test
     @DisplayName("USER should not be able to delete users")
     void should_not_delete_user() throws Exception {
-        register_and_login( "user", "456", "USER");
+        signup_then_login( "user", "456", "USER");
 
         String requestBody = "{\"id\":2}";
         mockMvc.perform(delete("/rebel/delete")

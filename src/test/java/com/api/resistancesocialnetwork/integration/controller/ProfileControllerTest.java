@@ -1,7 +1,6 @@
 package com.api.resistancesocialnetwork.integration.controller;
 
-import com.api.resistancesocialnetwork.usecase.SignupUseCase;
-import org.junit.jupiter.api.BeforeEach;
+import com.api.resistancesocialnetwork.usecase.ProfileUseCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,27 +19,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-class SignUpControllerTest {
+class ProfileControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
-    private SignupUseCase signup;
+    private ProfileUseCase signup;
     private String token;
 
-    @BeforeEach
-    void setUp() throws Exception {
-        login();
-    }
+    private void signup_then_login(String username, String password, String role) throws Exception {
+        String requestBody = "{" +
+                "\"username\":\"" + username + "\"," +
+                "\"password\":\"" + password + "\"," +
+                "\"role\":\"" + role + "\"" +
+                "}";
 
-    void login() throws Exception {
-        String requestBody = "{\"username\":\"JuuJ\",\"password\":\"soos\",\"role\":\"ADMIN\"}";
-
-        mockMvc.perform(post("/auth/register")
+        mockMvc.perform(post("/auth/signup")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         );
 
-        String loginBody = "{\"username\":\"JuuJ\",\"password\":\"soos\"}";
+        String loginBody = "{\"username\":\"" + username + "\",\"password\":\"" + password + "\"}";
 
         MvcResult mvcResult = mockMvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -61,6 +59,7 @@ class SignUpControllerTest {
     /* ---------------------------  201 CREATED  ----------------------------*/
     @Test
     void should_return_201_when_signup_ok() throws Exception {
+        signup_then_login("admin", "123", "ADMIN");
         String requestBody =
                 "{" +
                     "\"rebel\": {" +
@@ -83,7 +82,7 @@ class SignUpControllerTest {
                     "}" +
                 "}";
         mockMvc.perform(MockMvcRequestBuilders
-                .post("/signup")
+                .post("/profile")
                 .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
@@ -94,7 +93,8 @@ class SignUpControllerTest {
     /* ----------------------------  400 BAD REQUEST  -------------------------------*/
     @Test
     void should_should_return_400_when_invalid_signup() throws Exception {
-        mockMvc.perform(post("/signup")
+        signup_then_login("admin", "123", "ADMIN");
+        mockMvc.perform(post("/profile")
                 .header("Authorization", "Bearer " + token)
         ).andExpect(status().isBadRequest());
     }
@@ -103,6 +103,7 @@ class SignUpControllerTest {
     /* ----------------------------  405 METHOD NOT ALLOWED  -------------------------------*/
     @Test
     void should_return_405_when_PATCH_main_page() throws Exception {
+        signup_then_login("admin", "123", "ADMIN");
         String requestBody = "";
         mockMvc.perform(patch("/")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -113,6 +114,7 @@ class SignUpControllerTest {
 
     @Test
     void should_return_405_when_POST_main_page() throws Exception {
+        signup_then_login("admin", "123", "ADMIN");
         String requestBody = "";
         mockMvc.perform(post("/")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -123,8 +125,9 @@ class SignUpControllerTest {
 
     @Test
     void should_return_405_when_PATCH_signup() throws Exception {
+        signup_then_login("admin", "123", "ADMIN");
         String requestBody = "";
-        mockMvc.perform(patch("/signup")
+        mockMvc.perform(patch("/profile")
                 .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
@@ -133,8 +136,9 @@ class SignUpControllerTest {
 
     @Test
     void should_return_405_when_GET_signup() throws Exception {
+        signup_then_login("admin", "123", "ADMIN");
         String requestBody = "";
-        mockMvc.perform(get("/signup")
+        mockMvc.perform(get("/profile")
                 .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)

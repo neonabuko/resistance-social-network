@@ -1,22 +1,19 @@
 package com.api.resistancesocialnetwork.facade;
 
-import com.api.resistancesocialnetwork.entity.Inventory;
-import com.api.resistancesocialnetwork.entity.Location;
-import com.api.resistancesocialnetwork.entity.Rebel;
+import com.api.resistancesocialnetwork.enums.UserRole;
 
 import java.util.Optional;
 
-public record SignupFacade(Rebel rebel, Location location, Inventory inventory) {
-    @Override
-    public Rebel rebel() {
-        return Optional.ofNullable(rebel).orElse(new Rebel());
+public record SignupFacade(String username, String password, UserRole role) {
+    public Optional<String> getUsername() {
+        return Optional.ofNullable(username);
     }
-    @Override
-    public Location location() {
-        return Optional.ofNullable(location).orElse(new Location());
+
+    public Optional<String> getPassword() {
+        return Optional.ofNullable(password);
     }
-    @Override
-    public Inventory inventory() {
-        return Optional.ofNullable(inventory).orElse(new Inventory());
+
+    public UserRole getRole() {
+        return Optional.ofNullable(role).orElse(UserRole.USER);
     }
 }
