@@ -144,4 +144,19 @@ class ProfileUseCaseTest {
         assertTrue(inventoryRepoInMem.findAll().isEmpty());
         assertTrue(e.getMessage().contains("must provide item parameters"));
     }
+
+    @Test
+    @DisplayName("should not be able to save profile twice")
+    void should_not_be_able_to_save_profile_twice() {
+        User jooj = new User("jooj", "123", UserRole.USER);
+        userRepositoryInMem.saveInMem(jooj);
+        jooj.setId(1);
+        profileFacade = new ProfileFacade(this.luke, lukeLocation, lukeInv);
+        profileUseCase.handle(profileFacade, login);
+        Exception e = assertThrows(ResistanceSocialNetworkException.class, () ->
+                profileUseCase.handle(profileFacade, login)
+        );
+
+        assertTrue(e.getMessage().contains("profile already set"));
+    }
 }

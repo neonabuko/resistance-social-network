@@ -9,9 +9,7 @@ import com.api.resistancesocialnetwork.repository.repositoryinterfaces.UserRepos
 import com.api.resistancesocialnetwork.rules.ProfileRules;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
 import jakarta.transaction.Transactional;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @Transactional
@@ -25,6 +23,11 @@ public class ProfileUseCase {
     }
 
     public void handle(ProfileFacade signup, String login) throws ResistanceSocialNetworkException {
+        User user = userRepository.findUserBy(login).orElseThrow(
+                () -> new ResistanceSocialNetworkException("user not found")
+        );
+        if (user.getRebel().isPresent()) throw new ResistanceSocialNetworkException("profile already set");
+
         signUpRules.handle(signup);
 
         Rebel rebel = signup.rebel();
@@ -34,9 +37,6 @@ public class ProfileUseCase {
         rebel.setLocation(location);
         rebel.setInventory(inventory);
 
-        User user = userRepository.findUserBy(login).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "user not found")
-        );
         user.setRebel(rebel);
         user.setLocation(location);
         user.setInventory(inventory);
