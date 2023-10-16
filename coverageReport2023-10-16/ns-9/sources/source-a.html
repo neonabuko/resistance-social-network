@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+    <meta content="text/html;charset=UTF-8" http-equiv="Content-Type">
+    <title>Coverage Report > LocationRepositoryJpa</title>
+    <style type="text/css">
+        @import "../../css/coverage.css";
+        @import "../../css/idea.min.css";
+    </style>
+    <script src="../../js/highlight.min.js" type="text/javascript"></script>
+    <script src="../../js/highlightjs-line-numbers.min.js" type="text/javascript"></script>
+</head>
+
+<body>
+<div class="content">
+    <div class="breadCrumbs">
+        Current scope: <a href="../../index.html">all classes</a>
+        <span class="separator">|</span>
+        <a href="../index.html">com.api.resistancesocialnetwork.repository.repositoriesindatabase</a>
+    </div>
+
+    <h1>Coverage Summary for Class: LocationRepositoryJpa
+        (com.api.resistancesocialnetwork.repository.repositoriesindatabase)</h1>
+
+    <table class="coverageStats">
+        <tr>
+            <th class="name">Class</th>
+        </tr>
+        <tr>
+            <td class="name">LocationRepositoryJpa</td>
+        </tr>
+
+    </table>
+
+    <br/>
+    <br/>
+
+
+    <pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.api.resistancesocialnetwork.repository.repositoriesindatabase;
+&nbsp;
+&nbsp;import com.api.resistancesocialnetwork.entity.Location;
+&nbsp;import com.api.resistancesocialnetwork.repository.repositoryinterfaces.LocationRepository;
+&nbsp;import org.springframework.data.jpa.repository.JpaRepository;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;interface LocationRepositoryJpa extends JpaRepository&lt;Location, Integer&gt; {
+&nbsp;}
+&nbsp;
+&nbsp;@Component
+&nbsp;public class LocationRepositoryInDatabase implements LocationRepository {
+&nbsp;
+&nbsp;    private final LocationRepositoryJpa adapter;
+&nbsp;
+&nbsp;    public LocationRepositoryInDatabase(LocationRepositoryJpa adapter) {
+&nbsp;        this.adapter = adapter;
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void save(Location location) {
+&nbsp;        adapter.save(location);
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Optional&lt;Location&gt; findById(Integer id) {
+&nbsp;        return adapter.findById(id);
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean existsById(Integer id) {
+&nbsp;        return adapter.existsById(id);
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;Location&gt; findAll() {
+&nbsp;        return adapter.findAll();
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+    (function() {
+        var msie = false, msie9 = false;
+        /*@cc_on
+          msie = true;
+          @if (@_jscript_version >= 9)
+            msie9 = true;
+          @end
+        @*/
+
+        if (!msie || msie && msie9) {
+          hljs.highlightAll()
+          hljs.initLineNumbersOnLoad();
+        }
+    })();
+</script>
+
+<div class="footer">
+
+    <div style="float:right;">generated on 2023-10-16 03:44</div>
+</div>
+</body>
+</html>

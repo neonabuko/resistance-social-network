@@ -40,6 +40,11 @@ public class UserRepositoryInMemory implements UserRepository {
         users.remove(user);
     }
 
+    @Override
+    public List<User> findAll() {
+        return users;
+    }
+
     public void saveInMem(User user) {
         users.add(user);
     }

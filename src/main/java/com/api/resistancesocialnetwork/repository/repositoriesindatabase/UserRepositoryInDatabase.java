@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 interface UserRepositoryJpa extends JpaRepository<User, Integer> {
@@ -38,5 +39,10 @@ public class UserRepositoryInDatabase implements UserRepository {
     @Override
     public void delete(User user) {
         adapter.delete(user);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return adapter.findAll();
     }
 }
