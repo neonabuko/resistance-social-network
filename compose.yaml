@@ -1,8 +1,9 @@
 version: '3.9'
 
 services:
-  app:
-    image: resistance-social-network
+  resistance:
+    image: resistance
+    container_name: resistance
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
       interval: 60s
@@ -13,13 +14,14 @@ services:
       context: .
     restart: always
     ports:
-      - "8080:8000"
+      - "8080:8080"
     depends_on:
       postgres:
         condition: service_healthy
 
   postgres:
     image: postgres:10-beta1-alpine
+    container_name: postgres
     restart: always
     environment:
       POSTGRES_DB: postgres

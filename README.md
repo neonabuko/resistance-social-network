@@ -1,16 +1,20 @@
 <div align="center">
   <img src="https://github.com/neonabuko/resistance-social-network/assets/83613676/df0eaabc-10f3-4b5e-a09b-db7896bce003" alt="Star Wars Resistance Emblem" width="180" height="100">
   <h1>Star Wars Resistance Social Network</h1>
-  <h3>A REST API coding challenge</h3>
+  <h3>Um desafio de programação de REST API</h3>
 </div>
 
-> The empire continues its relentless struggle to conquer the galaxy. As a resistance soldier, I have been assigned to
-> develop a system for sharing resources among rebels.
+> O império continua seus esforços incessantes para dominar a galáxia. Sendo um soldado da resistência, fui escolhido para
+> desenvolver um sistema para compartilhar recursos entre rebeldes.
 
-### Requirements:
+## Coverage Report 16/10/2023
+![Screenshot from 2023-10-16 03-45-49](https://github.com/neonabuko/resistance-social-network/assets/83613676/9ee1d88a-5e3e-42e7-9d57-171cfc8f6210)
+
+
+### Requerimentos:
 - Docker Compose V2
 
-## Installing:
+## Instalação:
 ```shell
 git clone https://github.com/neonabuko/resistance-social-network/
     
@@ -18,32 +22,31 @@ cd resistance-social-network
     
 docker compose up
 ```
-### Implements:
-- [x] Spring Web
-- [x] Spring Data JPA
+### Implementações:
+- [x] Spring Boot
 - [x] Spring Security
 - [x] PostgreSQL
 - [x] Docker
-- [ ] Liquibase
+- [x] Liquibase
 
-## Use Cases
-- Sign up
-- Update location
-- Report user
-- Trade
-- Show:
-    1. Percentages of traitors & allies
-    2. Average number of items per rebel
+## Casos de Uso
+- Cadastrar
+- Deletar usuários
+- Atualizar localização
+- Reportar
+- Negociar
+- Mostrar:
+    1. Porcentagens de traidores vs. aliados
+    2. Média de itens por rebelde
 
-## Main Rules
-1. Traitors can't trade
-2. Traitors can't show up on alliance reports
-3. Both parties in a trade must offer the same amount of points
+## Regras principais:
+1. Traidores não podem negociar
+2. Traidores não podem aparecer em estatísticas
 
 <div align="left">
     <footer>
         <br>
-        <p>Contributors:
+        <p>Contribuidores:
             <br>
             <a href="https://github.com/neonabuko/">@neonabuko</a>
             <br>

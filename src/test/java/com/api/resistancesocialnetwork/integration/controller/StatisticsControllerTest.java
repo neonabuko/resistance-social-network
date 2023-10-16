@@ -4,20 +4,20 @@ import com.api.resistancesocialnetwork.entity.Inventory;
 import com.api.resistancesocialnetwork.entity.Item;
 import com.api.resistancesocialnetwork.entity.Location;
 import com.api.resistancesocialnetwork.entity.Rebel;
-import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.InventoryRepository;
-import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.LocationRepository;
-import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.RebelRepository;
+import com.api.resistancesocialnetwork.repository.repositoryinterfaces.InventoryRepository;
+import com.api.resistancesocialnetwork.repository.repositoryinterfaces.LocationRepository;
+import com.api.resistancesocialnetwork.repository.repositoryinterfaces.RebelRepository;
 import com.api.resistancesocialnetwork.usecase.statistics.AlliesTraitorsPercentagesUseCase;
 import com.api.resistancesocialnetwork.usecase.statistics.AlliesUseCase;
 import com.api.resistancesocialnetwork.usecase.statistics.ItemAveragesUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -30,7 +30,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
+@ActiveProfiles("test")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class StatisticsControllerTest {
 
     @Autowired
@@ -72,14 +73,14 @@ class StatisticsControllerTest {
         rebelLeft.setLocation(location1);
         rebelRight.setLocation(location2);
         rebelRepository.saveAll(Arrays.asList(rebelLeft, rebelRight));
-        login();
+        signup_then_login();
     }
 
 
-    void login() throws Exception {
+    void signup_then_login() throws Exception {
         String requestBody = "{\"username\":\"JuuJ\",\"password\":\"soos\",\"role\":\"ADMIN\"}";
 
-        mockMvc.perform(post("/auth/register")
+        mockMvc.perform(post("/auth/signup")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)
         );
@@ -93,21 +94,21 @@ class StatisticsControllerTest {
     }
 
     @Test
-    void should_return_200_when_hit_show_allies() throws Exception{
+    void should_return_200_when_hit_show_allies() throws Exception {
         mockMvc.perform(get("/stats/allies")
                         .header("Authorization", "Bearer " + token)
                 ).andExpect(status().isOk());
     }
 
     @Test
-    void should_return_200_when_hit_allies_traitors_percentages() throws Exception{
+    void should_return_200_when_hit_allies_traitors_percentages() throws Exception {
         mockMvc.perform(get("/stats/allies-traitors-percentages")
                         .header("Authorization", "Bearer " + token)
                 ).andExpect(status().isOk());
     }
 
     @Test
-    void should_return_200_when_hit_average_number_items() throws Exception{
+    void should_return_200_when_hit_average_number_items() throws Exception {
         mockMvc.perform(get("/stats/item-averages")
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk());

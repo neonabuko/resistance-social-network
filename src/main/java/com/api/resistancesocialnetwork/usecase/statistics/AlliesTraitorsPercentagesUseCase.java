@@ -1,7 +1,7 @@
 package com.api.resistancesocialnetwork.usecase.statistics;
 
 import com.api.resistancesocialnetwork.entity.Rebel;
-import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.RebelRepository;
+import com.api.resistancesocialnetwork.repository.repositoryinterfaces.RebelRepository;
 import org.springframework.stereotype.Service;
 
 import java.text.NumberFormat;

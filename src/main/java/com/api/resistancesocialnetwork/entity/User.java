@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Entity(name = "user")
 @Table(name = "users")
@@ -64,6 +65,34 @@ public class User implements UserDetails {
         else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
+    public UserRole getRole() {
+        return role;
+    }
+
+    public Optional<Rebel> getRebel() {
+        return Optional.ofNullable(rebel);
+    }
+
+    public Optional<Location> getLocation() {
+        return Optional.ofNullable(location);
+    }
+
+    public Optional<Inventory> getInventory() {
+        return Optional.ofNullable(inventory);
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
     @Override
     public String getPassword() {
         return password;
@@ -92,6 +121,11 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "id=" + id + ", login='" + login + '\'' + ", password='" + password + '\'' + ", role=" + role + '}';
     }
 }
 

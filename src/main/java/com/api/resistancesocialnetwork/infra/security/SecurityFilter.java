@@ -1,6 +1,6 @@
 package com.api.resistancesocialnetwork.infra.security;
 
-import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.UserRepository;
+import com.api.resistancesocialnetwork.repository.repositoryinterfaces.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,17 +27,19 @@ public class SecurityFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        var token = recoverToken(request);
+        Optional<String> token = getTokenFromRequest(request);
         if (token.isPresent()) {
             var username = tokenService.getUsernameFromToken(token.get());
-            var userDetails = userRepository.findUserDetailsBy(username).orElseThrow();
-            var auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(auth);
+            if (username.isPresent()) {
+                var userDetails = userRepository.findUserDetailsBy(username.get()).orElseThrow();
+                var auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(auth);
+            }
         }
         filterChain.doFilter(request, response);
     }
 
-    private Optional<String> recoverToken(HttpServletRequest request) {
+    private Optional<String> getTokenFromRequest(HttpServletRequest request) {
         Optional<String> authHeader = Optional.ofNullable(request.getHeader("Authorization"));
         return authHeader.map(s -> s.replace("Bearer ", ""));
     }

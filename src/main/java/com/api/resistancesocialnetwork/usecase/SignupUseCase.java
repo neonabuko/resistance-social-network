@@ -1,46 +1,32 @@
 package com.api.resistancesocialnetwork.usecase;
 
-import com.api.resistancesocialnetwork.entity.Inventory;
-import com.api.resistancesocialnetwork.entity.Location;
-import com.api.resistancesocialnetwork.entity.Rebel;
 import com.api.resistancesocialnetwork.entity.User;
 import com.api.resistancesocialnetwork.facade.SignupFacade;
-import com.api.resistancesocialnetwork.repositories.repositoryinterfaces.UserRepository;
+import com.api.resistancesocialnetwork.repository.repositoryinterfaces.UserRepository;
 import com.api.resistancesocialnetwork.rules.SignupRules;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
-import jakarta.transaction.Transactional;
-import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 @Service
-@Transactional
 public class SignupUseCase {
-    private final SignupRules signUpRules;
     private final UserRepository userRepository;
-
-    public SignupUseCase(SignupRules signUpRules, UserRepository userRepository) {
-        this.signUpRules = signUpRules;
+    private final SignupRules signupRules;
+    public SignupUseCase(UserRepository userRepository, SignupRules signupRules) {
         this.userRepository = userRepository;
+        this.signupRules = signupRules;
     }
 
-    public void handle(SignupFacade signup, String login) throws ResistanceSocialNetworkException {
-        signUpRules.handle(signup);
+    public void handle(SignupFacade data) {
+        signupRules.handle(data);
+        String username = data.username();
+        String password = data.password();
+        var role = data.getRole();
 
-        Rebel rebel = signup.rebel();
-        Location location = signup.location();
-        Inventory inventory = signup.inventory();
-
-        rebel.setLocation(location);
-        rebel.setInventory(inventory);
-
-        User user = userRepository.findUserBy(login).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "user not found")
-        );
-        user.setRebel(rebel);
-        user.setLocation(location);
-        user.setInventory(inventory);
-
+        if (userRepository.findUserBy(username).isPresent())
+            throw new ResistanceSocialNetworkException("username '" + username + "' already taken");
+        String encryptedPassword = new BCryptPasswordEncoder().encode(password);
+        User user = new User(username, encryptedPassword, role);
         userRepository.save(user);
     }
 }

@@ -29,8 +29,9 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        var register = createMvcRequestMatcher("/auth/register");
+        var signup = createMvcRequestMatcher("/auth/signup");
         var login = createMvcRequestMatcher("/auth/login");
+        var delete = createMvcRequestMatcher("/rebel/delete");
         var health = createMvcRequestMatcher("/actuator/health");
         var home = createMvcRequestMatcher("/");
 
@@ -38,7 +39,8 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(register, login, home, health).permitAll()
+                        .requestMatchers(signup, login, home, health).permitAll()
+                        .requestMatchers(delete).hasRole("ADMIN")
                         .anyRequest().authenticated()
                 ).addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
