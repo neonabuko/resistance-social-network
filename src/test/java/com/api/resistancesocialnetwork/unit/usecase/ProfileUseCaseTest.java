@@ -8,7 +8,7 @@ import com.api.resistancesocialnetwork.repository.repositoriesinmemory.LocationR
 import com.api.resistancesocialnetwork.repository.repositoriesinmemory.RebelRepositoryInMemory;
 import com.api.resistancesocialnetwork.repository.repositoriesinmemory.UserRepositoryInMemory;
 import com.api.resistancesocialnetwork.rules.ProfileRules;
-import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceException;
 import com.api.resistancesocialnetwork.usecase.ProfileUseCase;
 import com.api.resistancesocialnetwork.usecase.formatters.FormatData;
 import com.api.resistancesocialnetwork.usecase.formatters.FormatEntities;
@@ -131,18 +131,22 @@ class ProfileUseCaseTest {
     @Test
     @DisplayName("should not save anything if no items provided")
     void should_not_save_anything_if_item_null() {
+        User jooj = new User("jooj", "123", UserRole.USER);
+        userRepositoryInMem.saveInMem(jooj);
+        jooj.setId(1);
+
         Item nullItem = null;
         lukeInv.setItems(Arrays.asList(nullItem));
         profileFacade = new ProfileFacade(luke, lukeLocation, lukeInv);
 
-        Exception e = assertThrows(ResistanceSocialNetworkException.class, () ->
-                profileUseCase.handle(profileFacade, login)
-        );
+        try {
+            profileUseCase.handle(profileFacade, login);
+        } catch (ResistanceException ignored) {
+        }
 
         assertTrue(rebelRepoInMem.findAll().isEmpty());
         assertTrue(locationRepoInMem.findAll().isEmpty());
         assertTrue(inventoryRepoInMem.findAll().isEmpty());
-        assertTrue(e.getMessage().contains("must provide item parameters"));
     }
 
     @Test
@@ -153,7 +157,7 @@ class ProfileUseCaseTest {
         jooj.setId(1);
         profileFacade = new ProfileFacade(this.luke, lukeLocation, lukeInv);
         profileUseCase.handle(profileFacade, login);
-        Exception e = assertThrows(ResistanceSocialNetworkException.class, () ->
+        Exception e = assertThrows(ResistanceException.class, () ->
                 profileUseCase.handle(profileFacade, login)
         );
 

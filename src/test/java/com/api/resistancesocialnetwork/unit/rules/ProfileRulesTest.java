@@ -6,7 +6,7 @@ import com.api.resistancesocialnetwork.entity.Location;
 import com.api.resistancesocialnetwork.entity.Rebel;
 import com.api.resistancesocialnetwork.facade.ProfileFacade;
 import com.api.resistancesocialnetwork.rules.ProfileRules;
-import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceException;
 import com.api.resistancesocialnetwork.usecase.formatters.FormatData;
 import com.api.resistancesocialnetwork.usecase.formatters.FormatEntities;
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,7 @@ class ProfileRulesTest {
     void should_throw_ResistanceSocialNetworkException_when_facade_null() {
         ProfileFacade profileFacade = null;
 
-        Exception e = assertThrows(ResistanceSocialNetworkException.class, () ->
+        Exception e = assertThrows(ResistanceException.class, () ->
                 profileRules.handle(profileFacade)
         );
 
@@ -39,7 +39,7 @@ class ProfileRulesTest {
     void should_throw_ResistanceSocialNetworkException_when_no_item_provided() {
         inventory.getItems().clear();
         ProfileFacade profileFacade = new ProfileFacade(rebel, location, inventory);
-        Exception e = assertThrows(ResistanceSocialNetworkException.class, () ->
+        Exception e = assertThrows(ResistanceException.class, () ->
                 profileRules.handle(profileFacade)
         );
         assertTrue(e.getMessage().contains("must provide at least one item"));
@@ -52,7 +52,7 @@ class ProfileRulesTest {
 
         ProfileFacade profileFacade = new ProfileFacade(rebel, location, inventory);
 
-        Exception e = assertThrows(ResistanceSocialNetworkException.class, () ->
+        Exception e = assertThrows(ResistanceException.class, () ->
                 profileRules.handle(profileFacade)
         );
         assertTrue(e.getMessage().contains("must provide item parameters"));

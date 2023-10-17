@@ -7,7 +7,7 @@ import com.api.resistancesocialnetwork.entity.User;
 import com.api.resistancesocialnetwork.facade.ProfileFacade;
 import com.api.resistancesocialnetwork.repository.repositoryinterfaces.UserRepository;
 import com.api.resistancesocialnetwork.rules.ProfileRules;
-import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +22,11 @@ public class ProfileUseCase {
         this.userRepository = userRepository;
     }
 
-    public void handle(ProfileFacade signup, String login) throws ResistanceSocialNetworkException {
+    public void handle(ProfileFacade signup, String login) throws ResistanceException {
         User user = userRepository.findUserBy(login).orElseThrow(
-                () -> new ResistanceSocialNetworkException("user not found")
+                () -> new ResistanceException("user not found")
         );
-        if (user.getRebel().isPresent()) throw new ResistanceSocialNetworkException("profile already set");
+        if (user.getRebel().isPresent()) throw new ResistanceException("profile already set");
 
         signUpRules.handle(signup);
 

@@ -4,7 +4,7 @@ import com.api.resistancesocialnetwork.enums.UserRole;
 import com.api.resistancesocialnetwork.facade.SignupFacade;
 import com.api.resistancesocialnetwork.repository.repositoriesinmemory.UserRepositoryInMemory;
 import com.api.resistancesocialnetwork.rules.SignupRules;
-import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceException;
 import com.api.resistancesocialnetwork.usecase.SignupUseCase;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,7 +30,7 @@ class SignupUseCaseTest {
     void should_throw_exception_when_username_taken() {
         SignupFacade signupFacade = new SignupFacade("taken", "123", UserRole.ADMIN);
         signupUseCase.handle(signupFacade);
-        Exception e = assertThrows(ResistanceSocialNetworkException.class,
+        Exception e = assertThrows(ResistanceException.class,
                 () -> signupUseCase.handle(signupFacade)
         );
 

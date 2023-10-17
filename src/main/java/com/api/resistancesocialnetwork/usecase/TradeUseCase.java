@@ -7,7 +7,7 @@ import com.api.resistancesocialnetwork.facade.TradeFacade;
 import com.api.resistancesocialnetwork.repository.repositoryinterfaces.InventoryRepository;
 import com.api.resistancesocialnetwork.repository.repositoryinterfaces.RebelRepository;
 import com.api.resistancesocialnetwork.rules.TradeRules;
-import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -27,15 +27,15 @@ public class TradeUseCase {
         this.inventoryRepo = inventoryRepo;
     }
 
-    public void handle(TradeFacade tradeFacadeFacade) throws ResistanceSocialNetworkException {
+    public void handle(TradeFacade tradeFacadeFacade) throws ResistanceException {
         TradeFacade tradeFacade = Optional.ofNullable(tradeFacadeFacade).orElseThrow(
-                () -> new ResistanceSocialNetworkException("must provide trade parameters")
+                () -> new ResistanceException("must provide trade parameters")
         );
         Rebel leftRebel = rebelRepo.findById(tradeFacade.leftRebelId()).orElseThrow(
-                () -> new ResistanceSocialNetworkException("left rebel not found")
+                () -> new ResistanceException("left rebel not found")
         );
         Rebel rightRebel = rebelRepo.findById(tradeFacade.rightRebelId()).orElseThrow(
-                () -> new ResistanceSocialNetworkException("right rebel not found")
+                () -> new ResistanceException("right rebel not found")
         );
 
         tradeRules.handle(leftRebel, rightRebel, tradeFacade.leftItemId(), tradeFacade.rightItemId());

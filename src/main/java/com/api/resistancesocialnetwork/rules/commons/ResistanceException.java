@@ -1,8 +1,8 @@
 package com.api.resistancesocialnetwork.rules.commons;
 
 
-public class ResistanceSocialNetworkException extends RuntimeException {
-    public ResistanceSocialNetworkException(String s) {
+public class ResistanceException extends RuntimeException {
+    public ResistanceException(String s) {
         super(getCallingClassName() + ": " + s);
     }
     private static String getCallingClassName() {

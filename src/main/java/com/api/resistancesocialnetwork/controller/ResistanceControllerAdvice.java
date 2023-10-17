@@ -1,6 +1,6 @@
 package com.api.resistancesocialnetwork.controller;
 
-import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -28,8 +28,8 @@ public class ResistanceControllerAdvice {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 
-    @ExceptionHandler(ResistanceSocialNetworkException.class)
-    public ResponseEntity<String> handleResistanceSocialNetworkException(ResistanceSocialNetworkException e) {
+    @ExceptionHandler(ResistanceException.class)
+    public ResponseEntity<String> handleResistanceSocialNetworkException(ResistanceException e) {
         if (e.getMessage().contains("taken")) return ResponseEntity.status(409).body(e.getMessage());
         return ResponseEntity.badRequest().body(e.getMessage());
     }

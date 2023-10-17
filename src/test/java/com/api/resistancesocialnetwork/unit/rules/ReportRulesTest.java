@@ -4,7 +4,7 @@ import com.api.resistancesocialnetwork.entity.Rebel;
 import com.api.resistancesocialnetwork.facade.ReportFacade;
 import com.api.resistancesocialnetwork.repository.repositoriesinmemory.RebelRepositoryInMemory;
 import com.api.resistancesocialnetwork.rules.ReportRules;
-import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceException;
 import com.api.resistancesocialnetwork.usecase.ReportUseCase;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,7 +23,7 @@ class ReportRulesTest {
     void should_throw_ResistanceSocialNetworkException_when_self_report(){
         rebelRepositoryinMem.saveInMem(rebel1);
         rebel1.setId(1);
-        Exception e = assertThrows(ResistanceSocialNetworkException.class, () -> reportRules.handle(rebel1, rebel1));
+        Exception e = assertThrows(ResistanceException.class, () -> reportRules.handle(rebel1, rebel1));
         assertTrue(e.getMessage().contains("can not self report"));
     }
 
@@ -39,7 +39,7 @@ class ReportRulesTest {
 
         reportUseCase.handle(reportFacade);
 
-        Exception e = assertThrows(ResistanceSocialNetworkException.class, () -> reportRules.handle(rebel1, rebel2));
+        Exception e = assertThrows(ResistanceException.class, () -> reportRules.handle(rebel1, rebel2));
         assertTrue(e.getMessage().contains("rebel already reported"));
     }
 }

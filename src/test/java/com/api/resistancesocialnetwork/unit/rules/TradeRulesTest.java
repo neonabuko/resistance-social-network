@@ -7,7 +7,7 @@ import com.api.resistancesocialnetwork.repository.repositoriesinmemory.Inventory
 import com.api.resistancesocialnetwork.repository.repositoriesinmemory.ItemRepositoryInMemory;
 import com.api.resistancesocialnetwork.repository.repositoriesinmemory.RebelRepositoryInMemory;
 import com.api.resistancesocialnetwork.rules.TradeRules;
-import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -52,7 +52,7 @@ class TradeRulesTest {
 
     @Test
     void should_throw_ResistanceSocialNetworkException_when_no_such_left_item() {
-        Exception e = assertThrows(ResistanceSocialNetworkException.class,
+        Exception e = assertThrows(ResistanceException.class,
                 () -> tradeRules.handle(leftRebel, rightRebel, 0, 0)
         );
         assertTrue(e.getMessage().contains("item not found with rebel id " + leftRebel.getId()));
@@ -60,7 +60,7 @@ class TradeRulesTest {
 
     @Test
     void should_throw_ResistanceSocialNetworkException_when_no_such_right_item() {
-        Exception e = assertThrows(ResistanceSocialNetworkException.class,
+        Exception e = assertThrows(ResistanceException.class,
                 () -> tradeRules.handle(leftRebel, rightRebel, 1, 0)
         );
         assertTrue(e.getMessage().contains("item not found with rebel id " + rightRebel.getId()));
@@ -69,7 +69,7 @@ class TradeRulesTest {
     @Test
     void should_throw_TradeFailureException_when_leftRebel_traitor() {
         IntStream.range(0, 3).forEach(i -> leftRebel.setReportCounterUp());
-        Exception e = assertThrows(ResistanceSocialNetworkException.class,
+        Exception e = assertThrows(ResistanceException.class,
                 () -> tradeRules.handle(leftRebel, rightRebel, 1, 2)
         );
         assertTrue(e.getMessage().contains("left rebel is a traitor"));
@@ -78,7 +78,7 @@ class TradeRulesTest {
     @Test
     void should_throw_TradeFailureException_when_rightRebel_traitor() {
         IntStream.range(0, 3).forEach(i -> rightRebel.setReportCounterUp());
-        Exception e = assertThrows(ResistanceSocialNetworkException.class,
+        Exception e = assertThrows(ResistanceException.class,
                 () -> tradeRules.handle(leftRebel, rightRebel, 1, 2)
         );
         assertTrue(e.getMessage().contains("right rebel is a traitor"));
@@ -86,7 +86,7 @@ class TradeRulesTest {
 
     @Test
     void should_throw_TradeFailureException_when_points_do_not_match() {
-        Exception e = assertThrows(ResistanceSocialNetworkException.class,
+        Exception e = assertThrows(ResistanceException.class,
                 () -> tradeRules.handle(leftRebel, rightRebel, 1, 2)
         );
         assertTrue(e.getMessage().contains("points do not match"));

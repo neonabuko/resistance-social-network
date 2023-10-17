@@ -76,30 +76,30 @@
 &nbsp;
 &nbsp;import com.api.resistancesocialnetwork.entity.Location;
 &nbsp;import com.api.resistancesocialnetwork.entity.Rebel;
-&nbsp;import com.api.resistancesocialnetwork.facade.LocationUpdateFacade;
+&nbsp;import com.api.resistancesocialnetwork.facade.UpdateLocationFacade;
 &nbsp;import com.api.resistancesocialnetwork.repository.repositoryinterfaces.LocationRepository;
 &nbsp;import com.api.resistancesocialnetwork.repository.repositoryinterfaces.RebelRepository;
-&nbsp;import com.api.resistancesocialnetwork.rules.LocationUpdateRules;
-&nbsp;import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
+&nbsp;import com.api.resistancesocialnetwork.rules.UpdateLocationRules;
+&nbsp;import com.api.resistancesocialnetwork.rules.commons.ResistanceException;
 &nbsp;import org.springframework.stereotype.Service;
 &nbsp;
 &nbsp;@Service
 &nbsp;public class LocationUpdateUseCase {
 &nbsp;    private final RebelRepository rebelRepository;
 &nbsp;    private final LocationRepository locationRepository;
-&nbsp;    private final LocationUpdateRules locationUpdateRules;
+&nbsp;    private final LocationUpdateRules updateLocationRules;
 &nbsp;
 &nbsp;    public LocationUpdateUseCase(RebelRepository rebelRepository,
 &nbsp;                                 LocationRepository locationRepository,
-<b class="fc">&nbsp;                                 LocationUpdateRules locationUpdateRules) {</b>
+<b class="fc">&nbsp;                                 LocationUpdateRules updateLocationRules) {</b>
 <b class="fc">&nbsp;        this.rebelRepository = rebelRepository;</b>
 <b class="fc">&nbsp;        this.locationRepository = locationRepository;</b>
-<b class="fc">&nbsp;        this.locationUpdateRules = locationUpdateRules;</b>
+<b class="fc">&nbsp;        this.updateLocationRules = updateLocationRules;</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public void handle(LocationUpdateFacade locationUpdateFacade) throws ResistanceSocialNetworkException {
-<b class="fc">&nbsp;        locationUpdateRules.handle(locationUpdateFacade);</b>
-<b class="fc">&nbsp;        Integer rebelId = locationUpdateFacade.location().getId();</b>
+&nbsp;    public void handle(LocationUpdateFacade updateLocationFacade) throws ResistanceSocialNetworkException {
+<b class="fc">&nbsp;        updateLocationRules.handle(updateLocationFacade);</b>
+<b class="fc">&nbsp;        Integer rebelId = updateLocationFacade.location().getId();</b>
 &nbsp;
 <b class="fc">&nbsp;        Rebel rebel_in_repository = rebelRepository.findById(rebelId).orElseThrow(</b>
 <b class="fc">&nbsp;                () -&gt; new ResistanceSocialNetworkException(&quot;rebel not found&quot;)</b>
@@ -107,7 +107,7 @@
 &nbsp;
 <b class="fc">&nbsp;        Location location_in_repository = rebel_in_repository.getLocation();</b>
 &nbsp;
-<b class="fc">&nbsp;        Location newLocation = locationUpdateFacade.location();</b>
+<b class="fc">&nbsp;        Location newLocation = updateLocationFacade.location();</b>
 &nbsp;
 <b class="fc">&nbsp;        location_in_repository.setLocation(</b>
 <b class="fc">&nbsp;                newLocation.getLatitude(),</b>
