@@ -4,6 +4,10 @@ import com.api.resistancesocialnetwork.facade.LoginFacade;
 import com.api.resistancesocialnetwork.facade.SignupFacade;
 import com.api.resistancesocialnetwork.usecase.LoginUseCase;
 import com.api.resistancesocialnetwork.usecase.SignupUseCase;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("auth")
+@Tag(name = "Resistance Social Network", description = "controller para signup e login")
 public class AuthController {
     private final LoginUseCase login;
     private final SignupUseCase signup;
@@ -21,6 +26,10 @@ public class AuthController {
         this.signup = signup;
     }
 
+    @Operation(summary = "Faz o cadastro dos rebeldes", method = "POST")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cadastro bem sucedido")
+    })
     @PostMapping("/signup")
     public ResponseEntity<Void> handleSignup(@RequestBody SignupFacade facade) {
         signup.handle(facade);
@@ -28,6 +37,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
+    @Operation(summary = "Faz o login dos rebeldes", method = "POST")
     public ResponseEntity<String> handleLogin(@RequestBody LoginFacade facade) {
         var token = login.handle(facade);
         return ResponseEntity.ok().body(token);

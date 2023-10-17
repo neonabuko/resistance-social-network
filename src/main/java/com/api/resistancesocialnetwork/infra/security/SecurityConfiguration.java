@@ -14,11 +14,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @SuppressWarnings("ALL")
 @Configuration
 @EnableWebSecurity
+@EnableWebMvc
 public class SecurityConfiguration {
     private final SecurityFilter securityFilter;
 
@@ -29,17 +31,19 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        var home = createMvcRequestMatcher("/");
         var signup = createMvcRequestMatcher("/auth/signup");
+        var swagger = createMvcRequestMatcher("/swagger-ui/**");
+        var v3 = createMvcRequestMatcher("/v3/**");
         var login = createMvcRequestMatcher("/auth/login");
         var delete = createMvcRequestMatcher("/rebel/delete");
         var health = createMvcRequestMatcher("/actuator/health");
-        var home = createMvcRequestMatcher("/");
 
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(signup, login, home, health).permitAll()
+                        .requestMatchers(signup, login, home, health, swagger, v3).permitAll()
                         .requestMatchers(delete).hasRole("ADMIN")
                         .anyRequest().authenticated()
                 ).addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
