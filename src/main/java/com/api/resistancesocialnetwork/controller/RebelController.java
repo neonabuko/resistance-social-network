@@ -23,10 +23,10 @@ public class RebelController {
     private final DeleteUserUseCase delete;
 
     public RebelController(ReportUseCase report,
-                           UpdateLocationUseCase locationUpdate,
+                           UpdateLocationUseCase updateLocation,
                            TradeUseCase trade, DeleteUserUseCase delete) {
         this.report = report;
-        this.locationUpdate = locationUpdate;
+        this.locationUpdate = updateLocation;
         this.trade = trade;
         this.delete = delete;
     }
