@@ -5,7 +5,7 @@ import com.api.resistancesocialnetwork.entity.Inventory;
 import com.api.resistancesocialnetwork.entity.Item;
 import com.api.resistancesocialnetwork.entity.Location;
 import com.api.resistancesocialnetwork.entity.Rebel;
-import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,7 +16,7 @@ public class FormatEntities {
         this.formatData = formatData;
     }
 
-    public void formatRebel(Rebel rebel) throws ResistanceSocialNetworkException {
+    public void formatRebel(Rebel rebel) throws ResistanceException {
         rebel.setStats(
                 formatData.formatString(rebel.getName(), 30, "rebel name"),
                 formatData.formatInteger(rebel.getAge(), 50, "rebel age"),
@@ -24,7 +24,7 @@ public class FormatEntities {
         );
     }
 
-    public void formatLocation(Location location) throws ResistanceSocialNetworkException {
+    public void formatLocation(Location location) throws ResistanceException {
         location.setLocation(
                 formatData.formatCoordinate(location.getLatitude(), 90),
                 formatData.formatCoordinate(location.getLongitude(), 180),
@@ -32,7 +32,7 @@ public class FormatEntities {
         );
     }
 
-    public void formatInventory(Inventory inventory) throws ResistanceSocialNetworkException {
+    public void formatInventory(Inventory inventory) throws ResistanceException {
         for (Item item : inventory.getItems()) {
             item.setName(formatData.formatString(item.getName(), 20, "item name"));
             item.setPrice(formatData.formatInteger(item.getPrice(), 4, "item price"));

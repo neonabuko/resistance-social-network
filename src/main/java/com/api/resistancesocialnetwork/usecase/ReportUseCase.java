@@ -4,7 +4,7 @@ import com.api.resistancesocialnetwork.entity.Rebel;
 import com.api.resistancesocialnetwork.facade.ReportFacade;
 import com.api.resistancesocialnetwork.repository.repositoryinterfaces.RebelRepository;
 import com.api.resistancesocialnetwork.rules.ReportRules;
-import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceException;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -20,14 +20,14 @@ public class ReportUseCase {
         this.reportRules = reportRules;
     }
 
-    public void handle(ReportFacade reportFacade) throws ResistanceSocialNetworkException {
+    public void handle(ReportFacade reportFacade) throws ResistanceException {
         ReportFacade report = Optional.ofNullable(reportFacade).orElse(new ReportFacade(0, 0));
 
         Rebel reporting = rebelRepository.findById(report.reportingId()).orElseThrow(
-                () -> new ResistanceSocialNetworkException("reporting rebel not found")
+                () -> new ResistanceException("reporting rebel not found")
         );
         Rebel reported = rebelRepository.findById(report.reportedId()).orElseThrow(
-                () -> new ResistanceSocialNetworkException("reported rebel not found")
+                () -> new ResistanceException("reported rebel not found")
         );
 
         reportRules.handle(reporting, reported);

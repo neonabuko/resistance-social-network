@@ -3,7 +3,7 @@ package com.api.resistancesocialnetwork.integration.controller;
 import com.api.resistancesocialnetwork.entity.*;
 import com.api.resistancesocialnetwork.enums.UserRole;
 import com.api.resistancesocialnetwork.repository.repositoryinterfaces.*;
-import com.api.resistancesocialnetwork.usecase.LocationUpdateUseCase;
+import com.api.resistancesocialnetwork.usecase.UpdateLocationUseCase;
 import com.api.resistancesocialnetwork.usecase.ReportUseCase;
 import com.api.resistancesocialnetwork.usecase.TradeUseCase;
 import jakarta.transaction.Transactional;
@@ -34,7 +34,7 @@ class RebelControllerTest {
     @Autowired
     private ReportUseCase report;
     @Autowired
-    private LocationUpdateUseCase locationUpdate;
+    private UpdateLocationUseCase locationUpdate;
     @Autowired
     private TradeUseCase trade;
     @Autowired

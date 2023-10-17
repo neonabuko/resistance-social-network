@@ -1,6 +1,6 @@
 package com.api.resistancesocialnetwork.rules;
 
-import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceException;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -13,6 +13,6 @@ public class DeleteUserRules {
     }
 
     private void assertNotDeletingHimself(Integer sourceId, Integer targetId) {
-        if (Objects.equals(sourceId, targetId)) throw new ResistanceSocialNetworkException("cannot delete yourself");
+        if (Objects.equals(sourceId, targetId)) throw new ResistanceException("cannot delete yourself");
     }
 }

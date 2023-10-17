@@ -9,7 +9,7 @@ import com.api.resistancesocialnetwork.repository.repositoriesinmemory.ItemRepos
 import com.api.resistancesocialnetwork.repository.repositoriesinmemory.RebelRepositoryInMemory;
 import com.api.resistancesocialnetwork.repository.repositoryinterfaces.InventoryRepository;
 import com.api.resistancesocialnetwork.rules.TradeRules;
-import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceException;
 import com.api.resistancesocialnetwork.usecase.TradeUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -59,14 +59,14 @@ class TradeUseCaseTest {
     }
 
     @Test
-    void left_inventory_should_contain_right_item_after_trade() throws ResistanceSocialNetworkException {
+    void left_inventory_should_contain_right_item_after_trade() throws ResistanceException {
         tradeFacade = new TradeFacade(1, 1, 2, 2);
         tradeUseCase.handle(tradeFacade);
         assertTrue(leftInventory.findItemBy(rightItem.getId()).isPresent());
     }
 
     @Test
-    void right_inventory_should_contain_left_item_after_trade() throws ResistanceSocialNetworkException {
+    void right_inventory_should_contain_left_item_after_trade() throws ResistanceException {
         tradeFacade = new TradeFacade(1, 1, 2, 2);
         tradeUseCase.handle(tradeFacade);
         assertTrue(rightInventory.getItems().contains(leftItem));
@@ -77,7 +77,7 @@ class TradeUseCaseTest {
         tradeFacade = new TradeFacade(null, 1, 2, 2);
         try {
             tradeUseCase.handle(tradeFacade);
-        } catch (ResistanceSocialNetworkException ignored) {}
+        } catch (ResistanceException ignored) {}
 
         Inventory expectedLeftInventory = new Inventory(Arrays.asList(leftItem));
         Inventory expectedRightInventory = new Inventory(Arrays.asList(rightItem));
@@ -91,7 +91,7 @@ class TradeUseCaseTest {
     @Test
     void should_throw_exception_when_trade_parameters_not_provided() {
         tradeFacade = null;
-        Exception e = assertThrows(ResistanceSocialNetworkException.class, () ->
+        Exception e = assertThrows(ResistanceException.class, () ->
                 tradeUseCase.handle(tradeFacade)
                 );
         assertTrue(e.getMessage().contains("must provide trade parameters"));
@@ -101,7 +101,7 @@ class TradeUseCaseTest {
     @Test
     void should_throw_exception_when_right_rebel_not_found(){
         tradeFacade = new TradeFacade(1, 1, 20, 2);
-        Exception e = assertThrows(ResistanceSocialNetworkException.class, () ->
+        Exception e = assertThrows(ResistanceException.class, () ->
                 tradeUseCase.handle(tradeFacade));
         assertTrue(e.getMessage().contains("right rebel not found"));
     }

@@ -1,6 +1,6 @@
 package com.api.resistancesocialnetwork.unit.rules;
 
-import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceException;
 import com.api.resistancesocialnetwork.usecase.formatters.FormatData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ class FormatDataTest {
     @Test
     @DisplayName("should throw exception when string null")
     void should_throw_ResistanceSocialNetworkException_when_string_null() {
-        Exception e = assertThrows(ResistanceSocialNetworkException.class, () ->
+        Exception e = assertThrows(ResistanceException.class, () ->
                 formatData.formatString(null, 30, "rebel name")
         );
         assertTrue(e.getMessage().contains("must provide rebel name"));
@@ -22,7 +22,7 @@ class FormatDataTest {
 
     @Test
     @DisplayName("should reduce string length to limit")
-    void should_reduce_string_when_string_over_char_limit() throws ResistanceSocialNetworkException {
+    void should_reduce_string_when_string_over_char_limit() throws ResistanceException {
         String actualString = formatData.formatString("a".repeat(31), 30, "rebel name");
         String expectedString = "a".repeat(30);
         assertEquals(expectedString, actualString);
@@ -31,7 +31,7 @@ class FormatDataTest {
     @Test
     @DisplayName("should throw exception when coordinate null")
     void should_throw_ResistanceSocialNetworkException_when_coordinate_null() {
-        Exception e = assertThrows(ResistanceSocialNetworkException.class,
+        Exception e = assertThrows(ResistanceException.class,
                 () -> formatData.formatCoordinate(null, 180)
         );
         assertTrue(e.getMessage().contains("must provide coordinates"));
@@ -40,7 +40,7 @@ class FormatDataTest {
     @Test
     @DisplayName("should output double inside symmetric limit")
         // symmetricLimit = 90 => formatCoordinate(238.7) = 90.0 | formatCoordinate(-372.4426) = -90.0
-    void should_round_coordinate_to_symmetric_limit() throws ResistanceSocialNetworkException {
+    void should_round_coordinate_to_symmetric_limit() throws ResistanceException {
         Integer symmetricLimit = 90;
 
         Double actual_positive_output = formatData.formatCoordinate(122193.321, symmetricLimit);

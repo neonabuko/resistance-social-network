@@ -4,7 +4,7 @@ import com.api.resistancesocialnetwork.entity.User;
 import com.api.resistancesocialnetwork.facade.DeleteUserFacade;
 import com.api.resistancesocialnetwork.repository.repositoryinterfaces.UserRepository;
 import com.api.resistancesocialnetwork.rules.DeleteUserRules;
-import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -23,10 +23,10 @@ public class DeleteUserUseCase {
         Integer sourceId = sourceUser.getId();
 
         Integer targetId = Optional.ofNullable(deleteUserFacade.id()).orElseThrow(
-                () -> new ResistanceSocialNetworkException("must provide an id")
+                () -> new ResistanceException("must provide an id")
         );
         User toDelete = repository.findUserBy(targetId).orElseThrow(
-                () -> new ResistanceSocialNetworkException("user not found")
+                () -> new ResistanceException("user not found")
         );
         rules.handle(sourceId, targetId);
         repository.delete(toDelete);

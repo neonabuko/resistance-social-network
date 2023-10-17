@@ -4,7 +4,7 @@ import com.api.resistancesocialnetwork.entity.Rebel;
 import com.api.resistancesocialnetwork.facade.ReportFacade;
 import com.api.resistancesocialnetwork.repository.repositoriesinmemory.RebelRepositoryInMemory;
 import com.api.resistancesocialnetwork.rules.ReportRules;
-import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceException;
 import com.api.resistancesocialnetwork.usecase.ReportUseCase;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -37,7 +37,7 @@ public class ReportUseCaseTest {
     @Test
     void should_throw_exception_when_reporting_rebel_not_found() {
         ReportFacade reportFacade = new ReportFacade(10, 2);
-        Exception e = assertThrows(ResistanceSocialNetworkException.class, () ->
+        Exception e = assertThrows(ResistanceException.class, () ->
                 new ReportUseCase( rebelRepoInMem, new ReportRules() )
                         .handle(reportFacade)
                 );
@@ -51,7 +51,7 @@ public class ReportUseCaseTest {
         zezinho.setId(1);
         rebelRepoInMem.save(zezinho);
         ReportFacade reportFacade = new ReportFacade(1, 55);
-        Exception e = assertThrows(ResistanceSocialNetworkException.class, () ->
+        Exception e = assertThrows(ResistanceException.class, () ->
                 new ReportUseCase( rebelRepoInMem, new ReportRules() )
                     .handle(reportFacade));
         assertTrue(e.getMessage().contains("reported rebel not found"));

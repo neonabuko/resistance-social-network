@@ -21,16 +21,15 @@ public class AuthController {
         this.signup = signup;
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginFacade login) {
-        var token = this.login.handle(login);
-        
-        return ResponseEntity.ok().body(token);
+    @PostMapping("/signup")
+    public ResponseEntity<Void> handleSignup(@RequestBody SignupFacade facade) {
+        signup.handle(facade);
+        return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<Void> register(@RequestBody SignupFacade signupFacade) {
-        signup.handle(signupFacade);
-        return ResponseEntity.ok().build();
+    @PostMapping("/login")
+    public ResponseEntity<String> handleLogin(@RequestBody LoginFacade facade) {
+        var token = login.handle(facade);
+        return ResponseEntity.ok().body(token);
     }
 }

@@ -4,7 +4,7 @@ import com.api.resistancesocialnetwork.entity.User;
 import com.api.resistancesocialnetwork.facade.SignupFacade;
 import com.api.resistancesocialnetwork.repository.repositoryinterfaces.UserRepository;
 import com.api.resistancesocialnetwork.rules.SignupRules;
-import com.api.resistancesocialnetwork.rules.commons.ResistanceSocialNetworkException;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ public class SignupUseCase {
         var role = data.getRole();
 
         if (userRepository.findUserBy(username).isPresent())
-            throw new ResistanceSocialNetworkException("username '" + username + "' already taken");
+            throw new ResistanceException("username '" + username + "' already taken");
         String encryptedPassword = new BCryptPasswordEncoder().encode(password);
         User user = new User(username, encryptedPassword, role);
         userRepository.save(user);
