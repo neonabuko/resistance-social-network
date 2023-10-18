@@ -4,6 +4,8 @@ import com.api.resistancesocialnetwork.usecase.statistics.AlliesTraitorsPercenta
 import com.api.resistancesocialnetwork.usecase.statistics.AlliesUseCase;
 import com.api.resistancesocialnetwork.usecase.statistics.ItemAveragesUseCase;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,10 +36,31 @@ public class StatisticsController {
     @GetMapping("/allies")
     @Operation(description = "Mostra todos os aliados", method = "GET")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Mostrou todos os aliados"),
-            @ApiResponse(responseCode = "204", description = "Não há aliados para mostrar"),
-            @ApiResponse(responseCode = "403", description = "Usuário não autenticado"),
-            @ApiResponse(responseCode = "405", description = "Método não permitido")
+            @ApiResponse(responseCode = "200", description = "Mostrou todos os aliados",
+                    content = @Content(
+                            mediaType = "text/plain",
+                            examples = @ExampleObject(
+                                    value = """
+                                            Rebel (id 1)
+                                            \tname='name'
+                                            \tage=18
+                                            \tgender='gender'
+                                            \tisTraitor=false
+                                            ────────────────────
+                                            Location (id 1)
+                                            \tlatitude=1.1
+                                            \tlongitude=1.1
+                                            \tbase='base'
+                                            ────────────────────
+                                            Inventory (id 1)\t
+                                            \tItem (id 1) {
+                                            \t\tname=name
+                                            \t\tprice=1
+                                            \t}"""
+                            ))),
+            @ApiResponse(responseCode = "204", description = "Não há aliados para mostrar", content = @Content()),
+            @ApiResponse(responseCode = "403", description = "Usuário não autenticado", content = @Content()),
+            @ApiResponse(responseCode = "405", description = "Método não permitido", content = @Content())
     })
     public ResponseEntity<String> allies() {
         List<String> allies = this.allies.handle();
@@ -48,10 +71,15 @@ public class StatisticsController {
     @GetMapping("/allies-traitors-percentages")
     @Operation(description = "Mostra a porcentagem de aliados vs. traidores", method = "GET")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Mostrou as porcentagens"),
-            @ApiResponse(responseCode = "204", description = "Não há porcentages para mostrar"),
-            @ApiResponse(responseCode = "403", description = "Usuário não autenticado"),
-            @ApiResponse(responseCode = "405", description = "Método não permitido")
+            @ApiResponse(responseCode = "200", description = "Mostrou as porcentagens",
+                    content = @Content(
+                            mediaType = "text/plain",
+                            examples = @ExampleObject(
+                                    value = "Allies: 100% Traitors: 0%"
+                            ))),
+            @ApiResponse(responseCode = "204", description = "Não há porcentages para mostrar", content = @Content()),
+            @ApiResponse(responseCode = "403", description = "Usuário não autenticado", content = @Content()),
+            @ApiResponse(responseCode = "405", description = "Método não permitido", content = @Content())
     })
     public ResponseEntity<String> alliesTraitorsPercentages() {
         List<String> percentages = alliesTraitorsPercentages.handle();
@@ -62,10 +90,15 @@ public class StatisticsController {
     @GetMapping("/item-averages")
     @Operation(description = "Mostra a média de cada item por rebelde", method = "GET")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Mostrou as médias"),
-            @ApiResponse(responseCode = "204", description = "Não há médias para mostrar"),
-            @ApiResponse(responseCode = "403", description = "Usuário não autenticado"),
-            @ApiResponse(responseCode = "405", description = "Método não permitido")
+            @ApiResponse(responseCode = "200", description = "Mostrou as médias",
+                    content = @Content(
+                            mediaType = "text/plain",
+                            examples = @ExampleObject(
+                                    value = "{name=1.0}"
+                            ))),
+            @ApiResponse(responseCode = "204", description = "Não há médias para mostrar", content = @Content()),
+            @ApiResponse(responseCode = "403", description = "Usuário não autenticado", content = @Content()),
+            @ApiResponse(responseCode = "405", description = "Método não permitido", content = @Content())
     })
     public ResponseEntity<String> itemAverages() {
         Map<String, Double> averages = itemAverages.handle();
@@ -73,5 +106,4 @@ public class StatisticsController {
         String response = averages.toString().replace(", ", "\n");
         return ResponseEntity.ok().body(response);
     }
-
 }

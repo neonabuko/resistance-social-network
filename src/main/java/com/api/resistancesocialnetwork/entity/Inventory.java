@@ -23,6 +23,7 @@ public class Inventory {
         this.items = itemList;
     }
 
+
     public Inventory() {}
 
     public List<Item> getItems() {

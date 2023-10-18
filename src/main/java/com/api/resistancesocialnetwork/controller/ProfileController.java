@@ -27,30 +27,19 @@ public class ProfileController {
     }
 
     @GetMapping("/")
-    @Operation(
-            summary = "Faz o cadastro dos dados do rebelde",
-            method = "POST",
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(
-                    mediaType = "application/json",
-                    examples = @ExampleObject(value = "{\"key\": \"value\"}")
-            ))
-    )
+    @Operation(summary = "Mostra a página principal", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Página acessada com sucesso"),
             @ApiResponse(responseCode = "405", description = "Método não permitido")
     })
-    public ResponseEntity<String> getHomePage() {
+    public ResponseEntity<Void> getHomePage() {
         return new ResponseEntity<>(HttpStatus.valueOf(200));
     }
 
     @PostMapping("/profile")
     @Operation(summary = "Faz o cadastro dos dados do rebelde", method = "POST")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Dados cadastrados com sucesso",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = @ExampleObject(value = "{\n  \"key\": \"value\"\n}")
-                    )),
+            @ApiResponse(responseCode = "200", description = "Dados cadastrados com sucesso"),
             @ApiResponse(responseCode = "400", description = "Dados inválidos"),
             @ApiResponse(responseCode = "403", description = "Conta de usuário não encontrada"),
             @ApiResponse(responseCode = "405", description = "Método não permitido")

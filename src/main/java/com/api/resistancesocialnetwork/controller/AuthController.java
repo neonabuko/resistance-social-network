@@ -5,6 +5,8 @@ import com.api.resistancesocialnetwork.facade.SignupFacade;
 import com.api.resistancesocialnetwork.usecase.LoginUseCase;
 import com.api.resistancesocialnetwork.usecase.SignupUseCase;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -41,10 +43,15 @@ public class AuthController {
     @PostMapping("/login")
     @Operation(summary = "Faz o login dos rebeldes", method = "POST")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Login bem-sucedido"),
-            @ApiResponse(responseCode = "400", description = "Dados inválidos"),
-            @ApiResponse(responseCode = "403", description = "Conta não encontrada"),
-            @ApiResponse(responseCode = "405", description = "Método não permitido")
+            @ApiResponse(responseCode = "200", description = "Login bem-sucedido",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(value = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6Impvb2oiLCJl" +
+                                    "eHAiOjE2OTc1ODU0Mzl9.5ETFMFZ5Pj-vhJakkUFvLTP8cfdTvjLwTTU11-dl92M")
+                    )),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos", content = @Content()),
+            @ApiResponse(responseCode = "403", description = "Conta não encontrada", content = @Content()),
+            @ApiResponse(responseCode = "405", description = "Método não permitido", content = @Content()),
     })
     public ResponseEntity<String> handleLogin(@RequestBody LoginFacade facade) {
         var token = login.handle(facade);

@@ -4,8 +4,5 @@ import com.api.resistancesocialnetwork.entity.Location;
 
 import java.util.Optional;
 
-public record UpdateLocationFacade(Location location) {
-    public Optional<Location> getLocation() {
-        return Optional.ofNullable(location);
-    }
+public record UpdateLocationFacade(Double latitude, Double longitude, String base) {
 }

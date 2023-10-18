@@ -2,6 +2,7 @@ package com.api.resistancesocialnetwork.unit.usecase;
 
 import com.api.resistancesocialnetwork.entity.*;
 import com.api.resistancesocialnetwork.enums.UserRole;
+import com.api.resistancesocialnetwork.facade.ItemFacade;
 import com.api.resistancesocialnetwork.facade.ProfileFacade;
 import com.api.resistancesocialnetwork.repository.repositoriesinmemory.InventoryRepositoryInMemory;
 import com.api.resistancesocialnetwork.repository.repositoriesinmemory.LocationRepositoryInMemory;
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,8 +26,8 @@ class ProfileUseCaseTest {
     private final RebelRepositoryInMemory rebelRepoInMem = new RebelRepositoryInMemory();
     private final InventoryRepositoryInMemory inventoryRepoInMem = new InventoryRepositoryInMemory();
     private final LocationRepositoryInMemory locationRepoInMem = new LocationRepositoryInMemory();
-    private final FormatEntities formatEntities = new FormatEntities(new FormatData());
-    private final ProfileRules signUpRules = new ProfileRules(formatEntities);
+    private final FormatData formatData = new FormatData();
+    private final ProfileRules signUpRules = new ProfileRules(formatData);
     private final UserRepositoryInMemory userRepositoryInMem = new UserRepositoryInMemory();
     private final ProfileUseCase profileUseCase = new ProfileUseCase(signUpRules, userRepositoryInMem);
     private Rebel luke = new Rebel("luke", 18, "male");
@@ -46,7 +48,15 @@ class ProfileUseCaseTest {
         lukeInv.setId(1);
 
         rebelRepoInMem.saveInMem(luke);
-        profileFacade = new ProfileFacade(luke, lukeLocation, lukeInv);
+        profileFacade = new ProfileFacade(
+                "luke",
+                18,
+                "male",
+                22.2,
+                22.2,
+                "base",
+                List.of(new ItemFacade("food", 1))
+        );
         profileUseCase.handle(profileFacade, login);
 
         assertNotEquals(Optional.empty(), userRepositoryInMem.findUserBy(login));
@@ -59,7 +69,15 @@ class ProfileUseCaseTest {
     @DisplayName("should not save anything if rebel not provided")
     void should_not_save_anything_if_rebel_null() {
         luke = null;
-        profileFacade = new ProfileFacade(luke, lukeLocation, lukeInv);
+        profileFacade = new ProfileFacade(
+                "luke",
+                18,
+                "male",
+                22.2,
+                22.2,
+                "base",
+                List.of(new ItemFacade("food", 1))
+        );
         try {
             profileUseCase.handle(profileFacade, login);
         } catch (Exception ignored) {}
@@ -73,7 +91,15 @@ class ProfileUseCaseTest {
     @DisplayName("should not save anything if location not provided")
     void should_not_save_anything_if_location_null() {
         lukeLocation = null;
-        profileFacade = new ProfileFacade(luke, lukeLocation, lukeInv);
+        profileFacade = new ProfileFacade(
+                "luke",
+                18,
+                "male",
+                22.2,
+                22.2,
+                "base",
+                List.of(new ItemFacade("food", 1))
+        );
         try {
             profileUseCase.handle(profileFacade, login);
         } catch (Exception ignored) {}
@@ -87,7 +113,15 @@ class ProfileUseCaseTest {
     @DisplayName("should not save anything if inventory not provided")
     void should_not_save_anything_if_inventory_null() {
         lukeInv = null;
-        profileFacade = new ProfileFacade(luke, lukeLocation, lukeInv);
+        profileFacade = new ProfileFacade(
+                "luke",
+                18,
+                "male",
+                22.2,
+                22.2,
+                "base",
+                List.of(new ItemFacade("food", 1))
+        );
 
         try {
             profileUseCase.handle(profileFacade, login);
@@ -102,7 +136,15 @@ class ProfileUseCaseTest {
     @DisplayName("should not save anything if latitude not provided")
     void should_not_save_anything_if_latitude_null() {
         lukeLocation.setLocation(null, 23.2, "base");
-        profileFacade = new ProfileFacade(luke, lukeLocation, lukeInv);
+        profileFacade = new ProfileFacade(
+                "luke",
+                18,
+                "male",
+                22.2,
+                22.2,
+                "base",
+                List.of(new ItemFacade("food", 1))
+        );
 
         try {
             profileUseCase.handle(profileFacade, login);
@@ -117,7 +159,15 @@ class ProfileUseCaseTest {
     @DisplayName("should not save anything if longitude not provided")
     void should_not_save_anything_if_longitude_null() {
         lukeLocation.setLocation(23.2, null, "base");
-        profileFacade = new ProfileFacade(luke, lukeLocation, lukeInv);
+        profileFacade = new ProfileFacade(
+                "luke",
+                18,
+                "male",
+                22.2,
+                22.2,
+                "base",
+                List.of(new ItemFacade("food", 1))
+        );
 
         try {
             profileUseCase.handle(profileFacade, login);
@@ -137,7 +187,15 @@ class ProfileUseCaseTest {
 
         Item nullItem = null;
         lukeInv.setItems(Arrays.asList(nullItem));
-        profileFacade = new ProfileFacade(luke, lukeLocation, lukeInv);
+        profileFacade = new ProfileFacade(
+                "luke",
+                18,
+                "male",
+                22.2,
+                22.2,
+                "base",
+                List.of(new ItemFacade("food", 1))
+        );
 
         try {
             profileUseCase.handle(profileFacade, login);
@@ -155,7 +213,15 @@ class ProfileUseCaseTest {
         User jooj = new User("jooj", "123", UserRole.USER);
         userRepositoryInMem.saveInMem(jooj);
         jooj.setId(1);
-        profileFacade = new ProfileFacade(this.luke, lukeLocation, lukeInv);
+        profileFacade = new ProfileFacade(
+                "luke",
+                18,
+                "male",
+                22.2,
+                22.2,
+                "base",
+                List.of(new ItemFacade("food", 1))
+        );
         profileUseCase.handle(profileFacade, login);
         Exception e = assertThrows(ResistanceException.class, () ->
                 profileUseCase.handle(profileFacade, login)

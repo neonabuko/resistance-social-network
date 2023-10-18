@@ -44,7 +44,7 @@ public class RebelController {
             @ApiResponse(responseCode = "403", description = "Conta não encontrada/usuário não autenticado"),
             @ApiResponse(responseCode = "405", description = "Método não permitido")
     })
-    public ResponseEntity<String> handleReport(@RequestBody ReportFacade facade) {
+    public ResponseEntity<Void> handleReport(@RequestBody ReportFacade facade) {
         report.handle(facade);
         return ResponseEntity.ok().build();
     }
@@ -57,8 +57,10 @@ public class RebelController {
             @ApiResponse(responseCode = "403", description = "Conta não encontrada/usuário não autenticado"),
             @ApiResponse(responseCode = "405", description = "Método não permitido")
     })
-    public ResponseEntity<String> handleUpdateLocation(@RequestBody UpdateLocationFacade facade) throws ResistanceException {
-        locationUpdate.handle(facade);
+    public ResponseEntity<Void> handleUpdateLocation(@RequestBody UpdateLocationFacade facade) throws ResistanceException {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Integer id = user.getId();
+        locationUpdate.handle(facade, user);
         return ResponseEntity.ok().build();
     }
 
@@ -70,7 +72,7 @@ public class RebelController {
             @ApiResponse(responseCode = "403", description = "Conta não encontrada/usuário não autenticado"),
             @ApiResponse(responseCode = "405", description = "Método não permitido")
     })
-    public ResponseEntity<String> handleTrade(@RequestBody TradeFacade facade) throws ResistanceException {
+    public ResponseEntity<Void> handleTrade(@RequestBody TradeFacade facade) throws ResistanceException {
         trade.handle(facade);
         return ResponseEntity.ok().build();
     }
@@ -83,7 +85,7 @@ public class RebelController {
             @ApiResponse(responseCode = "403", description = "Conta não encontrada/usuário não autenticado"),
             @ApiResponse(responseCode = "405", description = "Método não permitido")
     })
-    public ResponseEntity<String> handleDelete(@RequestBody DeleteUserFacade facade,
+    public ResponseEntity<Void> handleDelete(@RequestBody DeleteUserFacade facade,
                                                @RequestHeader("Authorization") String header) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         delete.handle(facade, user);

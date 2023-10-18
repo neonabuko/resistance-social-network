@@ -2,6 +2,7 @@ package com.api.resistancesocialnetwork.usecase;
 
 import com.api.resistancesocialnetwork.entity.Location;
 import com.api.resistancesocialnetwork.entity.Rebel;
+import com.api.resistancesocialnetwork.entity.User;
 import com.api.resistancesocialnetwork.facade.UpdateLocationFacade;
 import com.api.resistancesocialnetwork.repository.repositoryinterfaces.LocationRepository;
 import com.api.resistancesocialnetwork.repository.repositoryinterfaces.RebelRepository;
@@ -23,24 +24,21 @@ public class UpdateLocationUseCase {
         this.updateLocationRules = updateLocationRules;
     }
 
-    public void handle(UpdateLocationFacade updateLocationFacade) throws ResistanceException {
-        updateLocationRules.handle(updateLocationFacade);
-        Integer rebelId = updateLocationFacade.location().getId();
-
-        Rebel rebel_in_repository = rebelRepository.findById(rebelId).orElseThrow(
-                () -> new ResistanceException("rebel not found")
+    public void handle(UpdateLocationFacade updateLocationFacade, User user) throws ResistanceException {
+        Rebel rebel = user.getRebel().orElseThrow(
+                () -> new ResistanceException("rebel not registered")
         );
 
-        Location location_in_repository = rebel_in_repository.getLocation();
+        Location location = user.getLocation().get();
 
-        Location newLocation = updateLocationFacade.location();
+        Location newLocation = updateLocationRules.handle(updateLocationFacade);
 
-        location_in_repository.setLocation(
+        location.setLocation(
                 newLocation.getLatitude(),
                 newLocation.getLongitude(),
                 newLocation.getBase()
         );
 
-        locationRepository.save(location_in_repository);
+        locationRepository.save(location);
     }
 }

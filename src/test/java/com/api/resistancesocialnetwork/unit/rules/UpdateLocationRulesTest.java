@@ -13,7 +13,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class UpdateLocationRulesTest {
     private final FormatEntities formatEntities = new FormatEntities(new FormatData());
-    private final UpdateLocationRules updateLocationRules = new UpdateLocationRules(formatEntities);
+    private final FormatData formatData = new FormatData();
+    private final UpdateLocationRules updateLocationRules = new UpdateLocationRules(formatData);
 
     @Test
     void should_throw_ResistanceSocialNetworkException_when_facade_null() {
@@ -26,7 +27,7 @@ class UpdateLocationRulesTest {
     @Test
     void should_throw_ResistanceSocialNetworkException_when_new_location_null() {
         Location newLocation = null;
-        UpdateLocationFacade updateLocationFacade = new UpdateLocationFacade(newLocation);
+        UpdateLocationFacade updateLocationFacade = new UpdateLocationFacade(0.0, 0.0, "base");
         
         Exception e = assertThrows(ResistanceException.class, () ->
                 updateLocationRules.handle(updateLocationFacade));

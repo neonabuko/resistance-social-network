@@ -4,27 +4,26 @@ package com.api.resistancesocialnetwork.rules;
 import com.api.resistancesocialnetwork.entity.Location;
 import com.api.resistancesocialnetwork.facade.UpdateLocationFacade;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceException;
-import com.api.resistancesocialnetwork.usecase.formatters.FormatEntities;
+import com.api.resistancesocialnetwork.usecase.formatters.FormatData;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UpdateLocationRules {
-    private final FormatEntities formatEntities;
+    private final FormatData formatData;
 
-    public UpdateLocationRules(FormatEntities formatEntities) {
-        this.formatEntities = formatEntities;
+    public UpdateLocationRules(FormatData formatData) {
+        this.formatData = formatData;
     }
 
-    public void handle(UpdateLocationFacade facade) throws ResistanceException {
-        assert_facade_provided(facade);
-        assert_new_location_provided(facade.location());
-        formatEntities.formatLocation(facade.location());
+    public Location handle(UpdateLocationFacade facade) throws ResistanceException {
+        return formatLocation(facade.latitude(), facade.longitude(), facade.base());
     }
 
-    private void assert_facade_provided(UpdateLocationFacade facade) {
-        if (facade == null) throw new ResistanceException("must provide parameters for location update");
-    }
-    private void assert_new_location_provided(Location location) {
-        if (location == null) throw new ResistanceException("must provide new location");
+    private Location formatLocation(Double latitude, Double longitude, String base) {
+        return new Location(
+                formatData.formatCoordinate(latitude, 180),
+                formatData.formatCoordinate(longitude, 90),
+                formatData.formatString(base, 20, "base")
+        );
     }
 }
