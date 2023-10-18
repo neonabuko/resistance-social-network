@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("auth")
-@Tag(name = "Resistance Social Network", description = "controller para signup e login")
+@Tag(name = "Auth Controller", description = "Controller para signup e login")
 public class AuthController {
     private final LoginUseCase login;
     private final SignupUseCase signup;
@@ -28,7 +28,9 @@ public class AuthController {
 
     @Operation(summary = "Faz o cadastro dos rebeldes", method = "POST")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Cadastro bem sucedido")
+            @ApiResponse(responseCode = "200", description = "Cadastro bem-sucedido"),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos"),
+            @ApiResponse(responseCode = "405", description = "Método não permitido")
     })
     @PostMapping("/signup")
     public ResponseEntity<Void> handleSignup(@RequestBody SignupFacade facade) {
@@ -38,6 +40,12 @@ public class AuthController {
 
     @PostMapping("/login")
     @Operation(summary = "Faz o login dos rebeldes", method = "POST")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Login bem-sucedido"),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos"),
+            @ApiResponse(responseCode = "403", description = "Conta não encontrada"),
+            @ApiResponse(responseCode = "405", description = "Método não permitido")
+    })
     public ResponseEntity<String> handleLogin(@RequestBody LoginFacade facade) {
         var token = login.handle(facade);
         return ResponseEntity.ok().body(token);
