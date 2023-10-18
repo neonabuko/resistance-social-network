@@ -28,7 +28,7 @@ public class AuthController {
         this.signup = signup;
     }
 
-    @Operation(summary = "Faz o cadastro dos rebeldes", method = "POST")
+    @Operation(summary = "Faz o cadastro do usuário", method = "POST")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Cadastro bem-sucedido"),
             @ApiResponse(responseCode = "400", description = "Dados inválidos"),
@@ -41,14 +41,9 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    @Operation(summary = "Faz o login dos rebeldes", method = "POST")
+    @Operation(summary = "Faz o login do usuário", method = "POST")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Login bem-sucedido",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = @ExampleObject(value = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6Impvb2oiLCJl" +
-                                    "eHAiOjE2OTc1ODU0Mzl9.5ETFMFZ5Pj-vhJakkUFvLTP8cfdTvjLwTTU11-dl92M")
-                    )),
+            @ApiResponse(responseCode = "200", description = "Login bem-sucedido. Retorna um token", content = @Content()),
             @ApiResponse(responseCode = "400", description = "Dados inválidos", content = @Content()),
             @ApiResponse(responseCode = "403", description = "Conta não encontrada", content = @Content()),
             @ApiResponse(responseCode = "405", description = "Método não permitido", content = @Content()),
