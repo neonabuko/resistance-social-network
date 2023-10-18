@@ -17,11 +17,14 @@
 ## Instalação:
 ```shell
 git clone https://github.com/neonabuko/resistance-social-network/
-    
+
 cd resistance-social-network
-    
+
 docker compose up
 ```
+### Funcionalidades da API: 
+http://localhost:8080/swagger-ui/index.html
+
 ### Implementações:
 - [x] Spring Boot
 - [x] Spring Security

@@ -12,7 +12,6 @@ import com.api.resistancesocialnetwork.rules.ProfileRules;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceException;
 import com.api.resistancesocialnetwork.usecase.ProfileUseCase;
 import com.api.resistancesocialnetwork.usecase.formatters.FormatData;
-import com.api.resistancesocialnetwork.usecase.formatters.FormatEntities;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -37,7 +36,7 @@ class ProfileUseCaseTest {
     private final String login = "jooj";
 
     @Test
-    @DisplayName("should always save rebel along with his location and inventory")
+    @DisplayName("should save rebel with location and inventory")
     void should_save_rebel_with_location_and_inventory() {
         User jooj = new User("jooj", "123", UserRole.USER);
         userRepositoryInMem.saveInMem(jooj);
@@ -47,7 +46,6 @@ class ProfileUseCaseTest {
         lukeLocation.setId(1);
         lukeInv.setId(1);
 
-        rebelRepoInMem.saveInMem(luke);
         profileFacade = new ProfileFacade(
                 "luke",
                 18,
@@ -59,14 +57,13 @@ class ProfileUseCaseTest {
         );
         profileUseCase.handle(profileFacade, login);
 
-        assertNotEquals(Optional.empty(), userRepositoryInMem.findUserBy(login));
         assertNotEquals(Optional.empty(), rebelRepoInMem.findById(luke.getId()));
         assertNotEquals(null, luke.getLocation());
         assertNotEquals(null, luke.getInventory());
     }
 
     @Test
-    @DisplayName("should not save anything if rebel not provided")
+    @DisplayName("should not save if rebel not provided")
     void should_not_save_anything_if_rebel_null() {
         luke = null;
         profileFacade = new ProfileFacade(
@@ -88,7 +85,7 @@ class ProfileUseCaseTest {
     }
 
     @Test
-    @DisplayName("should not save anything if location not provided")
+    @DisplayName("should not save if location not provided")
     void should_not_save_anything_if_location_null() {
         lukeLocation = null;
         profileFacade = new ProfileFacade(
@@ -110,7 +107,7 @@ class ProfileUseCaseTest {
     }
 
     @Test
-    @DisplayName("should not save anything if inventory not provided")
+    @DisplayName("should not save if inventory not provided")
     void should_not_save_anything_if_inventory_null() {
         lukeInv = null;
         profileFacade = new ProfileFacade(
@@ -133,7 +130,7 @@ class ProfileUseCaseTest {
     }
 
     @Test
-    @DisplayName("should not save anything if latitude not provided")
+    @DisplayName("should not save if latitude not provided")
     void should_not_save_anything_if_latitude_null() {
         lukeLocation.setLocation(null, 23.2, "base");
         profileFacade = new ProfileFacade(
@@ -156,7 +153,7 @@ class ProfileUseCaseTest {
     }
 
     @Test
-    @DisplayName("should not save anything if longitude not provided")
+    @DisplayName("should not save if longitude not provided")
     void should_not_save_anything_if_longitude_null() {
         lukeLocation.setLocation(23.2, null, "base");
         profileFacade = new ProfileFacade(
@@ -179,7 +176,7 @@ class ProfileUseCaseTest {
     }
 
     @Test
-    @DisplayName("should not save anything if no items provided")
+    @DisplayName("should not save if no items provided")
     void should_not_save_anything_if_item_null() {
         User jooj = new User("jooj", "123", UserRole.USER);
         userRepositoryInMem.saveInMem(jooj);
@@ -208,7 +205,7 @@ class ProfileUseCaseTest {
     }
 
     @Test
-    @DisplayName("should not be able to save profile twice")
+    @DisplayName("should not save profile twice")
     void should_not_be_able_to_save_profile_twice() {
         User jooj = new User("jooj", "123", UserRole.USER);
         userRepositoryInMem.saveInMem(jooj);
