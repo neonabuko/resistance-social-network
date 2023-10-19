@@ -1,4 +1,4 @@
-package com.api.resistancesocialnetwork.repository.repositoriesindatabase;
+package com.api.resistancesocialnetwork.repository.repositoriesimpl;
 
 
 import com.api.resistancesocialnetwork.entity.Inventory;
@@ -13,11 +13,11 @@ interface InventoryRepositoryJpa extends JpaRepository<Inventory, Integer> {
 }
 
 @Component
-public class InventoryRepositoryInDatabase implements InventoryRepository {
+public class InventoryRepositoryImpl implements InventoryRepository {
 
     private final InventoryRepositoryJpa adapter;
 
-    public InventoryRepositoryInDatabase(InventoryRepositoryJpa adapter) {
+    public InventoryRepositoryImpl(InventoryRepositoryJpa adapter) {
         this.adapter = adapter;
     }
 

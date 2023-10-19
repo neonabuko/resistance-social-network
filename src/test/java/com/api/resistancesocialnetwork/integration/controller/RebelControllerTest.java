@@ -103,17 +103,13 @@ class RebelControllerTest {
     @Transactional
     void should_return_200_when_location_update_ok() throws Exception {
         signup_then_login("admin", "123", "ADMIN");
-        rebelRepository.save(rebelLeft);
-        locationRepository.save(locationLeft);
-        rebelLeft.setLocation(locationLeft);
+        userRepository.findUserBy("admin").orElseThrow().setRebel(rebelLeft);
+        userRepository.findUserBy("admin").orElseThrow().setLocation(locationLeft);
 
         String requestBody = "{" +
-                                "\"location\": {" +
-                                    "\"id\":1," +
-                                    "\"latitude\":109.23," +
-                                    "\"longitude\":-2346," +
-                                    "\"base\":\"new-base\"" +
-                                "}" +
+                                "\"latitude\":109.23," +
+                                "\"longitude\":-2346," +
+                                "\"base\":\"new-base\"" +
                              "}";
         mockMvc.perform(
                 patch("/rebel/update-location")

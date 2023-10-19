@@ -1,4 +1,4 @@
-package com.api.resistancesocialnetwork.repository.repositoriesindatabase;
+package com.api.resistancesocialnetwork.repository.repositoriesimpl;
 
 import com.api.resistancesocialnetwork.entity.Rebel;
 import com.api.resistancesocialnetwork.repository.repositoryinterfaces.RebelRepository;
@@ -12,11 +12,11 @@ interface RebelRepositoryJpa extends JpaRepository<Rebel, Integer> {
 }
 
 @Component
-public class RebelRepositoryInDatabase implements RebelRepository {
+public class RebelRepositoryImpl implements RebelRepository {
 
     private final RebelRepositoryJpa adapter;
 
-    public RebelRepositoryInDatabase(RebelRepositoryJpa adapter) {
+    public RebelRepositoryImpl(RebelRepositoryJpa adapter) {
         this.adapter = adapter;
     }
 

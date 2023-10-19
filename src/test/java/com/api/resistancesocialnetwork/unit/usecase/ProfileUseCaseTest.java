@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,12 +38,7 @@ class ProfileUseCaseTest {
     @DisplayName("should save rebel with location and inventory")
     void should_save_rebel_with_location_and_inventory() {
         User jooj = new User("jooj", "123", UserRole.USER);
-        userRepositoryInMem.saveInMem(jooj);
-        jooj.setId(1);
-
-        luke.setId(1);
-        lukeLocation.setId(1);
-        lukeInv.setId(1);
+        userRepositoryInMem.save(jooj);
 
         profileFacade = new ProfileFacade(
                 "luke",
@@ -57,9 +51,9 @@ class ProfileUseCaseTest {
         );
         profileUseCase.handle(profileFacade, login);
 
-        assertNotEquals(Optional.empty(), rebelRepoInMem.findById(luke.getId()));
-        assertNotEquals(null, luke.getLocation());
-        assertNotEquals(null, luke.getInventory());
+        assertNotEquals(null, jooj.getRebel());
+        assertNotEquals(null, jooj.getLocation());
+        assertNotEquals(null, jooj.getInventory());
     }
 
     @Test
