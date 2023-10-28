@@ -39,7 +39,7 @@ public class ProfileController {
     @PostMapping("/profile")
     @Operation(summary = "Faz o cadastro dos dados do rebelde", method = "POST")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Dados cadastrados com sucesso"),
+            @ApiResponse(responseCode = "201", description = "Dados cadastrados com sucesso"),
             @ApiResponse(responseCode = "400", description = "Dados inválidos"),
             @ApiResponse(responseCode = "403", description = "Conta de usuário não encontrada"),
             @ApiResponse(responseCode = "405", description = "Método não permitido")
