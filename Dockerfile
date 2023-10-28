@@ -1,14 +1,14 @@
-#FROM maven:3.8 as build
-#
-#WORKDIR /app/build
-#
-#COPY pom.xml .
-#
-#COPY /src/main ./src/main
-#
-#RUN mvn dependency:go-offline
-#
-#RUN mvn package -DskipTests
+FROM maven:3.8 as build
+
+WORKDIR /app/build
+
+COPY pom.xml .
+
+COPY /src/main ./src/main
+
+RUN mvn dependency:go-offline
+
+RUN mvn package -DskipTests
 
 FROM alpine:3 as final
 
