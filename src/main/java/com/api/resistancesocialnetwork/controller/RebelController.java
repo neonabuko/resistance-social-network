@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Rebel Controller", description = "Controller para as ações do rebelde")
 public class RebelController {
     private final ReportUseCase report;
-    private final UpdateLocationUseCase locationUpdate;
+    private final UpdateLocationUseCase updateLocation;
     private final TradeUseCase trade;
     private final DeleteUserUseCase delete;
 
@@ -31,7 +31,7 @@ public class RebelController {
                            UpdateLocationUseCase updateLocation,
                            TradeUseCase trade, DeleteUserUseCase delete) {
         this.report = report;
-        this.locationUpdate = updateLocation;
+        this.updateLocation = updateLocation;
         this.trade = trade;
         this.delete = delete;
     }
@@ -60,7 +60,7 @@ public class RebelController {
     public ResponseEntity<Void> handleUpdateLocation(@RequestBody UpdateLocationFacade facade) throws ResistanceException {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Integer id = user.getId();
-        locationUpdate.handle(facade, user);
+        updateLocation.handle(facade, user);
         return ResponseEntity.ok().build();
     }
 

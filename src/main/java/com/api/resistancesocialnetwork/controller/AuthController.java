@@ -28,13 +28,13 @@ public class AuthController {
         this.signup = signup;
     }
 
+    @PostMapping("/signup")
     @Operation(summary = "Faz o cadastro do usuário", method = "POST")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Cadastro bem-sucedido"),
             @ApiResponse(responseCode = "400", description = "Dados inválidos"),
             @ApiResponse(responseCode = "405", description = "Método não permitido")
     })
-    @PostMapping("/signup")
     public ResponseEntity<Void> handleSignup(@RequestBody SignupFacade facade) {
         signup.handle(facade);
         return ResponseEntity.ok().build();

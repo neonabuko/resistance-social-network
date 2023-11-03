@@ -11,7 +11,6 @@ import java.util.List;
 @Service
 public class AlliesUseCase {
     private final RebelRepository rebelRepo;
-
     public AlliesUseCase(RebelRepository rebelRepo) {
         this.rebelRepo = rebelRepo;
     }

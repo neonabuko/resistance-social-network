@@ -4,7 +4,6 @@ import com.api.resistancesocialnetwork.entity.Inventory;
 import com.api.resistancesocialnetwork.entity.Item;
 import com.api.resistancesocialnetwork.entity.Location;
 import com.api.resistancesocialnetwork.entity.Rebel;
-import com.api.resistancesocialnetwork.facade.ProfileFacade;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceException;
 import com.api.resistancesocialnetwork.usecase.formatters.FormatData;
 import org.springframework.stereotype.Component;

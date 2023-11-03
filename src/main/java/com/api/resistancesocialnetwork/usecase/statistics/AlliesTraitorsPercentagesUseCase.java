@@ -19,9 +19,7 @@ public class AlliesTraitorsPercentagesUseCase {
     public List<String> handle() {
         List<Rebel> rebelsList = rebelRepository.findAll();
 
-        if (rebelsList.isEmpty()) {
-            return List.of();
-        }
+        if (rebelsList.isEmpty()) return List.of();
 
         double REBELS = rebelsList.size();
         double TRAITORS = rebelsList.stream().filter(Rebel::isTraitor).count();

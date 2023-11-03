@@ -36,28 +36,7 @@ public class StatisticsController {
     @GetMapping("/allies")
     @Operation(description = "Mostra todos os aliados", method = "GET")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Mostrou todos os aliados",
-                    content = @Content(
-                            mediaType = "text/plain",
-                            examples = @ExampleObject(
-                                    value = """
-                                            Rebel (id 1)
-                                            \tname='name'
-                                            \tage=18
-                                            \tgender='gender'
-                                            \tisTraitor=false
-                                            ────────────────────
-                                            Location (id 1)
-                                            \tlatitude=1.1
-                                            \tlongitude=1.1
-                                            \tbase='base'
-                                            ────────────────────
-                                            Inventory (id 1)\t
-                                            \tItem (id 1) {
-                                            \t\tname=name
-                                            \t\tprice=1
-                                            \t}"""
-                            ))),
+            @ApiResponse(responseCode = "200", description = "Mostrou todos os aliados"),
             @ApiResponse(responseCode = "204", description = "Não há aliados para mostrar", content = @Content()),
             @ApiResponse(responseCode = "403", description = "Usuário não autenticado", content = @Content()),
             @ApiResponse(responseCode = "405", description = "Método não permitido", content = @Content())
