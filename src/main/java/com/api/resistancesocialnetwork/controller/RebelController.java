@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/rebel")
+@CrossOrigin(origins = "http://localhost:4200")
 @Tag(name = "Rebel Controller", description = "Controller para as ações do rebelde")
 public class RebelController {
     private final ReportUseCase report;

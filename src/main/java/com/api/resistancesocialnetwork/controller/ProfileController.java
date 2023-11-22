@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @Tag(name = "Profile Controller", description = "Controller para cadastro de dados do rebelde")
 public class ProfileController {
     private final ProfileUseCase profile;
