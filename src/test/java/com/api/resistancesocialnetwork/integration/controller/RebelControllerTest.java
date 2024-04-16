@@ -3,9 +3,9 @@ package com.api.resistancesocialnetwork.integration.controller;
 import com.api.resistancesocialnetwork.entity.*;
 import com.api.resistancesocialnetwork.enums.UserRole;
 import com.api.resistancesocialnetwork.repository.repositoryinterfaces.*;
-import com.api.resistancesocialnetwork.usecase.UpdateLocationUseCase;
 import com.api.resistancesocialnetwork.usecase.ReportUseCase;
 import com.api.resistancesocialnetwork.usecase.TradeUseCase;
+import com.api.resistancesocialnetwork.usecase.UpdateLocationUseCase;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -46,7 +46,7 @@ class RebelControllerTest {
     @Autowired
     private ItemRepository itemRepository;
     @Autowired
-    private UserRepository userRepository;
+    private ResistanceUserRepository resistanceUserRepository;
     private String token;
 
     Rebel rebelLeft = new Rebel("jooj", 18, "male");
@@ -250,8 +250,8 @@ class RebelControllerTest {
     @DisplayName("ADMIN should be able to delete users")
     void should_delete_user() throws Exception {
         signup_then_login("admin", "123", "ADMIN");
-        User toDelete = new User("username", "123", UserRole.USER);
-        userRepository.save(toDelete);
+        ResistanceUser toDelete = new ResistanceUser("username", "123", UserRole.USER);
+        resistanceUserRepository.save(toDelete);
 
         String requestBody = "{\"id\":2}";
 

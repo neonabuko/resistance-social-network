@@ -1,22 +1,22 @@
 package com.api.resistancesocialnetwork.repository.repositoriesinmemory;
 
-import com.api.resistancesocialnetwork.entity.User;
-import com.api.resistancesocialnetwork.repository.repositoryinterfaces.UserRepository;
+import com.api.resistancesocialnetwork.entity.ResistanceUser;
+import com.api.resistancesocialnetwork.repository.repositoryinterfaces.ResistanceUserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class UserRepositoryInMemory implements UserRepository {
-    private final List<User> users;
+public class ResistanceUserRepositoryInMemory implements ResistanceUserRepository {
+    private final List<ResistanceUser> users;
 
-    public UserRepositoryInMemory() {
+    public ResistanceUserRepositoryInMemory() {
         this.users = new ArrayList<>();
     }
 
     @Override
-    public Optional<User> findUserBy(Integer id) {
+    public Optional<ResistanceUser> findUserBy(Integer id) {
         return users.stream().filter(user -> user.getId().equals(id)).findFirst();
     }
 
@@ -26,30 +26,30 @@ public class UserRepositoryInMemory implements UserRepository {
     }
 
     @Override
-    public Optional<User> findUserBy(String login) {
+    public Optional<ResistanceUser> findUserBy(String login) {
         return users.stream().filter(user -> user.getLogin().equals(login)).findFirst();
     }
 
     @Override
-    public void save(User user) {
+    public void save(ResistanceUser user) {
         users.add(user);
     }
 
     @Override
-    public void delete(User user) {
+    public void delete(ResistanceUser user) {
         users.remove(user);
     }
 
     @Override
-    public List<User> findAll() {
+    public List<ResistanceUser> findAll() {
         return users;
     }
 
-    public void saveInMem(User user) {
+    public void saveInMem(ResistanceUser user) {
         users.add(user);
     }
 
-    public void saveAllInMem(List<User> newUsers) {
+    public void saveAllInMem(List<ResistanceUser> newUsers) {
         users.addAll(newUsers);
     }
 }

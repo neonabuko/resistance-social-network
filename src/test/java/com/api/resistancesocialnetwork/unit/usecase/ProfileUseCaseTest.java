@@ -6,7 +6,7 @@ import com.api.resistancesocialnetwork.facade.ProfileFacade;
 import com.api.resistancesocialnetwork.repository.repositoriesinmemory.InventoryRepositoryInMemory;
 import com.api.resistancesocialnetwork.repository.repositoriesinmemory.LocationRepositoryInMemory;
 import com.api.resistancesocialnetwork.repository.repositoriesinmemory.RebelRepositoryInMemory;
-import com.api.resistancesocialnetwork.repository.repositoriesinmemory.UserRepositoryInMemory;
+import com.api.resistancesocialnetwork.repository.repositoriesinmemory.ResistanceUserRepositoryInMemory;
 import com.api.resistancesocialnetwork.rules.ProfileRules;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceException;
 import com.api.resistancesocialnetwork.usecase.ProfileUseCase;
@@ -26,7 +26,7 @@ class ProfileUseCaseTest {
     private final LocationRepositoryInMemory locationRepoInMem = new LocationRepositoryInMemory();
     private final FormatEntities formatEntities = new FormatEntities(new FormatData());
     private final ProfileRules signUpRules = new ProfileRules(formatEntities);
-    private final UserRepositoryInMemory userRepositoryInMem = new UserRepositoryInMemory();
+    private final ResistanceUserRepositoryInMemory userRepositoryInMem = new ResistanceUserRepositoryInMemory();
     private final ProfileUseCase profileUseCase = new ProfileUseCase(signUpRules, userRepositoryInMem);
     private Rebel luke = new Rebel("luke", 18, "male");
     private Location lukeLocation = new Location(0.2, 21.3, "base/galaxy");
@@ -37,7 +37,7 @@ class ProfileUseCaseTest {
     @Test
     @DisplayName("should always save rebel along with his location and inventory")
     void should_save_rebel_with_location_and_inventory() {
-        User jooj = new User("jooj", "123", UserRole.USER);
+        ResistanceUser jooj = new ResistanceUser("jooj", "123", UserRole.USER);
         userRepositoryInMem.saveInMem(jooj);
         jooj.setId(1);
 
@@ -131,7 +131,7 @@ class ProfileUseCaseTest {
     @Test
     @DisplayName("should not save anything if no items provided")
     void should_not_save_anything_if_item_null() {
-        User jooj = new User("jooj", "123", UserRole.USER);
+        ResistanceUser jooj = new ResistanceUser("jooj", "123", UserRole.USER);
         userRepositoryInMem.saveInMem(jooj);
         jooj.setId(1);
 
@@ -152,7 +152,7 @@ class ProfileUseCaseTest {
     @Test
     @DisplayName("should not be able to save profile twice")
     void should_not_be_able_to_save_profile_twice() {
-        User jooj = new User("jooj", "123", UserRole.USER);
+        ResistanceUser jooj = new ResistanceUser("jooj", "123", UserRole.USER);
         userRepositoryInMem.saveInMem(jooj);
         jooj.setId(1);
         profileFacade = new ProfileFacade(this.luke, lukeLocation, lukeInv);

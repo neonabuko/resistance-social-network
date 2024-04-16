@@ -1,8 +1,8 @@
 package com.api.resistancesocialnetwork.usecase;
 
-import com.api.resistancesocialnetwork.entity.User;
+import com.api.resistancesocialnetwork.entity.ResistanceUser;
 import com.api.resistancesocialnetwork.facade.LoginFacade;
-import com.api.resistancesocialnetwork.infra.security.TokenService;
+import com.api.resistancesocialnetwork.infra.security.ResistanceTokenService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,11 +12,11 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 public class LoginUseCase {
     private final AuthenticationManager authenticationManager;
-    private final TokenService tokenService;
+    private final ResistanceTokenService resistanceTokenService;
 
-    public LoginUseCase(AuthenticationManager authenticationManager, TokenService tokenService) {
+    public LoginUseCase(AuthenticationManager authenticationManager, ResistanceTokenService resistanceTokenService) {
         this.authenticationManager = authenticationManager;
-        this.tokenService = tokenService;
+        this.resistanceTokenService = resistanceTokenService;
     }
 
     public String handle(LoginFacade data) {
@@ -29,6 +29,6 @@ public class LoginUseCase {
 
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.username(), data.password());
         var auth = authenticationManager.authenticate(usernamePassword);
-        return tokenService.generateToken((User) auth.getPrincipal());
+        return resistanceTokenService.generateToken((ResistanceUser) auth.getPrincipal());
     }
 }

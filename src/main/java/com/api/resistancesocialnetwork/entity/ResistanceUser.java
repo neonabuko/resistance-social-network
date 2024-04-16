@@ -10,9 +10,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-@Entity(name = "user")
-@Table(name = "users")
-public class User implements UserDetails {
+@Entity(name = "resistanceUser")
+@Table(name = "resistanceUsers")
+public class ResistanceUser implements UserDetails {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String login;
@@ -26,13 +26,13 @@ public class User implements UserDetails {
     @OneToOne(cascade = CascadeType.ALL)
     private Inventory inventory;
 
-    public User(String login, String password, UserRole role) {
+    public ResistanceUser(String login, String password, UserRole role) {
         this.login = login;
         this.password = password;
         this.role = role;
     }
 
-    public User() {}
+    public ResistanceUser() {}
 
     public Integer getId() {
         return id;

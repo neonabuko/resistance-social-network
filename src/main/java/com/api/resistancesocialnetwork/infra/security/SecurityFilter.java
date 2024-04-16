@@ -1,6 +1,6 @@
 package com.api.resistancesocialnetwork.infra.security;
 
-import com.api.resistancesocialnetwork.repository.repositoryinterfaces.UserRepository;
+import com.api.resistancesocialnetwork.repository.repositoryinterfaces.ResistanceUserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,12 +15,12 @@ import java.util.Optional;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
-    private final TokenService tokenService;
-    private final UserRepository userRepository;
+    private final ResistanceTokenService resistanceTokenService;
+    private final ResistanceUserRepository resistanceUserRepository;
 
-    public SecurityFilter(TokenService tokenService, UserRepository userRepository) {
-        this.tokenService = tokenService;
-        this.userRepository = userRepository;
+    public SecurityFilter(ResistanceTokenService resistanceTokenService, ResistanceUserRepository resistanceUserRepository) {
+        this.resistanceTokenService = resistanceTokenService;
+        this.resistanceUserRepository = resistanceUserRepository;
     }
 
     @Override
@@ -29,9 +29,9 @@ public class SecurityFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         Optional<String> token = getTokenFromRequest(request);
         if (token.isPresent()) {
-            var username = tokenService.getUsernameFromToken(token.get());
+            var username = resistanceTokenService.getUsernameFromToken(token.get());
             if (username.isPresent()) {
-                var userDetails = userRepository.findUserDetailsBy(username.get()).orElseThrow();
+                var userDetails = resistanceUserRepository.findUserDetailsBy(username.get()).orElseThrow();
                 var auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }

@@ -1,9 +1,9 @@
 package com.api.resistancesocialnetwork.integration.controller;
 
 
-import com.api.resistancesocialnetwork.entity.User;
+import com.api.resistancesocialnetwork.entity.ResistanceUser;
 import com.api.resistancesocialnetwork.enums.UserRole;
-import com.api.resistancesocialnetwork.repository.repositoryinterfaces.UserRepository;
+import com.api.resistancesocialnetwork.repository.repositoryinterfaces.ResistanceUserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ class AuthControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
-    private UserRepository repository;
+    private ResistanceUserRepository repository;
     private String token;
 
     private void signup(String username, String password, String role) throws Exception {
@@ -58,7 +58,7 @@ class AuthControllerTest {
     @Test
     @DisplayName("should return status 409 (CONFLICT) when username already taken")
     void should_return_409_when_username_taken() throws Exception {
-        repository.save(new User("LeeL", "alberto", UserRole.USER));
+        repository.save(new ResistanceUser("LeeL", "alberto", UserRole.USER));
 
         String requestBody = "{\"username\":\"LeeL\"," +
                              "\"password\":\"alberto\"," +

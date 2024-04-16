@@ -1,15 +1,15 @@
 package com.api.resistancesocialnetwork.controller;
 
-import com.api.resistancesocialnetwork.entity.User;
+import com.api.resistancesocialnetwork.entity.ResistanceUser;
 import com.api.resistancesocialnetwork.facade.DeleteUserFacade;
-import com.api.resistancesocialnetwork.facade.UpdateLocationFacade;
 import com.api.resistancesocialnetwork.facade.ReportFacade;
 import com.api.resistancesocialnetwork.facade.TradeFacade;
+import com.api.resistancesocialnetwork.facade.UpdateLocationFacade;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceException;
 import com.api.resistancesocialnetwork.usecase.DeleteUserUseCase;
-import com.api.resistancesocialnetwork.usecase.UpdateLocationUseCase;
 import com.api.resistancesocialnetwork.usecase.ReportUseCase;
 import com.api.resistancesocialnetwork.usecase.TradeUseCase;
+import com.api.resistancesocialnetwork.usecase.UpdateLocationUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -52,7 +52,7 @@ public class RebelController {
     @DeleteMapping("/delete")
     public ResponseEntity<String> handleDelete(@RequestBody DeleteUserFacade facade,
                                                @RequestHeader("Authorization") String header) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ResistanceUser user = (ResistanceUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         delete.handle(facade, user);
         return ResponseEntity.ok().build();
     }

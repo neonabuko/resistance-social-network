@@ -1,6 +1,6 @@
 package com.api.resistancesocialnetwork.controller;
 
-import com.api.resistancesocialnetwork.entity.User;
+import com.api.resistancesocialnetwork.entity.ResistanceUser;
 import com.api.resistancesocialnetwork.facade.ProfileFacade;
 import com.api.resistancesocialnetwork.rules.commons.ResistanceException;
 import com.api.resistancesocialnetwork.usecase.ProfileUseCase;
@@ -27,7 +27,7 @@ public class ProfileController {
     @PostMapping("/profile")
     public ResponseEntity<Void> handleProfile(@RequestBody ProfileFacade signup,
                                               @RequestHeader("Authorization") String header) throws ResistanceException {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ResistanceUser user = (ResistanceUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         profile.handle(signup, user.getLogin());
         return ResponseEntity.created(URI.create("/profile")).build();
     }

@@ -1,13 +1,7 @@
 .idea
 .mvn
 
-target/classes
-target/generated-sources
-target/maven-archiver
-target/maven-status
-target/surefire-reports
-target/test-classes
-target/resistance-social-network-0.0.1.jar.original
+target
 
 /src/test
 
