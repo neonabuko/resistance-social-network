@@ -22,7 +22,7 @@ cd resistance-social-network
 
 docker compose up
 ```
-### Funcionalidades da API: 
+### Documentação das rotas: 
 http://localhost:8080/swagger-ui/index.html
 
 ### Implementações:
