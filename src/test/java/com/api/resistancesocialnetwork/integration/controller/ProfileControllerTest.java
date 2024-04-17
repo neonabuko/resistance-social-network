@@ -66,7 +66,6 @@ class ProfileControllerTest {
                     "\"age\":45," +
                     "\"gender\":\"male\"," +
 
-
                     "\"latitude\":12.2," +
                     "\"longitude\":40.2," +
                     "\"base\":\"base\"," +

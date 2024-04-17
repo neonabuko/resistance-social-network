@@ -1,6 +1,7 @@
 package com.api.resistancesocialnetwork.unit.rules;
 
 import com.api.resistancesocialnetwork.entity.Rebel;
+import com.api.resistancesocialnetwork.entity.ResistanceUser;
 import com.api.resistancesocialnetwork.facade.ReportFacade;
 import com.api.resistancesocialnetwork.repository.repositoriesinmemory.RebelRepositoryInMemory;
 import com.api.resistancesocialnetwork.rules.ReportRules;
@@ -30,14 +31,16 @@ class ReportRulesTest {
     @Test
     @DisplayName("rebel should only be able to report the same rebel once")
     void should_only_be_able_to_report_same_rebel_once() {
+        var rebel1User = new ResistanceUser();
         rebelRepositoryinMem.saveInMem(rebel1);
+        rebel1User.setRebel(rebel1);
         rebelRepositoryinMem.saveInMem(rebel2);
         rebel1.setId(1);
         rebel2.setId(2);
-        ReportFacade reportFacade = new ReportFacade(1, 2);
+        ReportFacade reportFacade = new ReportFacade(2);
         ReportUseCase reportUseCase = new ReportUseCase(rebelRepositoryinMem, reportRules);
 
-        reportUseCase.handle(reportFacade);
+        reportUseCase.handle(reportFacade, rebel1User);
 
         Exception e = assertThrows(ResistanceException.class, () -> reportRules.handle(rebel1, rebel2));
         assertTrue(e.getMessage().contains("rebel already reported"));

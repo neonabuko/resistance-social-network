@@ -1,6 +1,7 @@
 package com.api.resistancesocialnetwork.usecase;
 
 import com.api.resistancesocialnetwork.entity.Rebel;
+import com.api.resistancesocialnetwork.entity.ResistanceUser;
 import com.api.resistancesocialnetwork.facade.ReportFacade;
 import com.api.resistancesocialnetwork.repository.repositoryinterfaces.RebelRepository;
 import com.api.resistancesocialnetwork.rules.ReportRules;
@@ -20,13 +21,17 @@ public class ReportUseCase {
         this.reportRules = reportRules;
     }
 
-    public void handle(ReportFacade reportFacade) throws ResistanceException {
-        ReportFacade report = Optional.ofNullable(reportFacade).orElse(new ReportFacade(0, 0));
-        Rebel reporting = rebelRepository.findById(report.reportingId()).orElseThrow(
-                () -> new ResistanceException("reporting rebel not found")
+    public void handle(ReportFacade reportFacade, ResistanceUser user) throws ResistanceException {
+        ReportFacade report = Optional.ofNullable(reportFacade).orElseThrow(
+                () -> new ResistanceException("Must provide id of rebel to be reported.")
         );
+
+        Rebel reporting = user.getRebel().orElseThrow(
+                () -> new ResistanceException("Reporting user must set rebel profile first.")
+        );
+
         Rebel reported = rebelRepository.findById(report.reportedId()).orElseThrow(
-                () -> new ResistanceException("reported rebel not found")
+                () -> new ResistanceException("Rebel to be reported not found.")
         );
 
         reportRules.handle(reporting, reported);

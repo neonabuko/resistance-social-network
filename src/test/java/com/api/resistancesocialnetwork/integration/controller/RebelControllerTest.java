@@ -47,7 +47,6 @@ class RebelControllerTest {
     private ItemRepository itemRepository;
     @Autowired
     private ResistanceUserRepository resistanceUserRepository;
-    private String token;
 
     Rebel rebelLeft = new Rebel("jooj", 18, "male");
     Rebel rebelRight = new Rebel("jeej", 81, "maam");
@@ -57,7 +56,7 @@ class RebelControllerTest {
     Inventory inventoryLeft = new Inventory(new ArrayList<>(Arrays.asList(food)));
     Inventory inventoryRight = new Inventory(new ArrayList<>(Arrays.asList(water)));
 
-    private void signup_then_login(String username, String password, String role) throws Exception {
+    private String signup_then_login(String username, String password, String role) throws Exception {
         String requestBody = "{" +
                                 "\"username\":\"" + username + "\"," +
                                 "\"password\":\"" + password + "\"," +
@@ -74,7 +73,15 @@ class RebelControllerTest {
         MvcResult mvcResult = mockMvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(loginBody)).andReturn();
-        token = mvcResult.getResponse().getContentAsString();
+        return mvcResult.getResponse().getContentAsString();
+    }
+
+    private void create_profile(String requestBody, String token) throws Exception {
+        mockMvc.perform(post("/profile")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+                .header("Authorization", "Bearer " + token)
+        ).andReturn();
     }
 
     /* ------------------------------- 200 OK ---------------------------------*/
@@ -82,14 +89,29 @@ class RebelControllerTest {
 //    REPORT:
     @Test
     void should_return_200_when_report_ok() throws Exception {
-        signup_then_login("admin", "123", "ADMIN");
-        rebelRepository.save(new Rebel());
+        var token = signup_then_login("admin", "123", "ADMIN");
+        var profile =
+                "{" +
+                    "\"name\": \"admin\"," +
+                    "\"age\":45," +
+                    "\"gender\":\"male\"," +
+
+                    "\"latitude\":12.2," +
+                    "\"longitude\":40.2," +
+                    "\"base\":\"base\"," +
+
+                    "\"inventory\": [" +
+                        "{" +
+                            "\"name\": \"doritos\"," +
+                            "\"price\":2" +
+                        "}" +
+                    "]" +
+                "}";
+        create_profile(profile, token);
+
         rebelRepository.save(new Rebel());
 
-        String requestBody = "{" +
-                                "\"reportingId\":1," +
-                                "\"reportedId\":2" +
-                              "}";
+        String requestBody = "{" + "\"reportedId\":2" + "}";
 
         mockMvc.perform(patch("/rebel/report")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -102,7 +124,7 @@ class RebelControllerTest {
     @Test
     @Transactional
     void should_return_200_when_location_update_ok() throws Exception {
-        signup_then_login("admin", "123", "ADMIN");
+        var token = signup_then_login("admin", "123", "ADMIN");
         resistanceUserRepository.findUserBy("admin").orElseThrow().setRebel(rebelLeft);
         resistanceUserRepository.findUserBy("admin").orElseThrow().setLocation(locationLeft);
 
@@ -123,7 +145,7 @@ class RebelControllerTest {
     @Test
     @Transactional
     void should_return_200_when_trade_ok() throws Exception {
-        signup_then_login("admin", "123", "ADMIN");
+        var token = signup_then_login("admin", "123", "ADMIN");
         rebelLeft.setInventory(inventoryLeft);
         rebelRight.setInventory(inventoryRight);
         inventoryRepository.save(inventoryLeft);
@@ -150,7 +172,7 @@ class RebelControllerTest {
 //    REPORT:
     @Test
     void should_return_405_when_POST_report() throws Exception {
-        signup_then_login("admin", "123", "ADMIN");
+        var token = signup_then_login("admin", "123", "ADMIN");
         String requestBody = "";
         mockMvc.perform(post("/rebel/report")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -161,7 +183,7 @@ class RebelControllerTest {
 
     @Test
     void should_return_405_when_GET_report() throws Exception {
-        signup_then_login("admin", "123", "ADMIN");
+        var token = signup_then_login("admin", "123", "ADMIN");
         String requestBody = "";
         mockMvc.perform(get("/rebel/report")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -174,7 +196,7 @@ class RebelControllerTest {
 //    UPDATE LOCATION:
     @Test
     void should_return_405_when_POST_location_update() throws Exception {
-        signup_then_login("admin", "123", "ADMIN");
+        var token = signup_then_login("admin", "123", "ADMIN");
         String requestBody = "";
         mockMvc.perform(post("/rebel/update-location")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -185,7 +207,7 @@ class RebelControllerTest {
 
     @Test
     void should_return_405_when_GET_location_update() throws Exception {
-        signup_then_login("admin", "123", "ADMIN");
+        var token = signup_then_login("admin", "123", "ADMIN");
         mockMvc.perform(get("/rebel/update-location")
                         .header("Authorization", "Bearer " + token)
                 ).andExpect(status().isMethodNotAllowed());
@@ -195,7 +217,7 @@ class RebelControllerTest {
 //    TRADE:
     @Test
     void should_return_405_when_POST_trade() throws Exception {
-        signup_then_login("admin", "123", "ADMIN");
+        var token = signup_then_login("admin", "123", "ADMIN");
         String requestBody = "";
         mockMvc.perform(post("/rebel/trade")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -206,7 +228,7 @@ class RebelControllerTest {
 
     @Test
     void should_return_405_when_GET_trade() throws Exception {
-        signup_then_login("admin", "123", "ADMIN");
+        var token = signup_then_login("admin", "123", "ADMIN");
         mockMvc.perform(get("/rebel/trade")
                 .header("Authorization", "Bearer " + token)
         ).andExpect(status().isMethodNotAllowed());
@@ -218,7 +240,7 @@ class RebelControllerTest {
 //    REPORT:
     @Test
     void should_return_400_when_invalid_report() throws Exception {
-        signup_then_login("admin", "123", "ADMIN");
+        var token = signup_then_login("admin", "123", "ADMIN");
         mockMvc.perform(patch("/rebel/report")
                 .header("Authorization", "Bearer " + token)
         ).andExpect(status().isBadRequest());
@@ -227,7 +249,7 @@ class RebelControllerTest {
 //    UPDATE LOCATION:
     @Test
     void should_return_400_when_invalid_location_update() throws Exception {
-        signup_then_login("admin", "123", "ADMIN");
+        var token = signup_then_login("admin", "123", "ADMIN");
         mockMvc.perform(patch("/rebel/update-location")
                 .header("Authorization", "Bearer " + token)
         ).andExpect(status().isBadRequest());
@@ -236,7 +258,7 @@ class RebelControllerTest {
 //    TRADE:
     @Test
     void should_return_400_when_invalid_trade() throws Exception {
-        signup_then_login("admin", "123", "ADMIN");
+        var token = signup_then_login("admin", "123", "ADMIN");
         mockMvc.perform(patch("/rebel/trade")
                 .header("Authorization", "Bearer " + token)
         ).andExpect(status().isBadRequest());
@@ -245,7 +267,7 @@ class RebelControllerTest {
     @Test
     @DisplayName("ADMIN should be able to delete users")
     void should_delete_user() throws Exception {
-        signup_then_login("admin", "123", "ADMIN");
+        var token = signup_then_login("admin", "123", "ADMIN");
         ResistanceUser toDelete = new ResistanceUser("username", "123", UserRole.USER);
         resistanceUserRepository.save(toDelete);
 
@@ -262,7 +284,7 @@ class RebelControllerTest {
     @Test
     @DisplayName("USER should not be able to delete users")
     void should_not_delete_user() throws Exception {
-        signup_then_login( "user", "456", "USER");
+        var token = signup_then_login( "user", "456", "USER");
 
         String requestBody = "{\"id\":2}";
         mockMvc.perform(delete("/rebel/delete")

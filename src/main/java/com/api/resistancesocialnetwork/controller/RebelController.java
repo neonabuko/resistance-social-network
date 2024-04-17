@@ -46,7 +46,8 @@ public class RebelController {
             @ApiResponse(responseCode = "405", description = "Método não permitido")
     })
     public ResponseEntity<Void> handleReport(@RequestBody ReportFacade facade) {
-        report.handle(facade);
+        var user = (ResistanceUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        report.handle(facade, user);
         return ResponseEntity.ok().build();
     }
 
