@@ -47,14 +47,4 @@ public class Location {
     public void setId(Integer id) {
         this.id = id;
     }
-
-    @Override
-    public String toString() {
-        return "Location " +
-                "(id " + id + ")" +
-                "\n\tlatitude=" + latitude +
-                "\n\tlongitude=" + longitude +
-                "\n\tbase='" + base + '\'' + "\n";
-    }
-
 }

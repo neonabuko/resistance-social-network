@@ -24,12 +24,12 @@ public class InventoryRepositoryInMemory implements InventoryRepository {
     }
 
     @Override
-    public Optional<Inventory> findById(Integer id) {
+    public Optional<Inventory> findBy(Integer id) {
         return inventoryList.stream().filter(inventory -> inventory.getId().equals(id)).findFirst();
     }
 
     @Override
-    public boolean existsById(Integer id) {
+    public boolean existsBy(Integer id) {
         return inventoryList.stream().anyMatch(inventory -> inventory.getId().equals(id));
     }
 

@@ -10,15 +10,21 @@ import com.api.resistancesocialnetwork.usecase.DeleteUserUseCase;
 import com.api.resistancesocialnetwork.usecase.ReportUseCase;
 import com.api.resistancesocialnetwork.usecase.TradeUseCase;
 import com.api.resistancesocialnetwork.usecase.UpdateLocationUseCase;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/rebel")
+@CrossOrigin(origins = "http://localhost:4200")
+@Tag(name = "Rebel Controller", description = "Controller para as ações do rebelde")
 public class RebelController {
     private final ReportUseCase report;
-    private final UpdateLocationUseCase locationUpdate;
+    private final UpdateLocationUseCase updateLocation;
     private final TradeUseCase trade;
     private final DeleteUserUseCase delete;
 
@@ -26,31 +32,61 @@ public class RebelController {
                            UpdateLocationUseCase updateLocation,
                            TradeUseCase trade, DeleteUserUseCase delete) {
         this.report = report;
-        this.locationUpdate = updateLocation;
+        this.updateLocation = updateLocation;
         this.trade = trade;
         this.delete = delete;
     }
 
     @PatchMapping("/report")
-    public ResponseEntity<String> handleReport(@RequestBody ReportFacade facade) {
+    @Operation(description = "Reporta outro rebelde como traidor", method = "PATCH")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Rebelde reportado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos/rebelde não encontrado"),
+            @ApiResponse(responseCode = "403", description = "Conta não encontrada/usuário não autenticado"),
+            @ApiResponse(responseCode = "405", description = "Método não permitido")
+    })
+    public ResponseEntity<Void> handleReport(@RequestBody ReportFacade facade) {
         report.handle(facade);
         return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/update-location")
-    public ResponseEntity<String> handleUpdateLocation(@RequestBody UpdateLocationFacade facade) throws ResistanceException {
-        locationUpdate.handle(facade);
+    @Operation(description = "Atualiza a localização de um rebelde", method = "PATCH")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Localização atualizada com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos/rebelde não encontrado"),
+            @ApiResponse(responseCode = "403", description = "Conta não encontrada/usuário não autenticado"),
+            @ApiResponse(responseCode = "405", description = "Método não permitido")
+    })
+    public ResponseEntity<Void> handleUpdateLocation(@RequestBody UpdateLocationFacade facade) throws ResistanceException {
+        ResistanceUser user = (ResistanceUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Integer id = user.getId();
+        updateLocation.handle(facade, user);
         return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/trade")
-    public ResponseEntity<String> handleTrade(@RequestBody TradeFacade facade) throws ResistanceException {
+    @Operation(description = "Negocia com outro rebelde", method = "PATCH")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Negociação realizada com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos/itens não encontrados/pontos não batem"),
+            @ApiResponse(responseCode = "403", description = "Conta não encontrada/usuário não autenticado"),
+            @ApiResponse(responseCode = "405", description = "Método não permitido")
+    })
+    public ResponseEntity<Void> handleTrade(@RequestBody TradeFacade facade) throws ResistanceException {
         trade.handle(facade);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<String> handleDelete(@RequestBody DeleteUserFacade facade,
+    @Operation(description = "Deleta um usuário", method = "DELETE")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuário deletado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos/usuário não encontrado"),
+            @ApiResponse(responseCode = "403", description = "Conta não encontrada/usuário não autenticado"),
+            @ApiResponse(responseCode = "405", description = "Método não permitido")
+    })
+    public ResponseEntity<Void> handleDelete(@RequestBody DeleteUserFacade facade,
                                                @RequestHeader("Authorization") String header) {
         ResistanceUser user = (ResistanceUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         delete.handle(facade, user);

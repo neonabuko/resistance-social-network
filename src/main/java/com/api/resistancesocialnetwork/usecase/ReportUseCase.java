@@ -22,7 +22,6 @@ public class ReportUseCase {
 
     public void handle(ReportFacade reportFacade) throws ResistanceException {
         ReportFacade report = Optional.ofNullable(reportFacade).orElse(new ReportFacade(0, 0));
-
         Rebel reporting = rebelRepository.findById(report.reportingId()).orElseThrow(
                 () -> new ResistanceException("reporting rebel not found")
         );

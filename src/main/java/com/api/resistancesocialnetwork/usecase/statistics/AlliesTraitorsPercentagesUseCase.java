@@ -1,11 +1,12 @@
 package com.api.resistancesocialnetwork.usecase.statistics;
 
 import com.api.resistancesocialnetwork.entity.Rebel;
+import com.api.resistancesocialnetwork.facade.stats.AlliesTraitorsPercentagesFacade;
 import com.api.resistancesocialnetwork.repository.repositoryinterfaces.RebelRepository;
+import com.api.resistancesocialnetwork.rules.commons.ResistanceException;
 import org.springframework.stereotype.Service;
 
 import java.text.NumberFormat;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -16,12 +17,10 @@ public class AlliesTraitorsPercentagesUseCase {
         this.rebelRepository = rebelRepository;
     }
 
-    public List<String> handle() {
+    public AlliesTraitorsPercentagesFacade handle() {
         List<Rebel> rebelsList = rebelRepository.findAll();
 
-        if (rebelsList.isEmpty()) {
-            return List.of();
-        }
+        if (rebelsList.isEmpty()) throw new ResistanceException("No allies/traitors percentages to show.");
 
         double REBELS = rebelsList.size();
         double TRAITORS = rebelsList.stream().filter(Rebel::isTraitor).count();
@@ -30,6 +29,10 @@ public class AlliesTraitorsPercentagesUseCase {
         double ALLY_PART = 1 - TRAITOR_PART;
 
         NumberFormat toPercent = NumberFormat.getPercentInstance();
-        return Arrays.asList(toPercent.format(ALLY_PART), toPercent.format(TRAITOR_PART));
+
+        return new AlliesTraitorsPercentagesFacade(
+                toPercent.format(ALLY_PART),
+                toPercent.format(TRAITOR_PART)
+        );
     }
 }

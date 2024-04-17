@@ -1,4 +1,4 @@
-package com.api.resistancesocialnetwork.repository.repositoriesindatabase;
+package com.api.resistancesocialnetwork.repository.repositoriesimpl;
 
 import com.api.resistancesocialnetwork.entity.ResistanceUser;
 import com.api.resistancesocialnetwork.repository.repositoryinterfaces.ResistanceUserRepository;
@@ -14,9 +14,9 @@ interface ResistanceUserRepositoryJpa extends JpaRepository<ResistanceUser, Inte
 }
 
 @Component
-public class ResistanceUserRepositoryInDatabase implements ResistanceUserRepository {
+public class ResistanceUserRepositoryImpl implements ResistanceUserRepository {
     private final ResistanceUserRepositoryJpa adapter;
-    public ResistanceUserRepositoryInDatabase(ResistanceUserRepositoryJpa resistanceUserRepositoryJpa) {
+    public ResistanceUserRepositoryImpl(ResistanceUserRepositoryJpa resistanceUserRepositoryJpa) {
         this.adapter = resistanceUserRepositoryJpa;
     }
     @Override

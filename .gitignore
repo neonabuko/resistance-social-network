@@ -5,8 +5,6 @@ target/
 !**/src/test/**/target/
 src/main/resources/application.properties
 src/main/resources/liquibase.properties
-mvnw
-mvnw.cmd
 
 ### STS ###
 .apt_generated
@@ -35,4 +33,3 @@ build/
 
 ### VS Code ###
 .vscode/
-

@@ -1,14 +1,10 @@
 package com.api.resistancesocialnetwork.usecase.statistics;
 
-import com.api.resistancesocialnetwork.entity.Item;
+import com.api.resistancesocialnetwork.facade.stats.ItemAverageFacade;
 import com.api.resistancesocialnetwork.repository.repositoryinterfaces.InventoryRepository;
 import com.api.resistancesocialnetwork.repository.repositoryinterfaces.ItemRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Service
 @Transactional
@@ -21,19 +17,11 @@ public class ItemAveragesUseCase {
         this.itemRepository = itemRepository;
     }
 
-    public Map<String, Double> handle() {
-        List<Item> allItems = itemRepository.findAll();
+    public ItemAverageFacade handle() {
+        var totalItems = itemRepository.findAll().size();
+        var totalInventories = inventoryRepository.findAll().size();
+        var averageItemsPerInventory = (double) totalItems / totalInventories;
 
-        Map<String, Double> items_with_total_amounts_Map = new HashMap<>();
-        Map<String, Double> items_with_average_amounts_Map = new HashMap<>();
-
-        for (Item item : allItems) {
-            double thisAmount = items_with_total_amounts_Map.getOrDefault(item.getName(), 0.0) + 1;
-            items_with_total_amounts_Map.put(item.getName(), thisAmount);
-            double thisAverageAmount = thisAmount / inventoryRepository.findAll().size();
-            items_with_average_amounts_Map.put(item.getName(), Math.round(thisAverageAmount * 10.0) / 10.0);
-        }
-
-        return items_with_average_amounts_Map;
+        return new ItemAverageFacade(averageItemsPerInventory);
     }
 }

@@ -23,6 +23,7 @@ public class Inventory {
         this.items = itemList;
     }
 
+
     public Inventory() {}
 
     public List<Item> getItems() {
@@ -47,15 +48,4 @@ public class Inventory {
         items.remove(previousItem);
         items.add(newItem);
     }
-
-    @Override
-    public String toString() {
-        return "Inventory " +
-                "(id " + id + ")" +
-                "\t" + items.toString()
-                .replace("[", "")
-                .replace("]", "")
-                .replace(",", "");
-    }
-
 }

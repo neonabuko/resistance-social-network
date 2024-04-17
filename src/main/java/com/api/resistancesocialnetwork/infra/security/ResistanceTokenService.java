@@ -23,23 +23,29 @@ public class ResistanceTokenService {
     public String generateToken(ResistanceUser user) throws JWTCreationException {
         Algorithm algorithm = Algorithm.HMAC256(secret);
         return JWT.create()
-                    .withIssuer("auth-api")
-                    .withSubject(user.getLogin())
-                    .withExpiresAt(genExpirationDate())
-                    .sign(algorithm);
+                .withIssuer("auth-api")
+                .withSubject(user.getLogin())
+                .withExpiresAt(genExpirationDate())
+                .sign(algorithm);
     }
 
     public Optional<String> getUsernameFromToken(String token) throws JWTVerificationException {
         Algorithm algorithm = Algorithm.HMAC256(secret);
         try {
-            return Optional.ofNullable(JWT.require(algorithm).withIssuer("auth-api").build().verify(token).getSubject());
+            return Optional.ofNullable(JWT.require(algorithm)
+                    .withIssuer("auth-api")
+                    .build()
+                    .verify(token)
+                    .getSubject());
         } catch (TokenExpiredException | JWTDecodeException e) {
             return Optional.empty();
         }
     }
 
     private Instant genExpirationDate() {
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
+        return LocalDateTime.now()
+                .plusHours(2)
+                .toInstant(ZoneOffset.of("-03:00"));
     }
 }
 

@@ -8,7 +8,8 @@ import java.util.List;
 @Entity(name = "rebel")
 @Table(name = "rebels")
 public class Rebel {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "name")
     private String name;
@@ -31,7 +32,8 @@ public class Rebel {
         this.gender = gender;
     }
 
-    public Rebel() {}
+    public Rebel() {
+    }
 
     public void setStats(String name, Integer age, String gender) {
         this.name = name;
@@ -94,15 +96,4 @@ public class Rebel {
     public void addToReportedRebels(Integer reportedId) {
         reportedRebels.add(reportedId);
     }
-
-    @Override
-    public String toString() {
-        return "Rebel " +
-                "(id " + id + ")" +
-                "\n\tname='" + name + '\'' +
-                "\n\tage=" + age +
-                "\n\tgender='" + gender + '\'' +
-                "\n\tisTraitor=" + isTraitor() + "\n";
-    }
-
 }

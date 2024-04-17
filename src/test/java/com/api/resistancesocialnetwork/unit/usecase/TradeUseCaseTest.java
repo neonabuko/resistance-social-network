@@ -79,13 +79,11 @@ class TradeUseCaseTest {
             tradeUseCase.handle(tradeFacade);
         } catch (ResistanceException ignored) {}
 
-        Inventory expectedLeftInventory = new Inventory(Arrays.asList(leftItem));
-        Inventory expectedRightInventory = new Inventory(Arrays.asList(rightItem));
-        expectedLeftInventory.setId(leftInventory.getId());
-        expectedRightInventory.setId(rightInventory.getId());
+        var expectedLeftInventory = Arrays.asList(leftItem);
+        var expectedRightInventory = Arrays.asList(rightItem);
 
-        assertEquals(leftInventory.toString(), expectedLeftInventory.toString());
-        assertEquals(rightInventory.toString(), expectedRightInventory.toString());
+        assertEquals(leftInventory.getItems(), expectedLeftInventory);
+        assertEquals(rightInventory.getItems(), expectedRightInventory);
     }
 
     @Test

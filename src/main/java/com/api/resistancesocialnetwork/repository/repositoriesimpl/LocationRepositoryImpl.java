@@ -1,4 +1,4 @@
-package com.api.resistancesocialnetwork.repository.repositoriesindatabase;
+package com.api.resistancesocialnetwork.repository.repositoriesimpl;
 
 import com.api.resistancesocialnetwork.entity.Location;
 import com.api.resistancesocialnetwork.repository.repositoryinterfaces.LocationRepository;
@@ -12,11 +12,11 @@ interface LocationRepositoryJpa extends JpaRepository<Location, Integer> {
 }
 
 @Component
-public class LocationRepositoryInDatabase implements LocationRepository {
+public class LocationRepositoryImpl implements LocationRepository {
 
     private final LocationRepositoryJpa adapter;
 
-    public LocationRepositoryInDatabase(LocationRepositoryJpa adapter) {
+    public LocationRepositoryImpl(LocationRepositoryJpa adapter) {
         this.adapter = adapter;
     }
 

@@ -43,14 +43,4 @@ public class Item {
     public void setPrice(Integer price) {
         this.price = price;
     }
-
-    @Override
-    public String toString() {
-        return "\n\tItem " +
-                "(id " + id + ") {" +
-                "\n\t\tname=" + name +
-                "\n\t\tprice=" + price + "\n" +
-                "\t}";
-    }
-
 }

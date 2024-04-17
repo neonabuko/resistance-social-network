@@ -2,6 +2,7 @@ package com.api.resistancesocialnetwork.unit.usecase;
 
 import com.api.resistancesocialnetwork.entity.Inventory;
 import com.api.resistancesocialnetwork.entity.Item;
+import com.api.resistancesocialnetwork.facade.stats.ItemAverageFacade;
 import com.api.resistancesocialnetwork.repository.repositoriesinmemory.InventoryRepositoryInMemory;
 import com.api.resistancesocialnetwork.repository.repositoriesinmemory.ItemRepositoryInMemory;
 import com.api.resistancesocialnetwork.usecase.statistics.ItemAveragesUseCase;
@@ -9,8 +10,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -31,12 +30,9 @@ class ItemAveragesUseCaseTest {
         itemRepositoryInMem.saveAll(Arrays.asList(doritos, water, fandango, doritos, water));
         inventoryRepoInMem.saveAll(Arrays.asList(lukeInv, leiaInv));
 
-        Map<String, Double> expectedAverages = new HashMap<>();
-        expectedAverages.put("doritos", 1.0);
-        expectedAverages.put("water", 1.0);
-        expectedAverages.put("fandango", 0.5);
+        var expectedAverages = new ItemAverageFacade(2.5);
 
-        Map<String, Double> actualAverages = itemAveragesUseCase.handle();
+        var actualAverages = itemAveragesUseCase.handle();
 
         assertEquals(expectedAverages, actualAverages);
     }

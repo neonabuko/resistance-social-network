@@ -62,24 +62,21 @@ class ProfileControllerTest {
         signup_then_login("admin", "123", "ADMIN");
         String requestBody =
                 "{" +
-                    "\"rebel\": {" +
-                        "\"name\": \"marcio\"," +
-                        "\"age\":45," +
-                        "\"gender\":\"male\"" +
-                    "}," +
-                    "\"location\": {" +
-                        "\"latitude\":12.2," +
-                        "\"longitude\":40.2," +
-                        "\"base\":\"base\"" +
-                    "}," +
-                    "\"inventory\": {" +
-                        "\"items\": [" +
-                            "{" +
-                                "\"name\": \"doritos\"," +
-                                "\"price\":2" +
-                            "}" +
-                        "]" +
-                    "}" +
+                    "\"name\": \"marcio\"," +
+                    "\"age\":45," +
+                    "\"gender\":\"male\"," +
+
+
+                    "\"latitude\":12.2," +
+                    "\"longitude\":40.2," +
+                    "\"base\":\"base\"," +
+
+                    "\"inventory\": [" +
+                        "{" +
+                            "\"name\": \"doritos\"," +
+                            "\"price\":2" +
+                        "}" +
+                    "]" +
                 "}";
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/profile")

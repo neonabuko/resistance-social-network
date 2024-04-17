@@ -59,10 +59,12 @@ public class ResistanceUser implements UserDetails {
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.role == UserRole.ADMIN) return List.of(
+        return (this.role == UserRole.ADMIN) ?
+                List.of(
                 new SimpleGrantedAuthority("ROLE_ADMIN"),
-                new SimpleGrantedAuthority("ROLE_USER"));
-        else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+                new SimpleGrantedAuthority("ROLE_USER")
+                ) :
+                List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     public UserRole getRole() {
@@ -121,11 +123,6 @@ public class ResistanceUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" + "id=" + id + ", login='" + login + '\'' + ", password='" + password + '\'' + ", role=" + role + '}';
     }
 }
 

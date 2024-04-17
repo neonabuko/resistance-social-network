@@ -1,4 +1,4 @@
-package com.api.resistancesocialnetwork.repository.repositoriesindatabase;
+package com.api.resistancesocialnetwork.repository.repositoriesimpl;
 
 import com.api.resistancesocialnetwork.entity.Item;
 import com.api.resistancesocialnetwork.repository.repositoryinterfaces.ItemRepository;
@@ -12,11 +12,11 @@ interface ItemRepositoryJpa extends JpaRepository<Item, Integer> {
 }
 
 @Component
-public class ItemRepositoryInDatabase implements ItemRepository {
+public class ItemRepositoryImpl implements ItemRepository {
 
     private final ItemRepositoryJpa adapter;
 
-    public ItemRepositoryInDatabase(ItemRepositoryJpa adapter) {
+    public ItemRepositoryImpl(ItemRepositoryJpa adapter) {
         this.adapter = adapter;
     }
 

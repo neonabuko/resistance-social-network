@@ -6,7 +6,6 @@ import com.api.resistancesocialnetwork.usecase.statistics.AlliesTraitorsPercenta
 import org.junit.jupiter.api.Test;
 
 import java.text.NumberFormat;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -19,14 +18,14 @@ class AlliesTraitorsPercentagesUseCaseTest {
         Rebel luke = new Rebel("luke", 28, "male");
         repository.save(luke);
 
-        List<String> actualPercents = alliesTraitorsPercentages.handle();
+        var actualPercents = alliesTraitorsPercentages.handle();
         NumberFormat toPercent = NumberFormat.getPercentInstance();
 
         String expectedAlliesPercents = toPercent.format(1.0);
         String expectedTraitorsPercents = toPercent.format(0.0);
 
-        String actualAlliesPercents = actualPercents.get(0);
-        String actualTraitorsPercents = actualPercents.get(1);
+        String actualAlliesPercents = actualPercents.allies();
+        String actualTraitorsPercents = actualPercents.traitors();
 
         assertEquals(expectedAlliesPercents, actualAlliesPercents);
         assertEquals(expectedTraitorsPercents, actualTraitorsPercents);

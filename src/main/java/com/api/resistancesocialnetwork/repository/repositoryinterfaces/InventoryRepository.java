@@ -9,9 +9,9 @@ public interface InventoryRepository {
     void save(Inventory inventory);
     void saveAll(List<Inventory> inventories);
 
-    Optional<Inventory> findById(Integer id);
+    Optional<Inventory> findBy(Integer id);
 
-    boolean existsById(Integer id);
+    boolean existsBy(Integer id);
 
     List<Inventory> findAll();
 }
