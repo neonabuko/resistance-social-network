@@ -16,10 +16,6 @@ WORKDIR /app
 
 RUN apk add openjdk21-jre curl
 
-COPY src/main/resources /app/src/main/resources
-
-ENV CLASSPATH=/app/src/main/resources
-
 COPY --from=build /app/build/target/resistance-social-network-0.0.1.jar /app/app.jar
 
 EXPOSE 8080
